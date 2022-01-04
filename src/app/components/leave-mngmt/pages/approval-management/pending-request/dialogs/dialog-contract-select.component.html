@@ -1,0 +1,34 @@
+<div>contract date</div>
+<mat-divider></mat-divider>
+<div class="setMeeting">
+	<form [formGroup]="setContract" novalidate>
+		<div class="optionSpace" fxLayout="row" fxFlayoutAlign="space-between center">
+			<div fxFlex>
+                <mat-form-field color="accent" appearance="fill">
+                    <mat-label>Contract Start Date</mat-label>
+                    <input matInput [matDatepicker]="picker1"
+                    formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                  
+                  <mat-form-field color="accent" appearance="fill">
+                    <mat-label>Contract End Date</mat-label>
+                    <input matInput [matDatepicker]="picker2"
+                    formControlName="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                  </mat-form-field>
+                
+                <!-- <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Time</mat-label>
+                    <input type="time" matInput formControlName="startTime" value="">
+                </mat-form-field> -->
+			</div>
+		</div>
+        <div class="createMeeting">
+            <button mat-raised-button color="primary" (click)="acceptClick()">Add</button>
+            <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+        </div>
+	</form>
+</div>

@@ -1,0 +1,66 @@
+.outerContainer {
+    position: relative;
+	top: 0;
+	height: 100vh;
+	background-color: #eee;
+}
+
+.colorTest {
+	background-color: #273da0;
+	color: #fff;
+	display: flex;
+	position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+	height: 64px;
+	z-index: 2;
+}
+
+.toolbarLeftTitle {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.toolbarRight {
+	font-size: 16px;
+}
+
+.profileName {
+	margin: 0 10px
+}
+
+.example-spacer {
+flex: 1 1 auto;
+}
+
+.sideNavSection {
+	position: fixed;
+    top: 64px;
+    bottom: 0;
+    z-index: 2;
+    width: 259px;
+    border-right: 1px solid #f0f0f0;
+    background-color: #fff;
+	box-shadow: 
+		0 16px 38px -12px rgb(0 0 0 / 56%), 
+		0 4px 25px 0 rgb(0 0 0 / 12%), 
+		0 8px 10px -5px rgb(0 0 0 / 20%);
+	height: 100%;
+    max-height: 100%;
+	overflow-x: hidden;
+}
+
+.mainSection {
+	padding-left: 260px;
+	position: relative;
+	height: calc(100vh - 64px);
+	// max-height: 100%;
+	// float: right;
+	// width: calc(100% - 260px);
+	// overflow: hidden !important;
+}
+
+::ng-deep .mat-list-base {
+	padding-top: 0px !important;
+}

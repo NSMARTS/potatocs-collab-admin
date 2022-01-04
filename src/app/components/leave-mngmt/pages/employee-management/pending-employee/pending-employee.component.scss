@@ -1,0 +1,30 @@
+.headerContainer {
+    margin: 0 20px;
+
+    div {
+        font-size: 40px;
+        margin: 10px;
+    }
+}
+.titleBtn{
+    float:right;
+    vertical-align: middle;
+
+}
+.tableContainer {
+    margin: 20px;
+    min-width: 800px;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.mat-sort-header-container {
+    justify-content: center !important;
+}
