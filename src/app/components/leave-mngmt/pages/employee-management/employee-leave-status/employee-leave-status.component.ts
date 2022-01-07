@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonService } from 'src/app/services/common/common.service';
 
 // view table
 export interface PeriodicElement {
@@ -69,6 +70,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     private fb: FormBuilder,
     private employeeMngmtService: EmployeeMngmtService,
     public dialog: MatDialog,
+    private commonService: CommonService
   ) { }
 
   ngOnInit(): void {
@@ -134,6 +136,13 @@ export class EmployeeLeaveStatusComponent implements OnInit {
       (data: any) => {
         console.log(data.message);
         console.log(data.myEmployeeLeaveListSearch);
+
+        data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map ((item)=> {
+					item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
+					item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
+					return item;
+				});
+
         this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
         this.dataSource.paginator = this.paginator;
 
