@@ -1,4 +1,4 @@
-# Potatocs-collab-client
+# Potatocs-collab-admin
 
 Check package.json
 
