@@ -1,0 +1,101 @@
+.mainContentContainer {
+    padding: 40px 40px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.mainContent {
+    margin-top: 64px;
+}
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.historyTableBox {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    min-width: 1200px;
+}
+
+.historyTable {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}    
+
+    box-shadow: none;
+}
+
+.mat-header-row {
+    background-color: #00154F;
+
+    th {
+        color: #fff;
+    }
+}
+
+.acceptBtn {
+    background: #00154F;
+    color: #fff;
+    width: 100px;
+}
+
+.rejectBtn {
+    background: #f15e5e;
+    color: #fff;
+    width: 100px;
+}
+
+
+
+// DIALOG
+
+.dialogContainer{
+    color: #636363;
+	width: 400px;
+    padding: 20px;
+}
+
+.makingSure {
+    font-size: 30px;
+}
+
+.confirm-icon{
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #00154F; 
+}
+
+.confirm-content{
+    color: rgb(255, 49, 49);
+    font-size: 14px;
+}
+
+.btnBox {
+    margin-top: 20px;
+}
+
+.confirmBtn {
+    background: #00154F;
+    color: #fff;
+    width: 100px;
+}
+
+.cancelBtn {
+    background: #a1a1a1;
+    color: #fff;
+    width: 100px;
+}
+
+.formBox {
+    flex-direction: column;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center;
+    align-items: center;
+}

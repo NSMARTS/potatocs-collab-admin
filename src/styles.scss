@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "~bootstrap/dist/css/bootstrap.css";
+@import './theme';
+
+html, 
+body { 
+	height: 100%; 
+	padding: 0;
+	margin: 0;
+}
+
+em { 
+	font-style: initial;
+}
+body { margin: 0; font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif; }
