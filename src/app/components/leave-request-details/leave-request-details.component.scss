@@ -1,0 +1,81 @@
+.mainTitle{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+::ng-deep .mat-dialog-container{
+    padding: 40px !important;
+}
+.modal-table{
+    font-size: 13px;
+    text-align: left;
+    border-top: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    
+}
+
+.modal-table tr {
+    height: 40px;
+}
+
+.modal-table th {
+    padding: 16px;
+    font-weight: 400;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-left: 1px solid rgb(221, 221, 221);
+}
+
+.modal-table td {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-left: 1px solid rgb(221, 221, 221);
+    padding: 16px 24px 16px 16px;
+}
+
+
+.modal-table th:first-child, td:first-child {
+    border-top: none;
+    border-left: none;
+}
+
+.approve{
+    color: blue;
+}
+.reject{
+    color: red;
+}
+
+.confirmBtn {
+    background: #00154F;
+    color: #fff;
+    width: 100px;
+}
+
+.rejectBtn {
+    background: #f15e5e;
+    color: #fff;
+    width: 100px;
+}
+
+.cancelBtn {
+    background: #969696;
+    color: #fff;
+    width: 100px;
+}
+
+
+
+textarea {
+    resize: none;
+    overflow-wrap: break-word;
+    flex: 0 0 auto;
+    white-space: break-spaces !important;
+    // overflow-y:hidden;
+    width: 100%;
+    // border: none;
+    outline: none;
+    height: 100px;
+    font-size: 14px;
+    padding: 10px;
+    font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
+}

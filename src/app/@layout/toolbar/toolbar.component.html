@@ -1,0 +1,49 @@
+<mat-toolbar class="tb-color">
+	<!-- fxHide: https://github.com/angular/flex-layout/wiki/Responsive-API -->
+	<button (click)="openSidenav()" fxHide.gt-md mat-icon-button aria-label="menu">
+		<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+	</button>
+	<span class="example-spacer"></span>
+	<div fxLayout="row" fxLayoutGap="20px">
+	
+		<div>
+			<button mat-button [matMenuTriggerFor]="profile">
+				<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+					<mat-icon>person</mat-icon>
+					<span class="profileName">{{userProfileData?.name}}</span>
+				</div>
+			</button>
+			<mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
+				<div class="dropdown">
+					<div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
+						<div fxLayout="row" fxLayoutAlign="start center">
+							<mat-icon class="dropdown-profile-icon">person</mat-icon>
+							<div class="dropdown-profile-heading">
+								{{userProfileData?.name}}
+							</div>
+						</div>
+						<mat-icon>apps</mat-icon>
+					</div>
+					<div class="dropdown-content">
+						<div matRipple fxLayout="row" fxLayoutAlign="space-between center"
+							class="notification notification-cursor" [routerLink]="['profile']">
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<mat-icon class="icon-box-1 company-request">account_circle</mat-icon>
+								<div>
+									<div class="notification-label">My Profile</div>
+									<div class="notification-description">Personal Information</div>
+								</div>
+							</div>
+	
+							<mat-icon class="icon-box-2">keyboard_arrow_right</mat-icon>
+	
+						</div>	
+					</div>
+					<div class="dropdown-footer" fxLayout="row" fxLayoutAlign="center center">
+						<button mat-button color="primary" (click)="logOut();">LOGOUT</button>
+					</div>
+				</div>
+			</mat-menu>
+		</div>
+	</div>
+</mat-toolbar>
