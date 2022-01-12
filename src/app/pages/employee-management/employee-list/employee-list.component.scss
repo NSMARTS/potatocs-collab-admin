@@ -1,0 +1,65 @@
+.mainContentContainer {
+    padding: 40px 40px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+// .mainContent {
+//     margin-top: 64px;
+// }
+
+.example-spacer {
+	flex: 1 1 auto;
+}
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.historyTableBox {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    min-width: 1200px;
+}
+
+.historyTable {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}    
+
+    box-shadow: none;
+}
+
+.mat-header-row {
+    background-color: #00154F;
+
+    th {
+        color: #fff;
+    }
+}
+
+.filter{
+    background-color: #fff;
+}
+
+.backBtn {
+    background: #F4AF1B;
+    color: #fff;
+    width: 100px;
+}
+
+.editBtn {
+    background: #00154F;
+    color: #fff;
+    width: 100px;
+}
+
+.employeeBtn {
+    background: #00154F;
+    color: #fff;
+    width: 100px;
+}
