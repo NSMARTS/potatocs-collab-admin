@@ -13,39 +13,28 @@ export class ProfileService {
 		private dataService: DataService,
 	) { }
 
-	/**
-	 * student profile 받아오기
-	 */
 	getUserProfile() {
-		return this.http.get('/api/v1/user/profile')
+		return this.http.get('/api/v1/admin/profile')
 		.pipe(
+			shareReplay(),
 			tap( 
 				(res: any) => {
-					// console.log('profile Service Result', res);
-
-					if(res.user.profile_img == ""){
-						res.user.profile_img = '/assets/image/person.png'
-					}
-					if(res.manager != null && res.manager.profile_img == ""){
-						res.manager.profile_img = '/assets/image/person.png'
+					if(res.profile_img == ""){
+						res.profile_img = '/assets/image/person.png'
 					}
 
-					this.dataService.updateUserProfile(res.user);
-					this.dataService.updateUserManagerProfile(res.manager);
-					this.dataService.updateUserCompanyProfile(res.company);
-					return res.result = true;
+					this.dataService.updateUserProfile(res);
 				}
 			)
 		);
 	}
 	changeUserProfile(data) {
-		return this.http.put('/api/v1/user/profileChange', data);
+		return this.http.put('/api/v1/admin/profileChange', data);
 	}
 	
 	changeProfileImage(imgFile){
 		const imgData = new FormData();
 		imgData.append('file', imgFile);
-		console.log()
-		return this.http.post('/api/v1/user/profileImageChange', imgData);
+		return this.http.post('/api/v1/admin/profileImageChange', imgData);
 	}
 }

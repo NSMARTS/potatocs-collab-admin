@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 // table page
 import { MatPaginator } from '@angular/material/paginator';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
 
 // Service
 import { MainService } from 'src/@dw/services/main/main.service';
@@ -45,22 +46,39 @@ export class MainComponent implements OnInit {
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
 	constructor(
-		private adminMainService : MainService
+		private adminMainService : MainService,
+        private dialogService: DialogService,
+
 	) { }
 
 	ngOnInit(): void {
 
-
 		this.adminMainService.getAdminMain().subscribe(
 			(data: any) => {
-				this.countCompanyEmployee = data.countCompanyEmployee
-				this.countPendingCompany = data.countPendingCompany
+				if(data.message == 'not found') {
+					this.countCompanyEmployee = 0;
+					this.countPendingCompany = 0;
+				} else {
+					this.countCompanyEmployee = data.countCompanyEmployee
+					this.countPendingCompany = data.countPendingCompany
+				}
+				
 			},
 			(err: any) => {
-				console.log(err);
+				console.log(err.error);
+				this.errorAlert(err.error.message);
 			}
 		)
 		
 	}
+
+	errorAlert(err) {
+		switch(err) {
+			case 'not found':
+				this.countCompanyEmployee = 0;
+				this.countPendingCompany = 0;
+				break;
+		}
+	};
 	 
 }

@@ -8,7 +8,6 @@ import { NavigationService } from 'src/@dw/services/navigation.service';
 
 import { dropdownAnimation } from '../animations/dropdown.animation';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
-import { SideNavService } from 'src/@dw/services/side-nav/side-nav-service.service';
 import { MatDialog } from '@angular/material/dialog';
 
 /**
@@ -82,7 +81,6 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
 		private cd: ChangeDetectorRef,
 		private navigationService: NavigationService,
 		private dialogService: DialogService,
-		private sideNavService: SideNavService,
 		public dialog2: MatDialog,
 
 	) {
