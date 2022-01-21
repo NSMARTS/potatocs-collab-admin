@@ -13,6 +13,7 @@ import { LeaveRequestDetailsComponent } from '../../../components/leave-request-
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/services/common/common.service';
 
+
 // view table
 export interface PeriodicElement {
   startDate: Date;
@@ -71,6 +72,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     private employeeMngmtService: EmployeeMngmtService,
     public dialog: MatDialog,
     private commonService: CommonService
+
   ) { }
 
   ngOnInit(): void {
@@ -142,6 +144,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
 					item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
 					return item;
 				});
+
 
         this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
         this.dataSource.paginator = this.paginator;

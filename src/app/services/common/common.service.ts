@@ -8,7 +8,9 @@ import * as moment from 'moment';
 export class CommonService {
 
 	dateFormatting(date: Date, mode?: string) {
+
 		const addDay = new Date().getTimezoneOffset() < 0 ? 0 : 1;
+
 		if (mode === 'fromNow') {
 			return moment(date).fromNow();
 		} else if (mode === 'dateTime') {
@@ -21,8 +23,10 @@ export class CommonService {
 			return moment(date).locale('en').format('hh:mm a');
 		} else if (mode === 'chatDate') {
 			return moment(date).format('YYYY년 MM월 DD일 HH:mm');
+
 		} else if (mode === 'timeZone') {
 			return moment(date).add(addDay , 'days').format('YYYY-MM-DD');
+
 		}
 
 		// default: full // 세네갈 시간은 utc+0

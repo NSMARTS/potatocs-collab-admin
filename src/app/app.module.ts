@@ -7,25 +7,20 @@ import { FormsModule } from '@angular/forms';
 import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 
 // Module
-import { AuthModule } from './pages/auth/auth.module';
+import { AuthModule } from './components/auth/auth.module';
 import { ApproutingModule } from './app-routing.module';
 
 // Config
-import { ENV } from '../@dw/config/config';
+import { ENV } from './config/config';
 
 // Guard
-import { SignInGuard } from '../@dw/guard/signIn.guard';
+import { SignInGuard } from './services/auth/signIn.guard';
 
 // Component
 import { AppComponent } from './app.component';
-import { IndexComponent } from './pages/index/index.component';
-// import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
-import { CollaborationModule } from '../app/@layout/collaboration.module'
-import { DialogModule } from '../@dw/dialog/dialog.module'
-import { CollaborationComponent } from './@layout/collaboration.component';
-import { ToolbarModule } from './@layout/toolbar/toolbar.module';
-import { SidenavModule } from './@layout/sidenav/sidenav.module';
-
+import { IndexComponent } from './components/index/index.component';
+import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
+import { ProfileEditModule } from './components/profile-edit/profile-edit.module';
 
 export function tokenGetter() {
 	return localStorage.getItem(ENV.tokenName);
@@ -34,7 +29,6 @@ export function tokenGetter() {
     declarations: [
       AppComponent,
       IndexComponent,
-      CollaborationComponent
     ],
     imports: [
       BrowserModule,
@@ -52,10 +46,8 @@ export function tokenGetter() {
         }
       }),
       AuthModule,
-      CollaborationModule,
-      DialogModule,
-      ToolbarModule,
-      SidenavModule,
+      LeaveMngmtModule,
+      ProfileEditModule,
       ApproutingModule,
     ],
     providers: [SignInGuard],

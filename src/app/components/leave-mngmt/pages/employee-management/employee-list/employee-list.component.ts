@@ -90,6 +90,7 @@ export class EmployeeListComponent implements OnInit {
 
 					this.getMyEmployeeList.data = data.myEmployeeList;
 					console.log(this.getMyEmployeeList.data);
+
 					// this.filterSelectObj.filter((filter) => {
 					// 	filter.options = this.getFilterObject(data.myEmployeeList, filter.columnProp);
 					// 	console.log(filter.options);

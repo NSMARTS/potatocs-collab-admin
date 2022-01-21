@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SplashScreenService } from 'src/@dw/services/splash-screen.service';
 
 @Component({
     selector: 'app-root',
@@ -8,8 +7,4 @@ import { SplashScreenService } from 'src/@dw/services/splash-screen.service';
 })
 export class AppComponent {
     title = 'client';
-
-    constructor(
-        private splashScreenService: SplashScreenService) {
-    }
 }
