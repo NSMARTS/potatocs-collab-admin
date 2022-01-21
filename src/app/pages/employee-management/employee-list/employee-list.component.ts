@@ -8,6 +8,9 @@ import * as moment from 'moment';
 import { EmployeeMngmtService } from 'src/@dw/services/employee-mngmt/employee-mngmt.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
+import { DataService } from 'src/@dw/store/data.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 // view table
 export interface PeriodicElement {
@@ -30,7 +33,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
 	// filterValues = {};
 	// filterSelectObj = [];
 
@@ -38,14 +41,16 @@ export class EmployeeListComponent implements OnInit {
 
 	myRank;
 	managerName = '';
+	company_max_day;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-
+	private unsubscribe$ = new Subject<void>();
 	constructor(
 		private employeeMngmtService: EmployeeMngmtService,
 		private router: Router,
 		private route: ActivatedRoute,
 		private commonService: CommonService,
 		private dialogService: DialogService,
+		private dataService: DataService
 
 	) {
 		// this.filterSelectObj = [
@@ -76,6 +81,19 @@ export class EmployeeListComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				console.log(data);
+				this.company_max_day = data.rollover_max_day
+				console.log(this.company_max_day);
+				this.getMyEmployeeLists();
+		})
+
+		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				console.log(data);
+			}
+		)
 		this.getMyEmployeeLists();
 	}
 
@@ -85,8 +103,15 @@ export class EmployeeListComponent implements OnInit {
 			(data: any) => {
 				if (data.message == 'found') {
 				
+					console.log(data.myEmployeeList);
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
+
+					// rollover 체크, company 의 rollover_max_day 로 하기.
+					for (let index = 0; index < data.myEmployeeList.length; index++) {
+						data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+						console.log(data.myEmployeeList[index].totalLeave.rollover);
+					}
 
 					this.getMyEmployeeList.data = data.myEmployeeList;
 					// this.filterSelectObj.filter((filter) => {

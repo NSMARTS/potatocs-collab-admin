@@ -89,6 +89,7 @@ export class EmployeeListComponent implements OnInit {
 					this.calculateTenure(data.myEmployeeList);
 
 					this.getMyEmployeeList.data = data.myEmployeeList;
+					console.log(this.getMyEmployeeList.data);
 					// this.filterSelectObj.filter((filter) => {
 					// 	filter.options = this.getFilterObject(data.myEmployeeList, filter.columnProp);
 					// 	console.log(filter.options);
