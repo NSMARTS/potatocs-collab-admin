@@ -1,0 +1,63 @@
+<div class="card-container" fxLayoutAlign="center center" fxLayout="column">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>
+				Sign Up
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<form #signUpForm="ngForm" class="example-form" (ngSubmit)="(signUpForm.form.valid) && (signUpFormData.password == signUpFormData.confirmedPassword) && signUp()">
+				<mat-form-field class="example-full-width">
+					<input matInput 
+						type="text" 
+						placeholder="email" 
+						[(ngModel)]="signUpFormData.email" 
+						name="email" 
+						spellcheck="false" 
+						pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" 
+						required>
+				</mat-form-field>
+
+				<mat-form-field class="example-full-width">
+					<input matInput 
+						type="text" 
+						placeholder="name" 
+						[(ngModel)]="signUpFormData.name" 
+						name="name" 
+						required>
+				</mat-form-field>
+
+				<mat-form-field class="example-full-width">
+					<input matInput 
+						type="new-password" 
+						placeholder="password"
+						[(ngModel)]="signUpFormData.password" 
+						name="password" 
+						minlength="4" 
+						maxlength="12"
+						required>
+				</mat-form-field>
+				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword) && pwdMatchFlag">password must be match with Confirmed Password</mat-error>
+
+				<mat-form-field class="example-full-width">
+					<input matInput 
+						type="new-password" 
+						placeholder="password confirm"
+						[(ngModel)]="signUpFormData.confirmedPassword" 
+						name="confirmedPassword" 
+						minlength="4" 
+						maxlength="12"
+						required>
+				</mat-form-field>
+				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword) && pwdMatchFlag">password must be match with Confirmed Password</mat-error>
+
+				<!-- <mat-form-field class="example-full-width">
+					<input matInput type="text" placeholder="mobile" value=""
+					ngModel name="mobile">
+				</mat-form-field> -->
+			  
+					<button type="submit" mat-raised-button color="primary" [disabled]="!signUpForm.form.valid">Sign up</button>
+			  </form>
+		</mat-card-content>
+	</mat-card>
+</div>

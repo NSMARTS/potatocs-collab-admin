@@ -1,0 +1,17 @@
+
+<div class="confirm-dialog" fxLayout="column">
+
+    <div class="confirm-icon" fxFlex="">
+        <mat-icon>edit</mat-icon>
+    </div>
+
+    <div class="confirm-content" fxFlex="30">
+        {{ data.content}}
+    </div>
+
+    <div class="confirm-btn" fxFlex="15">
+        <button mat-raised-button color="primary" [mat-dialog-close]="true"> ok </button>
+        &nbsp;&nbsp;
+        <button mat-raised-button color="primary" [mat-dialog-close]="false"> cancel </button>
+    </div>
+</div>

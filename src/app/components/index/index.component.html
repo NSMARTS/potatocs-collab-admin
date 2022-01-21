@@ -1,0 +1,25 @@
+<mat-toolbar class="mat-elevation-z10" color="primary" fxLayout="row">
+	<div>
+		<a class="valign-center" mat-icon-button [routerLink]="['']">
+			<mat-icon>home</mat-icon>
+			<!-- <div style="margin-left:5px;">Jeff Schoonover</div> -->
+		</a>
+	</div>
+
+	<div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxHide.xs>
+		<ul fxLayout fxLayoutGap="20px" class="menu-items">
+			<li><a [routerLink]="['/sign-in']">Sign In</a></li>
+			<li><a [routerLink]="['/sign-up']">Sign Up</a></li>
+		</ul>
+	</div>
+	
+	<div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxHide.gt-xs>
+		<a class="valign-center" mat-icon-button [matMenuTriggerFor]="menu" aria-label="additional links">
+			<mat-icon>more_vert</mat-icon>
+		</a>
+		<mat-menu #menu="matMenu">
+			<li><a [routerLink]="['/sign-in']">Sign In</a></li>
+			<li><a [routerLink]="['/sign-up']">Sign Up</a></li>
+		</mat-menu>
+	</div>
+</mat-toolbar>

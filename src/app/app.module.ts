@@ -7,14 +7,15 @@ import { FormsModule } from '@angular/forms';
 import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 
 // Module
-import { AuthModule } from './pages/auth/auth.module';
+import { AuthModule } from './components/auth/auth.module';
 import { ApproutingModule } from './app-routing.module';
 
 // Guard
-import { SignInGuard } from '../@dw/guard/signIn.guard';
+import { SignInGuard } from './services/auth/signIn.guard';
 
 // Component
 import { AppComponent } from './app.component';
+
 import { IndexComponent } from './pages/index/index.component';
 // import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
 import { CollaborationModule } from '../app/@layout/collaboration.module'
@@ -26,6 +27,7 @@ import { SidenavModule } from './@layout/sidenav/sidenav.module';
 // Env
 import { environment } from 'src/environments/environment';
 import { AdminGuard } from 'src/@dw/guard/admin.guard';
+
 
 export function tokenGetter() {
 	return localStorage.getItem(environment.tokenName);
