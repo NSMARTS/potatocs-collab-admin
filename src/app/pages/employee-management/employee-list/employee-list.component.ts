@@ -33,7 +33,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
 	// filterValues = {};
 	// filterSelectObj = [];
 
@@ -44,6 +44,7 @@ export class EmployeeListComponent implements OnInit {
 	company_max_day;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	private unsubscribe$ = new Subject<void>();
+
 	constructor(
 		private employeeMngmtService: EmployeeMngmtService,
 		private router: Router,
@@ -81,20 +82,26 @@ export class EmployeeListComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-			(data: any) => {
+		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			async (data: any) => {
 				console.log(data);
-				this.company_max_day = data.rollover_max_day
+				
+				if (!data.company_id) return;
+
+				this.company_max_day = data.company_id.rollover_max_day
 				console.log(this.company_max_day);
-				this.getMyEmployeeLists();
+				
+				
+
+				await this.getMyEmployeeLists();
 		})
 
-		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-			(data: any) => {
-				console.log(data);
-			}
-		)
-		this.getMyEmployeeLists();
+		// this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+		// 	(data: any) => {
+		// 		console.log(data);
+		// 	}
+		// )
+		// this.getMyEmployeeLists();
 	}
 
 	getMyEmployeeLists() {
@@ -103,15 +110,13 @@ export class EmployeeListComponent implements OnInit {
 			(data: any) => {
 				if (data.message == 'found') {
 				
-					console.log(data.myEmployeeList);
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
-
-					// rollover 체크, company 의 rollover_max_day 로 하기.
-					for (let index = 0; index < data.myEmployeeList.length; index++) {
-						data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
-						console.log(data.myEmployeeList[index].totalLeave.rollover);
-					}
+						// rollover 체크, company 의 rollover_max_day 로 하기.
+						for (let index = 0; index < data.myEmployeeList.length; index++) {
+							data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+							console.log(data.myEmployeeList[index].totalLeave.rollover);
+						}
 
 					this.getMyEmployeeList.data = data.myEmployeeList;
 					// this.filterSelectObj.filter((filter) => {

@@ -63,7 +63,6 @@
 							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_annual_leave[0]?.sum ||
 								0}}/{{element.totalLeave?.annual_leave}} day </td>
 						</ng-container>
-
 						<ng-container matColumnDef="rollover">
 							<th mat-header-cell *matHeaderCellDef> Taken/Rollover </th>
 							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_rollover[0]?.sum ||
@@ -83,13 +82,13 @@
 						</ng-container>
 
 						<ng-container matColumnDef="start_date">
-							<th mat-header-cell *matHeaderCellDef> Contract start </th>
+							<th mat-header-cell *matHeaderCellDef> Contract Start </th>
 							<td mat-cell *matCellDef="let element"> {{element.emp_start_date | date: 'YYYY-MM-dd'}}
 							</td>
 						</ng-container>
 
 						<ng-container matColumnDef="end_date">
-							<th mat-header-cell *matHeaderCellDef> Contract end </th>
+							<th mat-header-cell *matHeaderCellDef> Contract End </th>
 							<td mat-cell *matCellDef="let element"> {{element.emp_end_date | date: 'YYYY-MM-dd'}} </td>
 						</ng-container>
 

@@ -40,6 +40,7 @@ export class MainComponent implements OnInit {
 	threeMonthBeforeLeaveList;
 	viewType = {
 		'annual_leave': 'Annual Leave',
+		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
 		'replacementday_leave': 'Replacement Day'
 	}

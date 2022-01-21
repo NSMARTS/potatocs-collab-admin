@@ -4,22 +4,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './pages/index/index.component';
 import { CollaborationComponent } from './@layout/collaboration.component';
 
-
 // Guard
 import { SignInGuard } from '../@dw/guard/signIn.guard';
 import { AdminGuard } from 'src/@dw/guard/admin.guard';
 
 const routes: Routes = [
-    { path: '',	component: IndexComponent, canActivate: [SignInGuard] },
+    { 
+        path: '',
+        component: IndexComponent,
+        canActivate: [SignInGuard] 
+    },
     {
         path: 'sign-in',
         loadChildren: () =>
-            import(`./components/auth/auth.module`).then(m => m.AuthModule),
+            import(`./pages/auth/auth.module`).then(m => m.AuthModule),
     },
     {
         path: 'sign-up',
         loadChildren: () =>
-
             import(`./pages/auth/auth.module`).then(m => m.AuthModule),
     },
     {
@@ -46,7 +48,6 @@ const routes: Routes = [
                 loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
             },
         ]
-
     },
     // 잘못된 URL을 사용했을때 메인으로 보냄
     {
