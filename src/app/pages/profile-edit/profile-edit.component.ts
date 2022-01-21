@@ -134,18 +134,17 @@ export class ProfileEditComponent implements OnInit {
 	   * @param fileInput image file
 	   */
 	fileChangeEvent(fileInput: any) {
-		console.log('fileChangeEvent');
+		console.log('1');
 		if (fileInput.target.files && fileInput.target.files[0]) {
 			if (fileInput.target.files[0].name.toLowerCase().endsWith('.jpg')
 				|| fileInput.target.files[0].name.toLowerCase().endsWith('.png')) {
 				// Image resize and update
 				this.changeProfileImage(fileInput.target.files[0]);
 			} else {
-				this.dialogService.openDialogNegative('Profile photos are only available for PNG and JPG.');
-				// alert('프로필 사진은 PNG와 JPG만 가능합니다.');
+				this.dialogService.openDialogNegative('Image file must be png or jpg.');
 			}
 		} else {
-			this.dialogService.openDialogNegative('Can not bring up pictures.');
+			this.dialogService.openDialogNegative('Cannot load an image. Try again.');
 			// alert('사진을 불러올 수 없습니다.');
 		}
 	}
@@ -155,16 +154,6 @@ export class ProfileEditComponent implements OnInit {
 			(data: any) => {
 				console.log(data);
 				this.dataService.updateUserProfile(data.user);
-				// this.profileService.getUserProfile().subscribe(
-				// 	(data: any) => {
-				// 		console.log(data);
-				// 		this.dataService.updateUserProfile(data.user);
-				// 		//  console.log(this.userInfo);
-				// 	},
-				// 	(err: any) => {
-				// 		console.log(err);
-				// 	}
-				// )
 			}
 		), (err: any) => {
 			console.log(err);

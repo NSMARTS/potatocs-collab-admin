@@ -90,9 +90,8 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
 	this.profileService.getUserProfile().subscribe(
 		(data: any) => {
-			if (data.result) {
 				this.getUserProfileData();
-			}
+
 		}
 	);
   }

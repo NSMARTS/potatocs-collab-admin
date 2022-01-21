@@ -17,7 +17,7 @@ export class ApprovalMngmtService {
 	getCompanyRequest() {
 		return this.http.get('/api/v1/admin/leave/getPendingRequest')
 		.pipe(
-			shareReplay(1),
+			shareReplay(),
 			tap(
 				(res: any) => {
 					this.companyRequestStorageService.updatePendingRequest(res.pendingRequestData);
@@ -30,7 +30,7 @@ export class ApprovalMngmtService {
 	approveCompanyRequest(sendData) {
 		return this.http.put('/api/v1/admin/leave/approveRequest', sendData)
 		.pipe(
-			shareReplay(1),
+			shareReplay(),
 			tap(
 				(res: any) => {
 					this.companyRequestStorageService.updatePendingRequest(res.pendingRequestData);
@@ -43,7 +43,7 @@ export class ApprovalMngmtService {
 	deleteCompanyRequest(pedingId){
 		return this.http.delete('/api/v1/admin/leave/deleteRequest', { params: pedingId })
 		.pipe(
-			shareReplay(1),
+			shareReplay(),
 			tap(
 				(res: any) => {
 					this.companyRequestStorageService.updatePendingRequest(res.pendingRequestData);

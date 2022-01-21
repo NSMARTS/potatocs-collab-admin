@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { IndexComponent } from './pages/index/index.component';
-import { SignInGuard } from '../@dw/guard/signIn.guard';
 import { CollaborationComponent } from './@layout/collaboration.component';
+
+// Guard
+import { SignInGuard } from '../@dw/guard/signIn.guard';
+import { AdminGuard } from 'src/@dw/guard/admin.guard';
 
 const routes: Routes = [
     { 
@@ -21,8 +25,9 @@ const routes: Routes = [
             import(`./pages/auth/auth.module`).then(m => m.AuthModule),
     },
     {
-        path: 'profile',
-        loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
+        path: 'find-pw',
+        loadChildren: () =>
+            import(`./pages/auth/auth.module`).then(m => m.AuthModule),
     },
     {
 		path: 'leave',
@@ -35,8 +40,13 @@ const routes: Routes = [
 			},
             {
                 path: 'employee-mngmt',
+                canActivate: [AdminGuard],
                 loadChildren: () => import('./pages/employee-management/employee-management.module').then(m => m.EmployeeManagementModule)
-            }
+            },
+            {
+                path: 'profile',
+                loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
+            },
         ]
     },
     // 잘못된 URL을 사용했을때 메인으로 보냄

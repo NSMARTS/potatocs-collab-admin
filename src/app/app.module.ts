@@ -10,9 +10,6 @@ import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { ApproutingModule } from './app-routing.module';
 
-// Config
-import { ENV } from '../@dw/config/config';
-
 // Guard
 import { SignInGuard } from '../@dw/guard/signIn.guard';
 
@@ -26,9 +23,12 @@ import { CollaborationComponent } from './@layout/collaboration.component';
 import { ToolbarModule } from './@layout/toolbar/toolbar.module';
 import { SidenavModule } from './@layout/sidenav/sidenav.module';
 
+// Env
+import { environment } from 'src/environments/environment';
+import { AdminGuard } from 'src/@dw/guard/admin.guard';
 
 export function tokenGetter() {
-	return localStorage.getItem(ENV.tokenName);
+	return localStorage.getItem(environment.tokenName);
 }
 @NgModule({
     declarations: [
@@ -58,7 +58,7 @@ export function tokenGetter() {
       SidenavModule,
       ApproutingModule,
     ],
-    providers: [SignInGuard],
+    providers: [SignInGuard, AdminGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
