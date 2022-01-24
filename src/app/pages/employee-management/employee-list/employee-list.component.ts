@@ -190,7 +190,7 @@ export class EmployeeListComponent implements OnInit {
 
 	yearMonth(start, end) {
 
-		var monthDiffToday = end.diff(start, 'months') + 1;
+		var monthDiffToday = end.diff(start, 'months');
 		if (isNaN(monthDiffToday)) {
 			return '-'
 		}
