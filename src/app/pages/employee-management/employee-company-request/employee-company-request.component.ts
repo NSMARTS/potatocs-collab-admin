@@ -153,11 +153,28 @@ export class DialogContractSelectComponent {
 	// approveRequest
 	acceptClick() {
 		if (this.setContract.value.startDate == null) {
-			return this.dialogService.openDialogNegative('Start Date must be required!');
+			// return this.dialogService.openDialogNegative('Start Date must be required!');
+			this.dialogService.openDialogConfirm(`If you do not input the employee's contract date, the employee cannot request a leave .`).subscribe(result => {
+				if ( !result ) {
+					return;
+				}
+				else if( result ) {	
+					this.setContract.value.startDate = '';
+					this.acceptEmploy();
+				}
+			})
 		}
+		else {
+			this.acceptEmploy();
+		}
+	}
+	
+	acceptEmploy(){
 
 		if (this.setContract.value.endDate == null) {
+			console.log(this.setContract.value.endDate);
 			this.setContract.value.endDate = '';
+			console.log(this.setContract.value.endDate);
 		}
 		const sendData = {
 			_id: this.data._id,
@@ -165,7 +182,7 @@ export class DialogContractSelectComponent {
 			startDate: this.setContract.value.startDate,
 			endDate: this.setContract.value.endDate
 		}
-
+		console.log(sendData)
 
 		this.dialogService.openDialogConfirm(`Do you want to accept ${sendData.name}'s request?`).subscribe(result => {
 			if (result) {
