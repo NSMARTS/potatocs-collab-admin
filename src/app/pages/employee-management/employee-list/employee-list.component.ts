@@ -112,11 +112,17 @@ export class EmployeeListComponent implements OnInit {
 				
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
-						// rollover 체크, company 의 rollover_max_day 로 하기.
-						for (let index = 0; index < data.myEmployeeList.length; index++) {
-							data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
-							console.log(data.myEmployeeList[index].totalLeave.rollover);
+
+					// rollover 체크, company 의 rollover_max_day 로 하기.
+					for (let index = 0; index < data.myEmployeeList.length; index++) {
+						if(data.myEmployeeList[index].totalLeave == null){
+							console.log(11111);
 						}
+						else{
+							data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+						}
+						// console.log(data.myEmployeeList[index].totalLeave.rollover);
+					}
 
 					this.getMyEmployeeList.data = data.myEmployeeList;
 					// this.filterSelectObj.filter((filter) => {
