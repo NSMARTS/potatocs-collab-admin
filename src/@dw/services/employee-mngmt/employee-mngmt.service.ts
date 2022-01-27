@@ -24,10 +24,14 @@ export class EmployeeMngmtService {
 		return this.http.get('/api/v1/admin/leave/getEmployeeInfo/' + id);
 	}
 
-  // edit-info 에서 edit을 누르면 
-  putEmployeeInfo(sendData) {
-		return this.http.put('/api/v1/admin/leave/editEmployeeInfo', sendData);
+  // edit-info 에서 Edit Profile 에 있는 edit을 누르면 
+  putEmployeeProfileInfo(sendData) {
+		return this.http.put('/api/v1/admin/leave/editEmployeeProfileInfo', sendData);
 	}
+
+  putEmployeeLeaveInfo( sendData ) {
+    return this.http.put('/api/v1/admin/leave/editEmployeeLeaveInfo', sendData);
+  }
 
   // admin employee leave status 부분
   getEmployeeLeaveListSearch(data){
