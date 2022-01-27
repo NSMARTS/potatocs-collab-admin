@@ -87,9 +87,9 @@ export class EditEmployeeInfoComponent implements OnInit {
 		this.router.navigate(['leave/employee-mngmt/manager-list']);
 	}
 
-	updateInfo() {
+	updateProfileInfo() {
 
-		this.dialogService.openDialogConfirm('Do you want to change the employee\'s information?').subscribe(result => {
+		this.dialogService.openDialogConfirm('Do you want to change the employee\'s profile information?').subscribe(result => {
 			if (result) {
 				let employeeInfo;
 				const formValue = this.employeeForm.value;
@@ -107,9 +107,9 @@ export class EditEmployeeInfoComponent implements OnInit {
 					location: formValue.location,
 					emp_start_date: this.commonService.dateFormatting(formValue.emp_start_date),
 					emp_end_date: this.commonService.dateFormatting(formValue.emp_end_date),
-					annual_leave: +formValue.annual_leave,
-					sick_leave: +formValue.sick_leave,
-					replacement_leave: +formValue.replacement_leave,
+					// annual_leave: +formValue.annual_leave,
+					// sick_leave: +formValue.sick_leave,
+					// replacement_leave: +formValue.replacement_leave,
 				}
 				if (formValue.emp_start_date == null) {
 					employeeInfo.emp_start_date = null;
@@ -118,7 +118,7 @@ export class EditEmployeeInfoComponent implements OnInit {
 					employeeInfo.emp_end_date = null;
 				}
 
-				this.employeeMngmtService.putEmployeeInfo(employeeInfo).subscribe(
+				this.employeeMngmtService.putEmployeeProfileInfo(employeeInfo).subscribe(
 					(data: any) => {
 
 						if (data.message == 'updated') {
@@ -134,5 +134,42 @@ export class EditEmployeeInfoComponent implements OnInit {
 				);
 			}
 		})
+	}
+
+	updateLeaveInfo(){
+		this.dialogService.openDialogConfirm('Do you want to change the employee\'s leave information?').subscribe(result => {
+			if (result) {
+				let employeeInfo;
+				const formValue = this.employeeForm.value;
+
+				employeeInfo = {
+					employeeId: this.employeeId,
+					// name: formValue.name,
+					// position: formValue.position,
+					// location: formValue.location,
+					// emp_start_date: this.commonService.dateFormatting(formValue.emp_start_date),
+					// emp_end_date: this.commonService.dateFormatting(formValue.emp_end_date),
+					annual_leave: +formValue.annual_leave,
+					sick_leave: +formValue.sick_leave,
+					replacement_leave: +formValue.replacement_leave,
+				}
+
+				this.employeeMngmtService.putEmployeeLeaveInfo(employeeInfo).subscribe(
+					(data: any) => {
+
+						if (data.message == 'updated') {
+							this.router.navigate(['leave/employee-mngmt/manager-list']);
+							this.dialogService.openDialogPositive('Successfully, the information has been editted!');
+						}
+					},
+					err => {
+						console.log(err);
+						this.dialogService.openDialogNegative(err.error.message);
+						// alert(err.error.message);
+					}
+				);
+			}
+		})
+
 	}
 }
