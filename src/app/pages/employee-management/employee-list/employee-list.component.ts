@@ -33,7 +33,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
 	// filterValues = {};
 	// filterSelectObj = [];
 
@@ -44,6 +44,7 @@ export class EmployeeListComponent implements OnInit {
 	company_max_day;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	private unsubscribe$ = new Subject<void>();
+	isRollover = false;
 
 	constructor(
 		private employeeMngmtService: EmployeeMngmtService,
@@ -90,7 +91,10 @@ export class EmployeeListComponent implements OnInit {
 
 				this.company_max_day = data.company_id.rollover_max_day
 				console.log(this.company_max_day);
-				
+				if(this.company_max_day != undefined){
+					this.isRollover = true;
+					this.displayedColumns = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+				}
 				
 
 				await this.getMyEmployeeLists();
@@ -114,14 +118,16 @@ export class EmployeeListComponent implements OnInit {
 					this.calculateTenure(data.myEmployeeList);
 
 					// rollover 체크, company 의 rollover_max_day 로 하기.
-					for (let index = 0; index < data.myEmployeeList.length; index++) {
-						if(data.myEmployeeList[index].totalLeave == null){
-							console.log(11111);
+					if(this.isRollover){
+						for (let index = 0; index < data.myEmployeeList.length; index++) {
+							if(data.myEmployeeList[index].totalLeave == null){
+								console.log(11111);
+							}
+							else{
+								data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+							}
+							// console.log(data.myEmployeeList[index].totalLeave.rollover);
 						}
-						else{
-							data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
-						}
-						// console.log(data.myEmployeeList[index].totalLeave.rollover);
 					}
 
 					this.getMyEmployeeList.data = data.myEmployeeList;
