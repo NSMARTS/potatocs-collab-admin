@@ -8,6 +8,7 @@ import { EditEmployeeInfoComponent } from './edit-employee-info/edit-employee-in
 import { EmployeeLeaveStatusComponent } from './employee-leave-status/employee-leave-status.component';
 import { DialogContractSelectComponent, EmployeeCompanyRequestComponent } from './employee-company-request/employee-company-request.component';
 import { LeaveRequestDetailsComponent } from 'src/app/components/leave-request-details/leave-request-details.component';
+import { RetiredEmployeeListComponent } from './retired-employee-list/retired-employee-list.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { LeaveRequestDetailsComponent } from 'src/app/components/leave-request-d
 		EditEmployeeInfoComponent,
   		EmployeeLeaveStatusComponent,
     	EmployeeCompanyRequestComponent,
-		DialogContractSelectComponent
+		DialogContractSelectComponent,
+  		RetiredEmployeeListComponent
 	],
 	imports: [
 		CommonModule,
@@ -27,7 +29,7 @@ import { LeaveRequestDetailsComponent } from 'src/app/components/leave-request-d
     ],
 	entryComponents: [
 		DialogContractSelectComponent,
-		LeaveRequestDetailsComponent
+		LeaveRequestDetailsComponent,
 	]
 })
 export class EmployeeManagementModule { }

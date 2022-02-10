@@ -4,6 +4,7 @@ import { EditEmployeeInfoComponent } from './edit-employee-info/edit-employee-in
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeLeaveStatusComponent } from './employee-leave-status/employee-leave-status.component';
 import { EmployeeCompanyRequestComponent } from './employee-company-request/employee-company-request.component';
+import { RetiredEmployeeListComponent } from './retired-employee-list/retired-employee-list.component';
 
 const routes: Routes = [
 	{
@@ -28,6 +29,10 @@ const routes: Routes = [
 			{
 				path: 'employee-company-request',
 				component: EmployeeCompanyRequestComponent
+			},
+			{
+				path: 'retired-employee-list',
+				component: RetiredEmployeeListComponent
 			}
 		]
 	}

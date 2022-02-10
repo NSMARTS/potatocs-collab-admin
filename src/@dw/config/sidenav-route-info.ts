@@ -30,6 +30,12 @@ export const sidenavRouteInfo: NavigationItem[] = [
 				label: 'Employee Company Request',
 				route: 'employee-mngmt/employee-company-request',
 				icon: 'add_business',
+			},
+			{
+				type: 'link',
+				label: 'Retired Employee List',
+				route: 'employee-mngmt/retired-employee-list',
+				icon: 'list',
 			}
 		]
 	}

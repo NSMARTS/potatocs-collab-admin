@@ -1,0 +1,108 @@
+.inputContainer {
+	margin-top: 1.25em;
+
+	.mat-form-field {
+		display: initial;
+	}
+}
+
+.deleteOption {
+	.mat-button {
+		color: rgb(184, 184, 184);
+	}
+	position: relative;
+	bottom: 10px;
+}
+
+.deleteOption {
+	.mat-button:hover {
+		color: rgb(83, 83, 83);
+	}
+}
+
+.adminIconCover {
+	align-self: flex-start;
+}
+
+.adminIconCover .mat-icon{
+
+	text-align: center;
+	align-content: center;
+	vertical-align: middle;
+	border-radius: 50%;
+
+	padding: 1px;
+}
+
+.adminIcon {
+	font-size: 1px;
+	color: #ffffff;
+	height: 12px;
+	width: 12px;
+}
+.settingIcon {
+	font-size: 17px;
+	color: #807b7ba4;
+	cursor: pointer;
+	height: 33px;
+ 
+}
+.memberList{
+	display: flex;
+	flex-wrap: wrap;
+	width: 250px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	justify-content: space-around;
+}
+
+.demo-table {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}
+}
+
+//
+.optionLabel {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+.clickBtn {
+    background: #00154F;
+    color: #fff;
+    padding: 0 30px;
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+
+.mg-20 {
+	margin: 10px 0;
+}
+
+.mat-header-row {
+    background-color: #273da0;
+
+    th {
+        color: #fff;
+    }
+}
+
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: transparent;
+}
