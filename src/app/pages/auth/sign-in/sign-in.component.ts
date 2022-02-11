@@ -68,6 +68,9 @@ export class SignInComponent implements OnInit {
             case 'mismatch':
                 this.dialogService.openDialogNegative('Password is incorrect. Try again.');
                 break;
+            case 'retired':
+                this.dialogService.openDialogNegative(`An employee who's retired at the company.`);
+                break;
 		}
 	};
 }

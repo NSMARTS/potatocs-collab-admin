@@ -49,7 +49,7 @@
 			<ng-container matColumnDef="invite">
 				<th mat-header-cell *cdkHeaderCellDef></th>
 				<td mat-cell *cdkCellDef="let element">
-					<button mat-raised-button class='clickBtn' (click)="myEmployeeLeaveListSearch()">Add</button>
+					<button mat-raised-button class='clickBtn' (click)="addRetiredEmployee( element._id )">Add</button>
 				</td>
 			</ng-container>
 			<!-- <ng-container matColumnDef="cancel">

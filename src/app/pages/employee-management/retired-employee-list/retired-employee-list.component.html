@@ -7,7 +7,7 @@
 					<div fxLayout="row" fxLayoutAlign="center center">
 						<div class="mainTitle">Manager {{ managerName }}'s List</div>
 						<div class="example-spacer"></div>
-						<button mat-flat-button class="backBtn" (click)="getMyEmployeeLists()">
+						<button mat-flat-button class="backBtn" (click)="getMyRetiredEmployeeLists()">
 							back
 						</button>
 					</div>
@@ -51,15 +51,15 @@
 						</ng-container>
 
 						
-						<ng-container matColumnDef="tenure_today">
+						<ng-container matColumnDef="emp_start_date">
 							<th mat-header-cell *matHeaderCellDef> Date of entry </th>
-							<td mat-cell *matCellDef="let element"> {{element.tenure_today}} </td>
+							<td mat-cell *matCellDef="let element"> {{element.emp_start_date | date: 'YYYY-MM-dd'}} </td>
 						</ng-container>
 
 
-						<ng-container matColumnDef="tenure_end">
+						<ng-container matColumnDef="resignation_date">
 							<th mat-header-cell *matHeaderCellDef> Resignation date </th>
-							<td mat-cell *matCellDef="let element"> {{element.tenure_end}} </td>
+							<td mat-cell *matCellDef="let element"> {{element.resignation_date | date: 'YYYY-MM-dd'}} </td>
 						</ng-container>
 
 						<!-- <ng-container matColumnDef="editButton">
@@ -76,7 +76,7 @@
 							<th mat-header-cell *matHeaderCellDef> . </th>
 							<td mat-cell *matCellDef="let element">
 								<button mat-flat-button class="employeeBtn"
-									(click)="getMyManagerEmployeeList(element._id, element.name)">
+									(click)="cancelRetireEmployee(element._id)">
 									Cancel
 								</button>
 							</td>

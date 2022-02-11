@@ -145,6 +145,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     // 조건에 따른 사원들 휴가 가져오기
     this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
       (data: any) => {
+        console.log(data)
         data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map ((item)=> {
 					item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
 					item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
