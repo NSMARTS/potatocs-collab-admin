@@ -4,31 +4,36 @@
 // vex 방식 (::ng-deep) 또는 아래 링크 방식 가능.
 // https://stackoverflow.com/questions/53541915/how-to-show-the-scrollbar-below-the-sidenav-toolbar-in-angularmaterial-7
 .sidenav {
-  overflow: hidden;
-  height: 100%;
+    overflow: hidden;
+    height: 100%;
 }
 
 // logo, title 부분
 .sidenav-toolbar {
-  height: $sidenav-toolbar-height;
-  color: white;
+    height: $sidenav-toolbar-height;
+    color: white;
 
-  // align-items: center;
-  // box-sizing: border-box;
-  // display: flex;
-  // flex-direction: row;
-  // white-space: nowrap;
-  // width: 100%;
+    // align-items: center;
+    // box-sizing: border-box;
+    // display: flex;
+    // flex-direction: row;
+    // white-space: nowrap;
+    // width: 100%;
+}
+
+.sidenav-toolbar:hover {
+    cursor: pointer;
 }
 
 // material defaul가 599 이하에서 64->56으로 변경됨
 @media screen and (max-width: 599px) {
-  .sidenav-toolbar {
-    height: $sidenav-toolbar-height-mobile;
-  }
+
+    .sidenav-toolbar {
+        height: $sidenav-toolbar-height-mobile;
+    }
 }
 
 .sidenav-items {
-  overflow: auto;
-  padding-top: 1.5rem;
+    overflow: auto;
+    padding-top: 1.5rem;
 }

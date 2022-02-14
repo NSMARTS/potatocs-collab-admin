@@ -11,6 +11,8 @@ import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { DataService } from 'src/@dw/store/data.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { ExcelService } from 'src/@dw/services/excel/excel.service';
+import { Contact } from './models/contact.model';
 
 // view table
 export interface PeriodicElement {
@@ -46,13 +48,19 @@ export class EmployeeListComponent implements OnInit {
 	private unsubscribe$ = new Subject<void>();
 	isRollover = false;
 
+
+    // excel
+    importContacts: Contact[] = [];
+    exportContacts: Contact[] = [];
+
 	constructor(
 		private employeeMngmtService: EmployeeMngmtService,
 		private router: Router,
 		private route: ActivatedRoute,
 		private commonService: CommonService,
 		private dialogService: DialogService,
-		private dataService: DataService
+		private dataService: DataService,
+        private excelSrv: ExcelService
 
 	) {
 		// this.filterSelectObj = [
@@ -86,19 +94,19 @@ export class EmployeeListComponent implements OnInit {
 		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			async (data: any) => {
 				console.log(data);
-				
+
 				if (!data.company_id) return;
 
 				this.company_max_day = data.company_id.rollover_max_day
 				console.log(this.company_max_day);
-				if(this.company_max_day != undefined){
+				if (this.company_max_day != undefined) {
 					this.isRollover = true;
-					this.displayedColumns = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+					this.displayedColumns = ['name', 'position', 'location', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
 				}
-				
+
 
 				await this.getMyEmployeeLists();
-		})
+			})
 
 		// this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 		// 	(data: any) => {
@@ -113,17 +121,16 @@ export class EmployeeListComponent implements OnInit {
 		this.employeeMngmtService.getMyEmployee().subscribe(
 			(data: any) => {
 				if (data.message == 'found') {
-				
+
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
 
 					// rollover 체크, company 의 rollover_max_day 로 하기.
-					if(this.isRollover){
+					if (this.isRollover) {
 						for (let index = 0; index < data.myEmployeeList.length; index++) {
-							if(data.myEmployeeList[index].totalLeave == null){
-								console.log(11111);
+							if (data.myEmployeeList[index].totalLeave == null) {
 							}
-							else{
+							else {
 								data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
 							}
 							// console.log(data.myEmployeeList[index].totalLeave.rollover);
@@ -139,7 +146,7 @@ export class EmployeeListComponent implements OnInit {
 
 					// this.getMyEmployeeList.filterPredicate = this.createFilter();
 					// console.log(this.getMyEmployeeList.filterPredicate);
-
+                    console.log(this.getMyEmployeeList.data)
 					this.getMyEmployeeList.paginator = this.paginator;
 					// console.log(this.getMyEmployeeList);
 				}
@@ -161,11 +168,11 @@ export class EmployeeListComponent implements OnInit {
 				this.calculateTenure(data.myManagerEmployeeList);
 
 				this.getMyEmployeeList.data = data.myManagerEmployeeList;
-					// this.filterSelectObj.filter((filter) => {
-					// 	filter.options = this.getFilterObject(data.myManagerEmployeeList, filter.columnProp);
-					// 	console.log(filter.options);
-					// });
-					// console.log(this.filterSelectObj);
+				// this.filterSelectObj.filter((filter) => {
+				// 	filter.options = this.getFilterObject(data.myManagerEmployeeList, filter.columnProp);
+				// 	console.log(filter.options);
+				// });
+				// console.log(this.filterSelectObj);
 
 				this.getMyEmployeeList.paginator = this.paginator;
 				console.log(this.managerName);
@@ -236,6 +243,45 @@ export class EmployeeListComponent implements OnInit {
 		this.router.navigate(['leave/employee-mngmt/edit-info', employeeId]);
 	}
 
+    /////////////////////////////////////////////////////////////////
+	// excel import 
+	onFileChange(evt: any) {
+		const target: DataTransfer = <DataTransfer>(evt.target);
+		if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+
+		const reader: FileReader = new FileReader();
+		reader.onload = (e: any) => {
+
+			const bstr: string = e.target.result;
+			console.log(bstr)
+			const data = <any[]>this.excelSrv.importFromFile(bstr);
+			console.log(data)
+			const header: string[] = Object.getOwnPropertyNames(new Contact());
+			console.log(header)
+			const importedData = data.slice(1);
+			console.log(importedData)
+			this.importContacts = importedData.map(arr => {
+				const obj = {};
+				for (let i = 0; i < header.length; i++) {
+					const k = header[i];
+					obj[k] = arr[i];
+				}
+				return <Contact>obj;
+			})
+			console.log(this.importContacts)
+		};
+		reader.readAsBinaryString(target.files[0]);
+
+	}
+
+    exportData() {
+        this.excelSrv.exportToFile('');
+    }
+
+    exportFormat(){
+        this.excelSrv.exportToFile(this.getMyEmployeeList.data);
+    }
+    /////////////////////////////////////////////////////////////////
 
 
 
@@ -315,6 +361,6 @@ export class EmployeeListComponent implements OnInit {
 	///// filter search
 	public doFilter = (value: string) => {
 		this.getMyEmployeeList.filter = value.trim().toLocaleLowerCase();
-	  }
+	}
 
 }

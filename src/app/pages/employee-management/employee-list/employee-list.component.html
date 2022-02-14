@@ -40,6 +40,41 @@
 						<mat-form-field fxFlex="40%">
 							<input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
 						</mat-form-field>
+
+
+                        <!-- excel format download -->
+                        <div fxLayout="row" fxLayoutAlign="center">
+							<div >
+                                <button (click)="exportData()">
+                                    <span class="mdi mdi-file-export"> </span>
+                                    <small>Download the format</small>
+                                </button>
+							</div>
+						</div>
+
+
+                        <!-- excel employee_list download -->
+                        <div fxLayout="row" fxLayoutAlign="center">
+							<div >
+                                <button (click)="exportFormat()">
+                                    <span class="mdi mdi-file-export"> </span>
+                                    <small>Download a employee list</small>
+                                </button>
+							</div>
+						</div>
+
+                        <!-- excel import -->
+						<div fxLayout="row" fxLayoutAlign="center">
+							<div >
+								<button>
+									<label>
+										<span class="mdi mdi-file-export"> </span>
+										<small>Import</small>
+										<input hidden type="file" (change)="onFileChange($event)" multiple="false">
+									</label>
+								</button>
+							</div>
+						</div>
 					</div>
 
 					<table mat-table [dataSource]="getMyEmployeeList" class="mat-elevation-z8 historyTable">

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavigationService } from 'src/@dw/services/navigation.service';
 @Component({
   selector: 'po-sidenav',
@@ -11,9 +12,14 @@ export class SidenavComponent implements OnInit {
 
 	constructor(
 		private navigationService: NavigationService,
+		private router: Router,
 	) { }
 
 	ngOnInit(): void {
 		this.navItems = this.navigationService.items;		
+	}
+
+	main() {
+		this.router.navigate(['main']);
 	}
 }

@@ -99,3 +99,23 @@
     font-size: 50px;
     color: #999;
 }
+
+
+
+@media screen and (max-width: 780px) {
+    .leaveContainer_wrap {
+        display: flex;
+        flex-direction: column !important;
+
+
+        .leaveContainer {
+            width: 100%;
+            margin-right: 0 !important;
+        }
+
+        .leaveSubSection {
+            margin: 0;
+        }
+    }
+
+}
