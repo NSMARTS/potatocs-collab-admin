@@ -274,11 +274,11 @@ export class EmployeeListComponent implements OnInit {
 
 	}
 
-    exportData() {
+    exportFormat() {
         this.excelSrv.exportToFile('');
     }
 
-    exportFormat(){
+    exportData(){
         this.excelSrv.exportToFile(this.getMyEmployeeList.data);
     }
     /////////////////////////////////////////////////////////////////
