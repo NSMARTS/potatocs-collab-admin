@@ -253,13 +253,12 @@ export class EmployeeListComponent implements OnInit {
 		reader.onload = (e: any) => {
 
 			const bstr: string = e.target.result;
-			console.log(bstr)
 			const data = <any[]>this.excelSrv.importFromFile(bstr);
-			console.log(data)
+			console.log(data) // sheet data
 			const header: string[] = Object.getOwnPropertyNames(new Contact());
-			console.log(header)
+			console.log(header) // excel header
 			const importedData = data.slice(1);
-			console.log(importedData)
+			console.log(importedData) // data to put in.
 			this.importContacts = importedData.map(arr => {
 				const obj = {};
 				for (let i = 0; i < header.length; i++) {
@@ -268,9 +267,16 @@ export class EmployeeListComponent implements OnInit {
 				}
 				return <Contact>obj;
 			})
-			console.log(this.importContacts)
+            
+            this.employeeMngmtService.importEmployeeList(this.importContacts).subscribe((data) => {
+                console.log(data)
+            })
+
+		    console.log(this.importContacts) // result 
 		};
 		reader.readAsBinaryString(target.files[0]);
+
+        
 
 	}
 
