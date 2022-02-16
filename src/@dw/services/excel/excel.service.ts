@@ -37,26 +37,29 @@ export class ExcelService {
         if(data=='') {
             array = [{
                 "Employee Name": "James Lee",
-                 "ID ( E-mail ) *":"james@gmail.com",
-                 "Department":"",
-                 "Position":"",
-                 "Start Date *":"2022-01-26",
-                 "End Date": "",
-                 "Manager ID ( E-mail )": "manager@gmail.com",
+                "ID ( E-mail ) *":"james@gmail.com",
+                "Department":"",
+                "Position":"",
+                "Start Date *":"2022-01-26",
+                "End Date": "",
+                "Manager ID ( E-mail )": "manager@gmail.com",
             }];
         } else {
             for (let i = 0; i < data.length; i++) {
+
                 array.push({
-                "Employee Name": data[i]?.name,
-                 "ID ( E-mail ) *":data[i].email,
-                 "Department":data[i]?.department,
-                 "Position":data[i]?.position,
-                 "Start Date *": data[i]?.emp_start_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD'): null,
-                 "End Date": data[i]?.emp_end_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD'): null,
-                 "Manager ID ( E-mail )": data[i]?.managerId,
+                    "Employee Name": data[i]?.name,
+                    "ID ( E-mail ) *": data[i].email,
+                    "Department": data[i]?.department,
+                    "Position": data[i]?.position,
+                    "Start Date *": data[i].emp_start_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD') : null,
+                    "End Date": data[i]?.emp_end_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD') : null,
+                    "Manager ID ( E-mail )": data[i]?.managerId,
                 })
             }
         }
+
+        
         var ws = XLSX.utils.json_to_sheet(array);
         
         // A workbook is the name given to an Excel file
