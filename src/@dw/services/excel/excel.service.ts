@@ -46,19 +46,6 @@ export class ExcelService {
             }];
         } else {
             for (let i = 0; i < data.length; i++) {
-<<<<<<< HEAD
-                array.push({
-                "Employee Name": data[i]?.name,
-                 "ID ( E-mail ) *":data[i].email,
-                 "Department":data[i]?.department,
-                 "Position":data[i]?.position,
-                 "Start Date *": data[i]?.emp_start_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD'): null,
-                 "End Date": data[i]?.emp_end_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD'): null,
-                 "Manager ID ( E-mail )": data[i]?.managerId,
-                })
-            }
-        }
-=======
 
                 array.push({
                     "Employee Name": data[i]?.name,
@@ -73,7 +60,6 @@ export class ExcelService {
         }
 
         
->>>>>>> origin/kimsangmin
         var ws = XLSX.utils.json_to_sheet(array);
         
         // A workbook is the name given to an Excel file
