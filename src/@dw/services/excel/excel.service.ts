@@ -1,5 +1,7 @@
+import { NgIf, SlicePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
+import * as moment from 'moment';
 
 // https://github.com/Touwin10/angular-excel
 @Injectable({
@@ -21,18 +23,17 @@ export class ExcelService {
         /* save data */
         const data = <XLSX.AOA2SheetOpts>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
 
+        console.log(data)
         return data;
     }
 
 
-    public exportToFile(data) {
+    public exportToFile(data:any) {
 
         // export Array to Worksheet of Excel. only array possible
         // https://lovemewithoutall.github.io/it/json-to-excel/
         
-        console.log(data)
         let array = []
-
         if(data=='') {
             array = [{
                 "Employee Name": "James Lee",
@@ -44,10 +45,18 @@ export class ExcelService {
                  "Manager ID ( E-mail )": "manager@gmail.com",
             }];
         } else {
-            
-            array = data;
+            for (let i = 0; i < data.length; i++) {
+                array.push({
+                "Employee Name": data[i]?.name,
+                 "ID ( E-mail ) *":data[i].email,
+                 "Department":data[i]?.department,
+                 "Position":data[i]?.position,
+                 "Start Date *": data[i]?.emp_start_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD'): null,
+                 "End Date": data[i]?.emp_end_date ? moment(data[i].emp_start_date).format('YYYY-MM-DD'): null,
+                 "Manager ID ( E-mail )": data[i]?.managerId,
+                })
+            }
         }
-        
         var ws = XLSX.utils.json_to_sheet(array);
         
         // A workbook is the name given to an Excel file
