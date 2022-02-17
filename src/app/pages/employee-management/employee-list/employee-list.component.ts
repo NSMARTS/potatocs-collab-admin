@@ -105,7 +105,7 @@ export class EmployeeListComponent implements OnInit {
 				}
 
 
-				await this.getMyEmployeeLists();
+				this.getMyEmployeeLists();
 			})
 
 		// this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -254,11 +254,8 @@ export class EmployeeListComponent implements OnInit {
 
 			const bstr: string = e.target.result;
 			const data = <any[]>this.excelSrv.importFromFile(bstr);
-			console.log(data) // sheet data
 			const header: string[] = Object.getOwnPropertyNames(new Contact());
-			console.log(header) // excel header
 			const importedData = data.slice(1);
-			console.log(importedData) // data to put in.
 			this.importContacts = importedData.map(arr => {
 				const obj = {};
 				for (let i = 0; i < header.length; i++) {
@@ -267,18 +264,72 @@ export class EmployeeListComponent implements OnInit {
 				}
 				return <Contact>obj;
 			})
-            
-            this.employeeMngmtService.importEmployeeList(this.importContacts).subscribe((data) => {
-                console.log(data)
-            })
 
-		    console.log(this.importContacts) // result 
+			// 임포트한 엑셀 데이터에 빈값이 있는 경우 필터링해서 없앤다.
+			const filteredImportedData = this.importContacts.filter(data =>
+				!((data.name == undefined || data.name == '' || data.name == null) && 
+				(data.emp_start_date == undefined || data.emp_start_date == '' || data.emp_start_date == null)) 
+			)
+			
+			
+			// 임포트한 엑셀 데이터 중 emp_start_date의 셀의 표시형식이 '일반'이 아닌 '날짜' 일 경우
+			// 자동적으로 5자리 숫자로 변경되어진다. 만약 그럴경우 원래 날짜로 바꿔주는 작업
+			filteredImportedData.forEach(element => {
+				if(element.emp_start_date.toString().length == 5  && typeof(element.emp_start_date) == 'number'){
+					element.emp_start_date = this.ExcelDateToJSDate(element.emp_start_date)
+				}
+			});
+			
+			
+            this.employeeMngmtService.importEmployeeList(filteredImportedData).subscribe(async(data:any) => {
+				if(data.message == 'success') {
+					this.dialogService.openDialogPositive('Imported data successfully.');
+				}
+				this.getMyEmployeeLists();
+            },err => {
+                console.log(err.error);
+				this.errorAlert(err.error.message);
+            },)
+			
 		};
 		reader.readAsBinaryString(target.files[0]);
 
         
 
 	}
+
+	errorAlert(err) {
+		switch(err) {
+			case 'not found email': // 엑셀에 입력된 이메일이 없으면
+				this.dialogService.openDialogNegative('Email must be required.');
+				break;
+			case 'not found emp_start_date': // 엑셀에 입력된 계약시작일이 없으면
+				this.dialogService.openDialogNegative('Start Date must required');
+				break;
+			case 'not match date': // 엑셀에 입력된 계약시작일 형식이 잘못됐거나, 셀의 표시형식이 '일반'이 아닌 '날짜'인 경우 
+				this.dialogService.openDialogNegative("The format of the start date is wrong. Please, change the type 'Short Date' to 'General'");
+				break;
+			case 'found retired manager': // 엑셀에 입력된 매니저 ID가 퇴사자이면
+				this.dialogService.openDialogNegative('Found a retired manager.');
+				break;
+			case 'not found manager id': // 엑셀에 입력된 매니저 ID가 Member DB에 없으면 
+				this.dialogService.openDialogNegative('Cannot find a manager.');
+				break;
+			case 'not found Member': // 엑셀에 입력된 아이디가 DB에 없거나, 회원가입된 아이디가 아니면 에러 메시지
+				this.dialogService.openDialogNegative('Cannot find a member');
+				break;
+			case 'found retired Employee':  // 엑셀에 입력된 아이디가 퇴사자면
+				this.dialogService.openDialogNegative('Found a retired member');
+				break;
+			case 'Cannot update Member': // 회원정보 업데이트 실패
+				this.dialogService.openDialogNegative('An error has occured.');
+				break;
+			case 'failed': // 서버에러
+				this.dialogService.openDialogNegative('An error has occured in the server');
+				break;
+		}
+
+	};
 
     exportFormat() {
         this.excelSrv.exportToFile('');
@@ -289,6 +340,15 @@ export class EmployeeListComponent implements OnInit {
     }
     /////////////////////////////////////////////////////////////////
 
+	// 엑셀의 셀 중 표시형식이 Date인경우 데이터가 5자리 숫자로 바뀐다.
+	// 원래 날자로 바꿔주는 코드
+	// https://stackoverflow.com/questions/16229494/converting-excel-date-serial-number-to-date-using-javascript
+	ExcelDateToJSDate(serial) {
+		var utc_days  = Math.floor(serial - 25569);
+		var utc_value = utc_days * 86400;                                        
+		var date_info = new Date(utc_value * 1000).toISOString().slice(0,10);
+		return date_info;
+	}
 
 
 
