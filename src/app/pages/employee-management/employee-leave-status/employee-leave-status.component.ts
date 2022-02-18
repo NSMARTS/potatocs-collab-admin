@@ -178,7 +178,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
 				status: data.status,
 				createdAt: data.createdAt,
 				approver: data.approver,
-        rejectReason: data.rejectReason
+                rejectReason: data.rejectReason
 			}
 
 		});
