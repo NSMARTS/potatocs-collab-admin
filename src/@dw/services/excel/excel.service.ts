@@ -1,3 +1,4 @@
+import { NgIf, SlicePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
@@ -22,18 +23,17 @@ export class ExcelService {
         /* save data */
         const data = <XLSX.AOA2SheetOpts>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
 
+        console.log(data)
         return data;
     }
 
 
-    public exportToFile(data) {
+    public exportToFile(data:any) {
 
         // export Array to Worksheet of Excel. only array possible
         // https://lovemewithoutall.github.io/it/json-to-excel/
         
-        console.log(data)
         let array = []
-
         if(data=='') {
             array = [{
                 "Employee Name": "James Lee",

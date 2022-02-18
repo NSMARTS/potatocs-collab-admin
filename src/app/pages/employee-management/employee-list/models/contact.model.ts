@@ -3,7 +3,7 @@ export class Contact {
     email: string = "";
     department: string = "";
     position: string = "";
-    emp_start_date: Date = null;
-    emp_end_date: Date= null;
+    emp_start_date: string = "";
+    emp_end_date: string= "";
     managerId: string = "";
 }

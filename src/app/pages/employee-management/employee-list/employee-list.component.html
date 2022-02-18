@@ -36,44 +36,36 @@
 				&nbsp;
 				<button mat-flat-button color="warn" (click)="resetFilters()">Reset</button>
 			</div> -->
-					<div fxLayout fxLayoutAlign="center center">
-						<mat-form-field fxFlex="40%">
-							<input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
-						</mat-form-field>
-
-
-                        <!-- excel format download -->
-                        <div fxLayout="row" fxLayoutAlign="center">
-							<div >
-                                <button (click)="exportFormat()">
-                                    <span class="mdi mdi-file-export"> </span>
-                                    <small>Download the format</small>
-                                </button>
-							</div>
+					<div class="tableUpper" fxLayout="row" fxLayoutAlign="space-between center">
+						<div>
+							<mat-form-field class="filterDiv">
+								<input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+							</mat-form-field>
 						</div>
+						
+						<div fxLayout="row" fxLayoutAlign="cente center" fxLayoutGap="15px">
+							<ng-container matColumnDef="editButton">
+									<button mat-flat-button class="excelBtn" (click)="exportFormat()">
+										<span>Export to format</span>
+									</button>
+							</ng-container>
+                        	<!-- excel employee_list download -->
 
+							<ng-container matColumnDef="editButton">
+								<button mat-flat-button class="excelBtn" (click)="exportData()">
+									<span>Export to 'xlsx'</span>
+								</button>
+							</ng-container>
 
-                        <!-- excel employee_list download -->
-                        <div fxLayout="row" fxLayoutAlign="center">
-							<div >
-                                <button (click)="exportData()">
-                                    <span class="mdi mdi-file-export"> </span>
-                                    <small>Download a employee list</small>
-                                </button>
-							</div>
-						</div>
-
-                        <!-- excel import -->
-						<div fxLayout="row" fxLayoutAlign="center">
-							<div >
-								<button>
+                        	<!-- excel import -->
+							<ng-container matColumnDef="editButton">
+								<button mat-flat-button class="excelBtn">
 									<label>
-										<span class="mdi mdi-file-export"> </span>
-										<small>Import</small>
+										<span>Import to 'xlsx'</span>
 										<input hidden type="file" (change)="onFileChange($event)" multiple="false">
 									</label>
 								</button>
-							</div>
+							</ng-container>
 						</div>
 					</div>
 
