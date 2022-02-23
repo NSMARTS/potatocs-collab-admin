@@ -43,6 +43,7 @@ export class ExcelService {
                 "Start Date *":"2022-01-26",
                 "End Date": "",
                 "Manager ID ( E-mail )": "manager@gmail.com",
+                "The display format must be 'general'. If there is an '*', there must be a value.": ''
             }];
         } else {
             for (let i = 0; i < data.length; i++) {
