@@ -36,6 +36,18 @@ export const sidenavRouteInfo: NavigationItem[] = [
 				label: 'Retired Employee List',
 				route: 'employee-mngmt/retired-employee-list',
 				icon: 'list',
+			},
+		]
+	},
+	{
+		type: 'subheading',
+		label: 'Corporation',
+		children: [
+			{
+				type: 'link',
+				label: 'Holiday Management',
+				route: 'company-mngmt/company-holiday-list',
+				icon: 'update',
 			}
 		]
 	}

@@ -1,0 +1,63 @@
+<div class="mainContentContainer">
+	<div class="mainContent">
+		<div fxLayout="row">
+			<div class="mainTitle">Add holiday</div>
+		</div>
+
+		<form [formGroup]="companyHolidayForm" novalidate>
+			<div class="leaveTableContainer">
+				<div fxLayout="column" class="br_ltop">
+					<div class="lineDivider" fxLayout="row wrap">
+						<div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+							<div class="leftBox">
+								<span>Name</span>	
+							</div>
+						</div>
+						<div class="rightTable" fxFlex>
+							<div>
+                                <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                    <input matInput type="text" formControlName="holidayName"/>
+                                </mat-form-field>
+							</div>
+						</div>
+					</div>
+					<div class="lineDivider" fxLayout="row wrap">
+						<div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+							<div>
+								<span>Date</span>	
+							</div>
+						</div>
+						<div class="rightTable" fxFlex>
+							<div>
+								<span>
+									<mat-form-field appearance="outline" class="companyFormFieldBox">
+										<input 
+											matInput 
+											[matDatepicker]="picker1" 
+											formControlName="holidayDate"
+											(dateChange)="datePickChange($event.value)">
+											<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+										<mat-datepicker #picker1></mat-datepicker>
+									</mat-form-field>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+						<button 
+							mat-raised-button 
+							class="approveBtn" 
+							(click)="addCompanyHoliday()" 
+							[disabled]="companyHolidayForm.invalid"
+						> 
+							Request 
+						</button>
+						<button  mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		
+	</div>
+</div>

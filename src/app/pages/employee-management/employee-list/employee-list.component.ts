@@ -274,6 +274,8 @@ export class EmployeeListComponent implements OnInit {
 			
 			// 임포트한 엑셀 데이터 중 emp_start_date의 셀의 표시형식이 '일반'이 아닌 '날짜' 일 경우
 			// 자동적으로 5자리 숫자로 변경되어진다. 만약 그럴경우 원래 날짜로 바꿔주는 작업
+			// https://stackoverflow.com/questions/1703505/excel-date-to-unix-timestamp/6154953#6154953   // 엑셀 날짜 계산식
+			// https://stackoverflow.com/questions/16229494/converting-excel-date-serial-number-to-date-using-javascript // 유닉스 날짜 계산식
 			filteredImportedData.forEach(element => {
 				if(element.emp_start_date.toString().length == 5  && typeof(element.emp_start_date) == 'number'){
 					element.emp_start_date = this.ExcelDateToJSDate(element.emp_start_date)
@@ -347,6 +349,8 @@ export class EmployeeListComponent implements OnInit {
 		var utc_days  = Math.floor(serial - 25569);
 		var utc_value = utc_days * 86400;                                        
 		var date_info = new Date(utc_value * 1000).toISOString().slice(0,10);
+		// var date = moment(new Date(utc_value * 1000)); //Pass in unix timestamp instead of Excel date
+		// var date_info = date.format('YYYY-MM-DD');
 		return date_info;
 	}
 
