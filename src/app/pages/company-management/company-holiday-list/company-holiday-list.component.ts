@@ -1,19 +1,13 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
-import { CommonService } from 'src/@dw/services/common/common.service';
 import { HolidayMngmtService } from 'src/@dw/services/corporation/holiday-mngmt.service';
-import { EmployeeMngmtService } from 'src/@dw/services/employee-mngmt/employee-mngmt.service';
-import { RetiredEmployeeMngmtService } from 'src/@dw/services/employee-mngmt/retired-employee-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
-import { CompanyHolidayAddComponent } from '../company-holiday-add/company-holiday-add/company-holiday-add.component';
+import { CompanyHolidayAddComponent } from '../company-holiday-add/company-holiday-add.component';
 
 
 // view table
@@ -39,7 +33,7 @@ export class CompanyHolidayListComponent implements OnInit {
 	company;
 	manager;
 	userInfo;
-	myRank;
+
 	// dataSource = ELEMENT_DATA;
 	private unsubscribe$ = new Subject<void>();
 
@@ -51,7 +45,6 @@ export class CompanyHolidayListComponent implements OnInit {
 		private holidayMngmtService: HolidayMngmtService
 
 	) {
-		this.myRank = this.route.snapshot.routeConfig.path;
 	}
 
 	ngOnInit(): void {

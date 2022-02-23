@@ -4,11 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
-import { CommonService } from 'src/@dw/services/common/common.service';
 import { HolidayMngmtService } from 'src/@dw/services/corporation/holiday-mngmt.service';
-import { DataService } from 'src/@dw/store/data.service';
 
 @Component({
   selector: 'app-company-holiday-add',
@@ -16,26 +13,10 @@ import { DataService } from 'src/@dw/store/data.service';
   styleUrls: ['./company-holiday-add.component.scss']
 })
 export class CompanyHolidayAddComponent implements OnInit {
-  // calculate diff
-  days: any;
-  start_date_sec: any;
-  end_date_sec: any;
-  millisecondsPerDay: any;
-  diff: any;
-  weeks: any;
-  leaveDays: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // view table
   displayedColumns: string[] = ['ch_name', 'ch_date'];
- 
-  // replacement day requests
-  getInputData;
-  companyHolidayData;
-  isHalf: boolean;
-
-  company;
-
   // form group
   companyHolidayForm: FormGroup;
 
