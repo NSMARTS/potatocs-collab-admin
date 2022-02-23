@@ -21,7 +21,7 @@ export interface PeriodicElement {
 	templateUrl: './company-holiday-list.component.html',
 	styleUrls: ['./company-holiday-list.component.scss']
 })
-
+  
 export class CompanyHolidayListComponent implements OnInit {
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	// view table
