@@ -46,14 +46,14 @@
 						<div fxLayout="row" fxLayoutAlign="cente center" fxLayoutGap="15px">
 							<ng-container matColumnDef="editButton">
 									<button mat-flat-button class="excelBtn" (click)="exportFormat()">
-										<span>Export to format</span>
+										<span>Download a format guide</span>
 									</button>
 							</ng-container>
                         	<!-- excel employee_list download -->
 
 							<ng-container matColumnDef="editButton">
 								<button mat-flat-button class="excelBtn" (click)="exportData()">
-									<span>Export to 'xlsx'</span>
+									<span>Download Employee List</span>
 								</button>
 							</ng-container>
 
@@ -61,7 +61,7 @@
 							<ng-container matColumnDef="editButton">
 								<button mat-flat-button class="excelBtn">
 									<label>
-										<span>Import to 'xlsx'</span>
+										<span>Upload Employee List</span>
 										<input hidden type="file" (change)="onFileChange($event)" multiple="false">
 									</label>
 								</button>
