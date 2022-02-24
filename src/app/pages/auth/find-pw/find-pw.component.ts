@@ -72,7 +72,7 @@ export class FindPwComponent implements OnInit, OnDestroy {
 			(data: any) => {
 				// console.log(data);
 				if(data.message == 'sentPw') {
-					this.dialogService.openDialogPositive('Your password has been reset successfully. Temporary password is sent to your email.');
+					this.dialogService.openDialogPositive('Your password has been successfully reset. Temporary password has been sent to your email.');
 
 					this.router.navigate(['main']);
 				}

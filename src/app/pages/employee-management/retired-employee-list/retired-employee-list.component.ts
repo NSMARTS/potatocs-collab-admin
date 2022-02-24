@@ -186,7 +186,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
 		this.retiredEmployeeMngmtService.searchEmployee({ email }).subscribe(
 			(data: any) => {
 				if (data.searchEmployee == null) {
-					this.dialogService.openDialogNegative(`It's a member that doesn't exist.\nPlease check email`);
+					this.dialogService.openDialogNegative('The member does not exist. Please check email.');
 					// alert(`It's a member that doesn't exist.\nPlease check email`);
 				}
 				else {
@@ -211,7 +211,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
 					resignation_date : formValue.resignation_date
 				}).subscribe((data)=>{
 					console.log(data)
-					this.dialogService.openDialogPositive('Successfully, the member has retired.')
+					this.dialogService.openDialogPositive('Successfully, the member has been retired.')
 					this.dialogRef.close();
 				},
 				(err: any) => {

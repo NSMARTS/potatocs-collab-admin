@@ -99,7 +99,7 @@ export class EditEmployeeInfoComponent implements OnInit {
 
 
 				if (this.isFieldInvalid('name')) {
-					this.dialogService.openDialogNegative('Please input a name');
+					this.dialogService.openDialogNegative('Please, input a name');
 					// alert('Please input a name');
 					return;
 				}
@@ -126,13 +126,14 @@ export class EditEmployeeInfoComponent implements OnInit {
 
 						if (data.message == 'updated') {
 							this.router.navigate(['leave/employee-mngmt/manager-list']);
-							this.dialogService.openDialogPositive('Successfully, the information has been editted!');
+							this.dialogService.openDialogPositive('Successfully, the information has been edited!');
 						}
 					},
 					err => {
 						console.log(err);
-						this.dialogService.openDialogNegative(err.error.message);
-						// alert(err.error.message);
+						if (err.error.message == 'An error has occurred'){
+							this.dialogService.openDialogNegative('An error has occurred.');
+						}
 					}
 				);
 			}
@@ -162,7 +163,7 @@ export class EditEmployeeInfoComponent implements OnInit {
 
 						if (data.message == 'updated') {
 							this.router.navigate(['leave/employee-mngmt/manager-list']);
-							this.dialogService.openDialogPositive('Successfully, the information has been editted!');
+							this.dialogService.openDialogPositive('Successfully, the information has been edited!');
 						}
 					},
 					err => {
