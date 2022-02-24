@@ -127,8 +127,9 @@ export class CompanyHolidayListComponent implements OnInit {
 						}
 					},
 					(err: any) => {
-						console.log(err);
-						this.dialogService.openDialogNegative(err.error.message);
+						if (err.error.message == 'Deleting company holiday Error'){
+							this.dialogService.openDialogNegative('An error has occurred.');
+						}
 					}
 				);
 			}

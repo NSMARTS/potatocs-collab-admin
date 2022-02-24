@@ -279,7 +279,7 @@ export class EmployeeListComponent implements OnInit {
             // 임포트한 엑셀 데이터에 빈값이 있는 경우 필터링해서 없앤다.
 			
 
-            console.log(filteredImportedData)
+            // console.log(filteredImportedData)
 
             // 임포트한 엑셀 데이터 중 emp_start_date의 셀의 표시형식이 '일반'이 아닌 '날짜' 일 경우
             // 자동적으로 5자리 숫자로 변경되어진다. 만약 그럴경우 원래 날짜로 바꿔주는 작업
@@ -294,7 +294,7 @@ export class EmployeeListComponent implements OnInit {
 
             this.employeeMngmtService.importEmployeeList(this.importContacts).subscribe(async (data: any) => {
                 if (data.message == 'success') {
-                    this.dialogService.openDialogPositive('Imported data successfully.');
+                    this.dialogService.openDialogPositive('Successfully, the file information has been uploaded.');
                 }
                 this.getMyEmployeeLists();
             }, err => {
@@ -333,10 +333,10 @@ export class EmployeeListComponent implements OnInit {
                 this.dialogService.openDialogNegative('Found a retired member');
                 break;
             case 'Cannot update Member': // 회원정보 업데이트 실패
-                this.dialogService.openDialogNegative('An error has occured.');
+                this.dialogService.openDialogNegative('An error has occurred.');
                 break;
             case 'failed': // 서버에러
-                this.dialogService.openDialogNegative('An error has occured in the server');
+                this.dialogService.openDialogNegative('An error has occurred in the server');
                 break;
         }
 
