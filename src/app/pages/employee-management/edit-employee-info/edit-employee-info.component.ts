@@ -14,6 +14,7 @@ export class EditEmployeeInfoComponent implements OnInit {
 
 	employeeId;
 	getEmployeeInfo;
+	nationList;
 
 	// FormGroup
 	employeeForm: FormGroup;
@@ -63,6 +64,8 @@ export class EditEmployeeInfoComponent implements OnInit {
 			(data: any) => {
 
 				this.getEmployeeInfo = data.employee;
+				this.nationList = data.nationList;
+
 				this.setEmployeeFormValue(this.getEmployeeInfo);
 			}
 		);
