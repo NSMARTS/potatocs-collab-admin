@@ -39,8 +39,17 @@
     }
 }
 
+.example-container {
+    position: relative;
+}
+
 .filter{
     background-color: #fff;
+}
+
+.filterDiv {
+    padding-left: 3%;
+    width:500px;
 }
 
 .backBtn {
@@ -62,6 +71,9 @@
 }
 
 .AddRetirementBtn {
+    position: absolute;
+    right: 25px;
+    top: 15px;
     background: #00154F;
     color: #fff;
     width: 165px;
