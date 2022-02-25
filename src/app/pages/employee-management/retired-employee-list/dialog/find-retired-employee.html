@@ -38,7 +38,7 @@
 				<th mat-header-cell *cdkHeaderCellDef> Resignation date </th>
 				<td mat-cell *cdkCellDef="let element">
 					
-						<mat-form-field appearance="fill">
+						<mat-form-field appearance="outline">
 							<input matInput [matDatepicker]="picker" formControlName="resignation_date">
 							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 							<mat-datepicker #picker></mat-datepicker>

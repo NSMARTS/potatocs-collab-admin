@@ -43,29 +43,22 @@
 							</mat-form-field>
 						</div>
 						
-						<div fxLayout="row" fxLayoutAlign="cente center" fxLayoutGap="15px">
-							<ng-container matColumnDef="editButton">
-									<button mat-flat-button class="excelBtn" (click)="exportFormat()">
-										<span>Download a format guide</span>
-									</button>
-							</ng-container>
-                        	<!-- excel employee_list download -->
-
-							<ng-container matColumnDef="editButton">
-								<button mat-flat-button class="excelBtn" (click)="exportData()">
-									<span>Download Employee List</span>
-								</button>
-							</ng-container>
-
-                        	<!-- excel import -->
-							<ng-container matColumnDef="editButton">
-								<button mat-flat-button class="excelBtn">
-									<label>
-										<span>Upload Employee List</span>
-										<input hidden type="file" (change)="onFileChange($event)" multiple="false">
-									</label>
-								</button>
-							</ng-container>
+						<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="excelBox">
+                            <mat-icon class="mat-18">system_update</mat-icon>
+                            <button mat-raised-button class="excelBtn" (click)="exportFormat()">
+                                <span>Download a format guide</span>
+                            </button>
+                          
+                            <button mat-raised-button class="excelBtn" (click)="exportData()">
+                                <span>Download Employee List</span>
+                            </button>
+                      
+                            <button mat-raised-button class="excelBtn">
+                                <label>
+                                    <span>Upload Employee Info</span>
+                                    <input hidden type="file" (change)="onFileChange($event)" multiple="false">
+                                </label>
+                            </button>
 						</div>
 					</div>
 
