@@ -57,13 +57,13 @@ export class CompanyHolidayAddComponent implements OnInit {
     this.holidayMngmtService.addCompanyHoliday(companyHolidayData).subscribe((data:any)=>{
       if (data.message == 'Success add company holiday'){
         this.dialogRef.close();
-        this.dialogService.openDialogPositive('Success add company holiday.');
-      } else if (data.message == 'Duplicate company holiday error.'){
-        this.dialogRef.close();
+        this.dialogService.openDialogPositive('Successfully, a holiday has been added.');
+      }  
+    },(err)=>{
+      if (err.error.message == 'Duplicate company holiday error.'){
         this.dialogService.openDialogNegative('The holiday is duplicated.');
-      } else if (data.message == 'Addings company holiday Error'){
-        this.dialogRef.close();
-        this.dialogService.openDialogNegative('An error has occured.');
+      } else if (err.error.message == 'Addings company holiday Error'){
+        this.dialogService.openDialogNegative('An error has occurred.');
       }
     })
 	}

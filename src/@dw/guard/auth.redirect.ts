@@ -12,7 +12,7 @@ export class AuthRedirect implements CanActivate, OnInit {
 		) { }
 
 	ngOnInit() {
-		console.log('auth redirect oninit');
+		// console.log('auth redirect oninit');
 	}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -20,7 +20,7 @@ export class AuthRedirect implements CanActivate, OnInit {
 		const routePath = route.routeConfig.path;
 		if (!this.auth.isAuthenticated()) {
 			// console.log('Invalid Token');
-			this.dialogService.openDialogNegative('Please login first');
+			this.dialogService.openDialogNegative('Please, login first');
 			// alert('Please login first');
 			this.router.navigate(['sign-in']);
 			return true;
