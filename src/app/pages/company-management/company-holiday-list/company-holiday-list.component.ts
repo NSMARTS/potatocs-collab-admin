@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -29,11 +30,10 @@ export class CompanyHolidayListComponent implements OnInit {
 
 	// replacement day requests
 	
-	companyHolidayList;
+	companyHolidayList = new MatTableDataSource;
 	company;
 	manager;
 	userInfo;
-
 	// dataSource = ELEMENT_DATA;
 	private unsubscribe$ = new Subject<void>();
 
@@ -104,7 +104,12 @@ export class CompanyHolidayListComponent implements OnInit {
 				console.log(data)
                 if(data.message == 'Success find company holiday'){
 					this.companyHolidayList = data.findCompanyHoliday.company_holiday
+					console.log(this.companyHolidayList)
 				} 
+				this.companyHolidayList =new MatTableDataSource<PeriodicElement>(data.findCompanyHoliday.company_holiday);
+				console.log(this.companyHolidayList)
+				this.companyHolidayList.paginator = this.paginator;
+				console.log(this.companyHolidayList.paginator)
             },
             (err: any) => {
                 console.log(err);
