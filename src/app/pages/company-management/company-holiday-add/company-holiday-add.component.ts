@@ -58,11 +58,11 @@ export class CompanyHolidayAddComponent implements OnInit {
       if (data.message == 'Success add company holiday'){
         this.dialogRef.close();
         this.dialogService.openDialogPositive('Successfully, a holiday has been added.');
-      } else if (data.message == 'Duplicate company holiday error.'){
-        this.dialogRef.close();
+      }  
+    },(err)=>{
+      if (err.error.message == 'Duplicate company holiday error.'){
         this.dialogService.openDialogNegative('The holiday is duplicated.');
-      } else if (data.message == 'Addings company holiday Error'){
-        this.dialogRef.close();
+      } else if (err.error.message == 'Addings company holiday Error'){
         this.dialogService.openDialogNegative('An error has occurred.');
       }
     })
