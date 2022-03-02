@@ -263,13 +263,6 @@ export class EmployeeListComponent implements OnInit {
                 }
                 return <Contact>obj;
             })
-            console.log(this.importContacts)
-
-            let aaa = this.importContacts.map(data =>
-                (((data.email == '' || data.email == null) &&
-                (data.emp_start_date == '' || data.emp_start_date == null)))
-            ); 
-            console.log(aaa)
             
             // 임포트한 엑셀 데이터에 빈값이 있는 경우 찾기
             let filteredImportedData = this.importContacts.filter(data =>
