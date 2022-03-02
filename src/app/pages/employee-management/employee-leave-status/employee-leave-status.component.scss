@@ -66,7 +66,7 @@
 .historyTableBox {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
     // min-width: 1200px;
-    margin-top: 50px;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -98,4 +98,18 @@
 }
 .reject{
     color: red;
+}
+
+.excelBtn {
+    background: #00154F;
+    color: #fff;
+    // width: 130px;
+    align-content: center;
+    
+}
+
+.excelBox {
+    padding: 10px;
+    background: #c3c4c9;
+    border-radius: 5px;
 }

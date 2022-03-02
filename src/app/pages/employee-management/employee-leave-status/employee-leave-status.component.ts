@@ -16,6 +16,7 @@ import { LeaveRequestDetailsComponent } from '../../../components/leave-request-
 // service
 import { CommonService } from 'src/@dw/services/common/common.service';
 import { EmployeeMngmtService } from 'src/@dw/services/employee-mngmt/employee-mngmt.service';
+import { ExcelService } from 'src/@dw/services/excel/excel.service';
 
 // view table
 export interface PeriodicElement {
@@ -49,11 +50,11 @@ export class EmployeeLeaveStatusComponent implements OnInit {
   filteredOptions: Observable<Employees[]>;
 
   // view table
-  displayedColumns: string[] = ['startDate', 'endDate', 'name', 'emailFind','leaveType', 'duration','status',];
+  displayedColumns: string[] = ['startDate', 'endDate', 'name', 'emailFind', 'leaveType', 'duration', 'status',];
   dataSource
 
   employeeForm: FormGroup
-  
+
 
   searchStr = '';
 
@@ -64,11 +65,11 @@ export class EmployeeLeaveStatusComponent implements OnInit {
   // monthLast = new Date(this.tmp.setDate(0));
 
   viewType = {
-		'annual_leave': 'Annual Leave',
-        'rollover': 'Rollover',
-		'sick_leave': 'Sick Leave',
-		'replacement_leave': 'Replacement Day'
-	}
+    'annual_leave': 'Annual Leave',
+    'rollover': 'Rollover',
+    'sick_leave': 'Sick Leave',
+    'replacement_leave': 'Replacement Day'
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -77,12 +78,13 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     private employeeMngmtService: EmployeeMngmtService,
     public dialog: MatDialog,
     private commonService: CommonService,
+    private excelSrv: ExcelService,
   ) { }
 
   ngOnInit(): void {
 
     const startOfMonth = moment().startOf('month').format();
-    const endOfMonth   = moment().endOf('month').format();
+    const endOfMonth = moment().endOf('month').format();
 
     this.employeeForm = this.fb.group({
       type: ['all', [
@@ -105,11 +107,11 @@ export class EmployeeLeaveStatusComponent implements OnInit {
   setAutoComplete() {
     // auto complete
     this.filteredOptions = this.myControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => typeof value === 'string' ? value : value.email),
-      map((email:any) => email ? this._filter(email) : this.options.slice())
-    );
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.email),
+        map((email: any) => email ? this._filter(email) : this.options.slice())
+      );
 
     console.log(this.filteredOptions);
   }
@@ -135,7 +137,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     myEmployeeInfo = {
       type: formValue.type,
       leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
-			leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
+      leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
 
       // leave_start_date: formValue.leave_start_date,
       // leave_end_date: formValue.leave_end_date,
@@ -146,45 +148,50 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
       (data: any) => {
         console.log(data)
-        data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map ((item)=> {
-					item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
-					item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
-					return item;
-				});
-
+        data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
+          item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
+          item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
+          return item;
+        });
         this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
         this.dataSource.paginator = this.paginator;
-
         this.options = data.myEmployeeList;
         this.setAutoComplete();
+        console.log(this.dataSource.filteredData)
       }
     )
   }
 
   openDialogPendingLeaveDetail(data) {
 
-		const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
-			// width: '600px',
-			// height: '614px',
+    const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
+      // width: '600px',
+      // height: '614px',
 
-			data: {
-				requestor: data._id,
-				requestorName: data.name,
-				leaveType: data.leaveType,
-				leaveDuration: data.duration,
-				leave_end_date: data.endDate,
-				leave_start_date: data.startDate,
-				leave_reason: data.leave_reason,
-				status: data.status,
-				createdAt: data.createdAt,
-				approver: data.approver,
-                rejectReason: data.rejectReason
-			}
+      data: {
+        requestor: data._id,
+        requestorName: data.name,
+        leaveType: data.leaveType,
+        leaveDuration: data.duration,
+        leave_end_date: data.endDate,
+        leave_start_date: data.startDate,
+        leave_reason: data.leave_reason,
+        status: data.status,
+        createdAt: data.createdAt,
+        approver: data.approver,
+        rejectReason: data.rejectReason
+      }
 
-		});
+    });
 
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('dialog close');
-		})
-	}
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('dialog close');
+    })
+  }
+
+  exportData() {
+    this.excelSrv.exportToData(this.dataSource.filteredData);
+    
+  }
 }
+
