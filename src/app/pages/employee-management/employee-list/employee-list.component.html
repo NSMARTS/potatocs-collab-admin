@@ -56,9 +56,10 @@
                             <button mat-raised-button class="excelBtn">
                                 <label>
                                     <span>Upload Employee Info</span>
-                                    <input hidden type="file" (change)="onFileChange($event)" multiple="false">
+                                    <input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
                                 </label>
                             </button>
+				
 						</div>
 					</div>
 

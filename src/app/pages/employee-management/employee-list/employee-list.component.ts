@@ -248,7 +248,6 @@ export class EmployeeListComponent implements OnInit {
     onFileChange(evt: any) {
         const target: DataTransfer = <DataTransfer>(evt.target);
         if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-
         const reader: FileReader = new FileReader();
         reader.onload = (e: any) => {
 
@@ -264,17 +263,24 @@ export class EmployeeListComponent implements OnInit {
                 }
                 return <Contact>obj;
             })
+            console.log(this.importContacts)
 
+            let aaa = this.importContacts.map(data =>
+                (((data.email == '' || data.email == null) &&
+                (data.emp_start_date == '' || data.emp_start_date == null)))
+            ); 
+            console.log(aaa)
+            
             // 임포트한 엑셀 데이터에 빈값이 있는 경우 찾기
             let filteredImportedData = this.importContacts.filter(data =>
-            ((data.name == '' || data.name == null) ||
+            ((data.email == '' || data.email == null) ||
                 (data.emp_start_date == '' || data.emp_start_date == null))
             )
             
-
             if (filteredImportedData.length > 0) {
                 return this.dialogService.openDialogNegative('There is an empty value on required inputs with (*). Check the excel file.');
             } 
+            
 
             // 임포트한 엑셀 데이터에 빈값이 있는 경우 필터링해서 없앤다.
 			
