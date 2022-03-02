@@ -35,7 +35,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-    displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+    displayedColumns: string[] = ['name', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'editButton', 'myEmployeeButton'];
     // filterValues = {};
     // filterSelectObj = [];
 
@@ -43,10 +43,10 @@ export class EmployeeListComponent implements OnInit {
 
     myRank;
     managerName = '';
-    company_max_day;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     private unsubscribe$ = new Subject<void>();
-    isRollover = false;
+    isRollover: Boolean;
+    myCompanyInfo;
 
 
     // excel
@@ -94,14 +94,14 @@ export class EmployeeListComponent implements OnInit {
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
             async (data: any) => {
                 console.log(data);
-
+                
                 if (!data.company_id) return;
+                
+                this.myCompanyInfo = data.company_id;
+                console.log(this.myCompanyInfo);
 
-                this.company_max_day = data.company_id.rollover_max_day
-                console.log(this.company_max_day);
-                if (this.company_max_day != undefined) {
-                    this.isRollover = true;
-                    this.displayedColumns = ['name', 'position', 'location', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+                if (this.myCompanyInfo.rollover != false) {
+                    this.displayedColumns = ['name', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'editButton', 'myEmployeeButton'];
                 }
 
 
@@ -131,7 +131,7 @@ export class EmployeeListComponent implements OnInit {
                             if (data.myEmployeeList[index].totalLeave == null) {
                             }
                             else {
-                                data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+                                data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.myCompanyInfo.rollover_max_day);
                             }
                             // console.log(data.myEmployeeList[index].totalLeave.rollover);
                         }
