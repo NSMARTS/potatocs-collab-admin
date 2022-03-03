@@ -35,7 +35,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-    displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+    displayedColumns: string[] = ['name', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'editButton', 'myEmployeeButton'];
     // filterValues = {};
     // filterSelectObj = [];
 
@@ -43,10 +43,10 @@ export class EmployeeListComponent implements OnInit {
 
     myRank;
     managerName = '';
-    company_max_day;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     private unsubscribe$ = new Subject<void>();
-    isRollover = false;
+    isRollover: Boolean;
+    myCompanyInfo;
 
 
     // excel
@@ -92,28 +92,16 @@ export class EmployeeListComponent implements OnInit {
 
     ngOnInit(): void {
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            async (data: any) => {
-                console.log(data);
-
+            async (data: any) => {            
                 if (!data.company_id) return;
-
-                this.company_max_day = data.company_id.rollover_max_day
-                console.log(this.company_max_day);
-                if (this.company_max_day != undefined) {
-                    this.isRollover = true;
-                    this.displayedColumns = ['name', 'position', 'location', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end', 'editButton', 'myEmployeeButton'];
+                this.myCompanyInfo = data.company_id;
+                if (this.myCompanyInfo.rollover != false) {
+                    this.displayedColumns = ['name', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'editButton', 'myEmployeeButton'];
                 }
 
 
                 this.getMyEmployeeLists();
             })
-
-        // this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-        // 	(data: any) => {
-        // 		console.log(data);
-        // 	}
-        // )
-        // this.getMyEmployeeLists();
     }
 
     getMyEmployeeLists() {
@@ -131,7 +119,7 @@ export class EmployeeListComponent implements OnInit {
                             if (data.myEmployeeList[index].totalLeave == null) {
                             }
                             else {
-                                data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+                                data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.myCompanyInfo.rollover_max_day);
                             }
                             // console.log(data.myEmployeeList[index].totalLeave.rollover);
                         }
@@ -146,7 +134,6 @@ export class EmployeeListComponent implements OnInit {
 
                     // this.getMyEmployeeList.filterPredicate = this.createFilter();
                     // console.log(this.getMyEmployeeList.filterPredicate);
-                    console.log(this.getMyEmployeeList.data)
                     this.getMyEmployeeList.paginator = this.paginator;
                     // console.log(this.getMyEmployeeList);
                 }
@@ -163,19 +150,15 @@ export class EmployeeListComponent implements OnInit {
         this.managerName = managerName;
         this.employeeMngmtService.getManagerEmployee({ managerID }).subscribe(
             (data: any) => {
-                console.log(data);
-                console.log(data.myManagerEmployeeList);
                 this.calculateTenure(data.myManagerEmployeeList);
-
                 this.getMyEmployeeList.data = data.myManagerEmployeeList;
                 // this.filterSelectObj.filter((filter) => {
                 // 	filter.options = this.getFilterObject(data.myManagerEmployeeList, filter.columnProp);
                 // 	console.log(filter.options);
                 // });
                 // console.log(this.filterSelectObj);
-
                 this.getMyEmployeeList.paginator = this.paginator;
-                console.log(this.managerName);
+
             },
             err => {
                 console.log(err);
@@ -248,7 +231,6 @@ export class EmployeeListComponent implements OnInit {
     onFileChange(evt: any) {
         const target: DataTransfer = <DataTransfer>(evt.target);
         if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-
         const reader: FileReader = new FileReader();
         reader.onload = (e: any) => {
 
@@ -264,22 +246,27 @@ export class EmployeeListComponent implements OnInit {
                 }
                 return <Contact>obj;
             })
+            
+            // 임포트한 엑셀 데이터에 행이 비어있는 경우 삭제, 비어있으 행이 없는 새로운 배열 생성
+            this.importContacts = this.importContacts.filter(data =>
+				    !((data.name == '' || data.name == null) && 
+                    (data.email == '' || data.email == null) && 
+				    (data.emp_start_date == '' || data.emp_start_date == null) &&
+                    (data.department == '' || data.department == null) &&
+                    (data.position == '' || data.position == null) &&
+                    (data.emp_end_date == '' || data.emp_end_date == null) &&
+                    (data.managerId == '' || data.managerId == null)) 
+			)
 
-            // 임포트한 엑셀 데이터에 빈값이 있는 경우 찾기
+            // 임포트한 엑셀 데이터에 반드시 있어야하는 값이 빈값이 있는 경우 찾기
             let filteredImportedData = this.importContacts.filter(data =>
-            ((data.name == '' || data.name == null) ||
+            ((data.email == '' || data.email == null) ||
                 (data.emp_start_date == '' || data.emp_start_date == null))
             )
             
-
             if (filteredImportedData.length > 0) {
                 return this.dialogService.openDialogNegative('There is an empty value on required inputs with (*). Check the excel file.');
             } 
-
-            // 임포트한 엑셀 데이터에 빈값이 있는 경우 필터링해서 없앤다.
-			
-
-            // console.log(filteredImportedData)
 
             // 임포트한 엑셀 데이터 중 emp_start_date의 셀의 표시형식이 '일반'이 아닌 '날짜' 일 경우
             // 자동적으로 5자리 숫자로 변경되어진다. 만약 그럴경우 원래 날짜로 바꿔주는 작업
@@ -312,7 +299,7 @@ export class EmployeeListComponent implements OnInit {
     errorAlert(err) {
         switch (err) {
             case 'not found email': // 엑셀에 입력된 이메일이 없으면
-                this.dialogService.openDialogNegative('Email must be required.');
+                this.dialogService.openDialogNegative('Cannot find a email.');
                 break;
             case 'not found emp_start_date': // 엑셀에 입력된 계약시작일이 없으면
                 this.dialogService.openDialogNegative('Start Date must required');

@@ -22,8 +22,6 @@ export class ExcelService {
 
         /* save data */
         const data = <XLSX.AOA2SheetOpts>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-
-        console.log(data)
         return data;
     }
 
@@ -70,5 +68,35 @@ export class ExcelService {
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
          // export Excel file
         XLSX.writeFile(wb, 'employee_list.xlsx');
+    }
+
+    // Employee Leave Status 정보 엑셀로 추출
+    public exportToData(data:any) {
+
+        // export Array to Worksheet of Excel. only array possible
+        // https://lovemewithoutall.github.io/it/json-to-excel/
+        
+        let array = []
+    
+        for (let i = 0; i < data.length; i++) {
+            array.push({
+                "Start Date": data[i]?.startDate,
+                "End Date": data[i].endDate,
+                "Employee Name": data[i]?.name,
+                "Employee Email": data[i]?.email,
+                "Type": data[i]?.leaveType,
+                "Day(s)": data[i]?.duration,
+                "Status": data[i]?.status,
+            })
+        }
+        
+        var ws = XLSX.utils.json_to_sheet(array);
+        // A workbook is the name given to an Excel file
+        var wb = XLSX.utils.book_new()  // make Workbook of Excel
+        // add Worksheet to Workbook
+        // Workbook contains one or more worksheets
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+         // export Excel file
+        XLSX.writeFile(wb, 'employee_leave_status.xlsx');
     }
 }

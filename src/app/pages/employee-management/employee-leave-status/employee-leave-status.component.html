@@ -77,6 +77,17 @@
 			</div>
 		</div>
 
+		<!-- excel dowonload -->
+
+		<div fxLayout="row" fxLayoutAlign="end center">
+			<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="excelBox">
+				<mat-icon class="mat-18">system_update</mat-icon>
+				<button mat-raised-button class="excelBtn" (click)="exportData()">
+					<span>Download Leave Report</span>
+				</button>
+			</div>
+		</div>
+
 		<div class="historyTableBox">
 			<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
 

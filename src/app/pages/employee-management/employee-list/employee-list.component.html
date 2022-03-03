@@ -52,13 +52,12 @@
                             <button mat-raised-button class="excelBtn" (click)="exportData()">
                                 <span>Download Employee List</span>
                             </button>
-                      
-                            <button mat-raised-button class="excelBtn">
-                                <label>
-                                    <span>Upload Employee Info</span>
-                                    <input hidden type="file" (change)="onFileChange($event)" multiple="false">
-                                </label>
+							
+							<input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
+                            <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">         
+								Upload Employee Info
                             </button>
+				
 						</div>
 					</div>
 
@@ -70,7 +69,7 @@
 						</ng-container>
 
 						<ng-container matColumnDef="position">
-							<th mat-header-cell *matHeaderCellDef> Date </th>
+							<th mat-header-cell *matHeaderCellDef> Position </th>
 							<td mat-cell *matCellDef="let element"> {{element.position}} </td>
 						</ng-container>
 						<ng-container matColumnDef="location">
@@ -83,6 +82,7 @@
 							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_annual_leave[0]?.sum ||
 								0}} / {{element.totalLeave?.annual_leave || 0}} day </td>
 						</ng-container>
+
 						<ng-container matColumnDef="rollover">
 							<th mat-header-cell *matHeaderCellDef> Taken/Rollover </th>
 							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_rollover[0]?.sum ||
@@ -124,7 +124,7 @@
 						</ng-container>
 
 						<ng-container matColumnDef="editButton">
-							<th mat-header-cell *matHeaderCellDef> . </th>
+							<th mat-header-cell *matHeaderCellDef></th>
 							<td mat-cell *matCellDef="let element">
 								<button mat-flat-button class="editBtn" *ngIf="myRank == 'manager-list'"
 									(click)="editInfo(element._id)">
@@ -133,7 +133,7 @@
 							</td>
 						</ng-container>
 						<ng-container matColumnDef="myEmployeeButton">
-							<th mat-header-cell *matHeaderCellDef> . </th>
+							<th mat-header-cell *matHeaderCellDef></th>
 							<td mat-cell *matCellDef="let element">
 								<button mat-flat-button class="employeeBtn"
 									*ngIf="myRank == 'manager-list' && element.isManager"
