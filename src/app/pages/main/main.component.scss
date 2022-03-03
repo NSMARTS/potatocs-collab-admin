@@ -113,8 +113,21 @@
             margin-right: 0 !important;
         }
 
+        .leaveBox_2 {
+            height: 93px !important;
+        }
+
         .leaveSubSection {
             margin: 0;
+        }
+    }
+
+    .historyTitle {
+        display: flex;
+        flex-direction: column;
+
+        .inHistoryTitle {
+            font-size: 12px;
         }
     }
 
