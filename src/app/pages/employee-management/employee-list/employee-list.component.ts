@@ -264,7 +264,18 @@ export class EmployeeListComponent implements OnInit {
                 return <Contact>obj;
             })
             
-            // 임포트한 엑셀 데이터에 빈값이 있는 경우 찾기
+            // 임포트한 엑셀 데이터에 행이 비어있는 경우 삭제, 비어있으 행이 없는 새로운 배열 생성
+            this.importContacts = this.importContacts.filter(data =>
+				    !((data.email == '' || data.email == null) && 
+				    (data.emp_start_date == '' || data.emp_start_date == null) &&
+                    (data.department == '' || data.department == null) &&
+                    (data.position == '' || data.position == null) &&
+                    (data.emp_start_date == '' || data.emp_start_date == null) &&
+                    (data.emp_end_date == '' || data.emp_end_date == null) &&
+                    (data.managerId == '' || data.managerId == null)) 
+			)
+
+            // 임포트한 엑셀 데이터에 반드시 있어야하는 값이 빈값이 있는 경우 찾기
             let filteredImportedData = this.importContacts.filter(data =>
             ((data.email == '' || data.email == null) ||
                 (data.emp_start_date == '' || data.emp_start_date == null))
