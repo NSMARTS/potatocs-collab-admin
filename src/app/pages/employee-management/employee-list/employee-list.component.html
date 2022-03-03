@@ -46,16 +46,17 @@
 						<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="excelBox">
                             <mat-icon class="mat-18">system_update</mat-icon>
                             <button mat-raised-button class="excelBtn" (click)="exportFormat()">
-                                <span>Download a format guide</span>
+                                Download a format guide
                             </button>
                           
                             <button mat-raised-button class="excelBtn" (click)="exportData()">
-                                <span>Download Employee List</span>
+                                Download Employee List
                             </button>
 							
-							<input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
+							
                             <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">         
-								Upload Employee Info
+                                <input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
+    							Upload Employee Info
                             </button>
 				
 						</div>

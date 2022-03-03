@@ -2,7 +2,7 @@
 	<form (ngSubmit)="f.form.valid && searchEmployee()" #f="ngForm" novalidate class="submit-form">
 		<div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="40px">
 			<label for="type" class="optionLabel">Email</label>
-			<mat-form-field color="accent" appearance="outline" style="min-width:300px;">
+			<mat-form-field color="accent" appearance="outline" style="min-width:300px;" class="selectInput">
 				<mat-label>E-MAIL</mat-label>
 				<!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
 				<input type="email" spellcheck="false" matInput name="id" #id="ngModel" [(ngModel)]="searchEmail"
@@ -19,8 +19,8 @@
 </div>
 
 
-<div *ngIf="displaymemberInfo" > 
-    <table mat-table [dataSource]="displaymemberInfo" class="mat-elevation-z8 demo-table">
+<div class="historyTableBox" *ngIf="displaymemberInfo" > 
+    <table mat-table [dataSource]="displaymemberInfo" class="mat-elevation-z8 demo-table historyTable">
         <form [formGroup]="employeeForm" novalidate>
 			<ng-container matColumnDef="name">
 				<th mat-header-cell *cdkHeaderCellDef> name </th>

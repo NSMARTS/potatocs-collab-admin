@@ -82,3 +82,56 @@
     background: #c3c4c9;
     border-radius: 5px;
 }
+
+
+
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px auto;
+    }
+
+    .tableUpper {
+        display: flex;
+        padding: 0 0;
+        flex-direction: column !important;
+    }
+
+    .excelBox {
+        max-width: 100%;
+        
+    }
+
+    button {
+        width: 100%;
+        font-size: 0.7em;
+        display: block;
+        white-space: pre-wrap !important;
+    }
+
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 3px 5px;
+        }
+
+        td {
+            padding: 3px 5px;
+            font-size: 0.7em;
+
+            button {
+                width: 100%;
+                font-size: 0.9em;
+                padding: 0;
+            }
+        }
+    }
+    
+}

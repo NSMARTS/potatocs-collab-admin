@@ -78,3 +78,28 @@
     color: #fff;
     width: 165px;
 }
+
+
+@media screen and (max-width: 780px) { 
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px auto;
+    }    
+
+    .AddRetirementBtn {
+        position: absolute;
+        top: 6px;
+        right: 0;
+
+    }
+}
+
+
+::ng-deep.mat-form-field {
+    @media  screen and (max-width: 780px) {
+        margin: 0 !important;
+    }
+}

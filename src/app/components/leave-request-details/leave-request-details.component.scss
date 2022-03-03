@@ -79,3 +79,16 @@ textarea {
     padding: 10px;
     font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
 }
+
+
+@media screen and (max-width: 780px) {
+    .modal-table {
+        font-size: 11px;
+    }
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 20px !important;
+    }
+}

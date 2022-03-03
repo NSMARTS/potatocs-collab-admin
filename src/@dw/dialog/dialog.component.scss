@@ -71,3 +71,27 @@
     color: #fff;
     width: 100%;
 }
+
+
+@media screen and (max-width: 780px) {
+    .dialogContainer {
+        width: 100%;
+        padding: 0;
+    }
+
+    .confirmBtn {
+        margin: 0 10px !important;
+    }
+
+    .cancelBtn {
+        margin: 0 10px !important;
+    }
+
+    .okBtnBox {
+        width: 250px;
+    }
+    
+    .confirm-content {
+        text-align: center;
+    }
+}
