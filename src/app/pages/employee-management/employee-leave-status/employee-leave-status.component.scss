@@ -113,3 +113,55 @@
     background: #c3c4c9;
     border-radius: 5px;
 }
+
+
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px auto;
+    }
+
+    .selectContainer {
+        min-width: 0;
+    }
+
+    .selectBoxContent {
+        max-width: 100% !important;
+    }
+
+    .selectContent {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .searchBox {
+        margin-bottom: 20px;
+    }
+
+    .excelBox {
+        margin: 0 auto;
+    }
+
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 0 10px;
+        }
+
+        td {
+            padding: 0 10px;
+            font-size: 0.7em;
+        }
+    }
+}

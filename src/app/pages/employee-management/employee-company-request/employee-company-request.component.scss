@@ -96,3 +96,50 @@
     place-content: center;
     align-items: center;
 }
+
+
+@media screen and (max-width: 780px) {
+
+    .dialogContainer {
+        width: 100%;
+        padding: 0;
+    }
+
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px auto;
+    }
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 0 10px;
+        }
+
+        td {
+            padding: 0 10px;
+            font-size: 0.7em;
+        }
+    }
+
+    .requestBtn {
+        flex-direction: column !important;
+        font-size: 0.7em;
+    }
+
+    .acceptBtn {
+        margin-right: 0px !important;
+        margin: 5px;
+    }
+    .rejectBtn {
+        margin-right: 0px !important;
+        margin: 5px;
+    }
+} 
+
+

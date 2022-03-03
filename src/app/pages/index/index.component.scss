@@ -46,6 +46,8 @@ a {
         cursor: pointer;
         padding: 0 20px;
         font-size: 15px;
+        position: absolute;
+        right: 0;
     }
 }
 
@@ -315,5 +317,23 @@ body::-webkit-scrollbar-track {
             color: white;
             font-weight: bold;
         }
+    }
+}
+
+@media screen and (max-width: 780px) { 
+
+    .span-signup {
+        margin-left: 0px !important;
+    }
+
+    .logoImg {
+        width: 100%;
+    }
+
+    .nav-profile {
+        font-size: 13px !important;
+        width: 100%;
+        padding: 0 20px !important;
+        justify-content: right;
     }
 }

@@ -106,3 +106,55 @@
 .mat-form-field-appearance-fill .mat-form-field-flex {
     background-color: transparent;
 }
+
+
+@media screen and (max-width: 780px) { 
+
+    .cdk-overlay-pane {
+        
+    }
+
+    .selectInput {
+        min-width: 300px !important;
+    }
+
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 0px 5px;
+        }
+
+        td {
+            padding: 0px 5px;
+            font-size: 0.7em;
+        }
+    }
+
+    .clickBtn {
+        padding: 0;
+    }
+}
+
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 95vw !important;
+        width: 927px !important;
+        height: 450px !important;
+    }
+}
+
+::ng-deep .mat-form-field-infix {
+    @media  screen and (max-width: 780px) {
+        width: 60px !important;
+    }
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 24px 10px !important
+    }
+}
+

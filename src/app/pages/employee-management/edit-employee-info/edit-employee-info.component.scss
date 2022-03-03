@@ -19,6 +19,8 @@
     // max-width: 1000px;
     // margin: 20px;
 }
+
+
 mat-card{
     margin: 30px;
 }
@@ -34,7 +36,7 @@ mat-form-field {
 }
 
 .cancelBtn {
-    background: #c1c1c1;
+    background: #F4AF1B;
     color: #fff;
     max-width: 100px;
     height: 36px;
@@ -42,26 +44,49 @@ mat-form-field {
 }
 
 
-@media (min-width: 1200px) {
+// @media (min-width: 1200px) {
 
-    .gridBoxContainerox {
-        max-width: 1140px;
-    }
+//     .gridBoxContainerox {
+//         max-width: 1140px;
+//     }
     
-}
+// }
 
-@media (min-width: 992px) {
+// @media (min-width: 992px) {
 
-    .gridBoxContainerox {
-        max-width: 960px;
-    }
+//     .gridBoxContainerox {
+//         max-width: 960px;
+//     }
     
-}
+// }
 
-@media (min-width: 768px) {
+// @media (min-width: 768px) {
 
-    .gridBoxContainerox {
-        max-width: 720px;
+//     .gridBoxContainerox {
+//         max-width: 720px;
+//     }
+
+// }
+
+
+@media screen and (max-width: 780px) { 
+
+    .mainContentContainer {
+        padding: 10px 10px;
     }
 
+    .headerTitle {
+        font-size: 30px !important;
+    }
+
+    .editTitle {
+        font-size: 17px;
+    }
 }
+
+
+::ng-deep .mat-focus-indicator{
+    @media screen and (max-width: 780px) {
+        margin: 0 !important;
+    }
+  }

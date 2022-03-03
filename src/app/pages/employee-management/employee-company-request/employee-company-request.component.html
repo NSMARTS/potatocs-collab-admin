@@ -36,10 +36,10 @@
 				<ng-container matColumnDef="btns">
 					<th mat-header-cell *matHeaderCellDef> - </th>
 					<td mat-cell *matCellDef="let element">
-						<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
-							<button mat-flat-button class="acceptBtn"
+						<div class="requestBtn" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
+							<button class="acceptBtn" mat-flat-button class="acceptBtn"
 								(click)="createSpaceDialog(element._id, element.name)">Accept</button>
-							<button mat-flat-button class="rejectBtn"
+							<button class="rejectBtn" mat-flat-button class="rejectBtn"
 								(click)="rejectRequest(element._id, element.name)">Reject</button>
 						</div>
 

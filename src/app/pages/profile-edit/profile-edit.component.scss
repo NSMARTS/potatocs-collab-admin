@@ -97,3 +97,33 @@
 .input-btn .cancel-btn{
 	color: rgb(182, 182, 182);
 }
+
+
+
+@media screen and (max-width: 780px) {
+
+    .profile-edit {
+        margin: 0;
+        width: 100%;
+
+        h2 {
+            padding: 0 20px;
+        }
+    }
+
+
+    .profile-edit-title {
+        width: 100vw;
+    }
+
+    .inputContainer {
+        width: 100vw;
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .profile_input {
+        margin: 0;
+        width: 100% !important;
+    }
+}
