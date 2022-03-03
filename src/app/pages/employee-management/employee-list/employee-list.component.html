@@ -52,6 +52,7 @@
                             <button mat-raised-button class="excelBtn" (click)="exportData()">
                                 <span>Download Employee List</span>
                             </button>
+							
 							<input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
                             <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">         
 								Upload Employee Info

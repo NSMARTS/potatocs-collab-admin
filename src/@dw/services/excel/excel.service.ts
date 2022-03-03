@@ -22,8 +22,6 @@ export class ExcelService {
 
         /* save data */
         const data = <XLSX.AOA2SheetOpts>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-
-        console.log(data)
         return data;
     }
 

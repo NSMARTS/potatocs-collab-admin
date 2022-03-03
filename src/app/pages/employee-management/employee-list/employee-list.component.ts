@@ -92,14 +92,9 @@ export class EmployeeListComponent implements OnInit {
 
     ngOnInit(): void {
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            async (data: any) => {
-                console.log(data);
-                
+            async (data: any) => {            
                 if (!data.company_id) return;
-                
                 this.myCompanyInfo = data.company_id;
-                console.log(this.myCompanyInfo);
-
                 if (this.myCompanyInfo.rollover != false) {
                     this.displayedColumns = ['name', 'annual_leave', 'rollover', 'sick_leave', 'replacementday_leave', 'start_date', 'editButton', 'myEmployeeButton'];
                 }
@@ -107,13 +102,6 @@ export class EmployeeListComponent implements OnInit {
 
                 this.getMyEmployeeLists();
             })
-
-        // this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-        // 	(data: any) => {
-        // 		console.log(data);
-        // 	}
-        // )
-        // this.getMyEmployeeLists();
     }
 
     getMyEmployeeLists() {
@@ -146,7 +134,6 @@ export class EmployeeListComponent implements OnInit {
 
                     // this.getMyEmployeeList.filterPredicate = this.createFilter();
                     // console.log(this.getMyEmployeeList.filterPredicate);
-                    console.log(this.getMyEmployeeList.data)
                     this.getMyEmployeeList.paginator = this.paginator;
                     // console.log(this.getMyEmployeeList);
                 }
@@ -163,19 +150,15 @@ export class EmployeeListComponent implements OnInit {
         this.managerName = managerName;
         this.employeeMngmtService.getManagerEmployee({ managerID }).subscribe(
             (data: any) => {
-                console.log(data);
-                console.log(data.myManagerEmployeeList);
                 this.calculateTenure(data.myManagerEmployeeList);
-
                 this.getMyEmployeeList.data = data.myManagerEmployeeList;
                 // this.filterSelectObj.filter((filter) => {
                 // 	filter.options = this.getFilterObject(data.myManagerEmployeeList, filter.columnProp);
                 // 	console.log(filter.options);
                 // });
                 // console.log(this.filterSelectObj);
-
                 this.getMyEmployeeList.paginator = this.paginator;
-                console.log(this.managerName);
+
             },
             err => {
                 console.log(err);
@@ -266,11 +249,11 @@ export class EmployeeListComponent implements OnInit {
             
             // 임포트한 엑셀 데이터에 행이 비어있는 경우 삭제, 비어있으 행이 없는 새로운 배열 생성
             this.importContacts = this.importContacts.filter(data =>
-				    !((data.email == '' || data.email == null) && 
+				    !((data.name == '' || data.name == null) && 
+                    (data.email == '' || data.email == null) && 
 				    (data.emp_start_date == '' || data.emp_start_date == null) &&
                     (data.department == '' || data.department == null) &&
                     (data.position == '' || data.position == null) &&
-                    (data.emp_start_date == '' || data.emp_start_date == null) &&
                     (data.emp_end_date == '' || data.emp_end_date == null) &&
                     (data.managerId == '' || data.managerId == null)) 
 			)
@@ -284,12 +267,6 @@ export class EmployeeListComponent implements OnInit {
             if (filteredImportedData.length > 0) {
                 return this.dialogService.openDialogNegative('There is an empty value on required inputs with (*). Check the excel file.');
             } 
-            
-
-            // 임포트한 엑셀 데이터에 빈값이 있는 경우 필터링해서 없앤다.
-			
-
-            // console.log(filteredImportedData)
 
             // 임포트한 엑셀 데이터 중 emp_start_date의 셀의 표시형식이 '일반'이 아닌 '날짜' 일 경우
             // 자동적으로 5자리 숫자로 변경되어진다. 만약 그럴경우 원래 날짜로 바꿔주는 작업
@@ -322,7 +299,7 @@ export class EmployeeListComponent implements OnInit {
     errorAlert(err) {
         switch (err) {
             case 'not found email': // 엑셀에 입력된 이메일이 없으면
-                this.dialogService.openDialogNegative('Email must be required.');
+                this.dialogService.openDialogNegative('Cannot find a email.');
                 break;
             case 'not found emp_start_date': // 엑셀에 입력된 계약시작일이 없으면
                 this.dialogService.openDialogNegative('Start Date must required');
