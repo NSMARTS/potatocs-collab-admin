@@ -74,6 +74,7 @@
     color: #fff;
     // width: 130px;
     align-content: center;
+    margin: 0 5px;
     
 }
 
@@ -103,7 +104,8 @@
 
     .excelBox {
         max-width: 100%;
-        
+        padding: 0 25px;
+        margin-bottom: 10px;
     }
 
     button {
@@ -131,6 +133,12 @@
                 font-size: 0.9em;
                 padding: 0;
             }
+        }
+    }
+
+    .excelContent {
+        button {
+            margin: 10px !important;
         }
     }
     

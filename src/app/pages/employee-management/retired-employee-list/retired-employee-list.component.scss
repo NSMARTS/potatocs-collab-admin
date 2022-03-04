@@ -95,6 +95,26 @@
         right: 0;
 
     }
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 3px 5px;
+        }
+
+        td {
+            padding: 3px 5px;
+            font-size: 0.7em;
+
+            button {
+                width: 100%;
+                font-size: 0.9em;
+                padding: 0;
+            }
+        }
+    }
 }
 
 
