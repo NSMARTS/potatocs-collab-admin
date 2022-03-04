@@ -118,3 +118,40 @@
     color: #fff;
     padding: 0 30px;
 }
+
+
+@media screen and (max-width: 780px) { 
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px;
+    }    
+
+    .AddRetirementBtn {
+        position: absolute;
+        top: 6px;
+        right: 0;
+
+    }
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 3px 5px;
+        }
+
+        td {
+            padding: 3px 5px;
+            font-size: 0.7em;
+
+            button {
+                width: 70px;
+                padding: 0;
+            }
+        }
+    }
+}

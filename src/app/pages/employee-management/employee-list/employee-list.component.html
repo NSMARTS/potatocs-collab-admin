@@ -45,19 +45,22 @@
 						
 						<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="excelBox">
                             <mat-icon class="mat-18">system_update</mat-icon>
-                            <button mat-raised-button class="excelBtn" (click)="exportFormat()">
-                                Download a format guide
-                            </button>
-                          
-                            <button mat-raised-button class="excelBtn" (click)="exportData()">
-                                Download Employee List
-                            </button>
-							
-							
-                            <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">         
-                                <input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
-    							Upload Employee Info
-                            </button>
+                            <div class="excelContent">
+                                <button mat-raised-button class="excelBtn" (click)="exportFormat()">
+                                    Download a format guide
+                                </button>
+                              
+                                <button mat-raised-button class="excelBtn" (click)="exportData()">
+                                    Download Employee List
+                                </button>
+                                
+                                
+                                <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">         
+                                    <input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
+                                    Upload Employee Info
+                                </button>
+                            </div>
+                            
 				
 						</div>
 					</div>
