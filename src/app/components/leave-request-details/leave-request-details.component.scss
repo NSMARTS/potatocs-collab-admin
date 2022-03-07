@@ -85,6 +85,15 @@ textarea {
     .modal-table {
         font-size: 11px;
     }
+
+    th {
+        padding: 5px !important;
+    }
+
+
+    td {
+        padding: 5px 24px !important;
+    }
 }
 
 ::ng-deep.mat-dialog-container {
