@@ -1,0 +1,60 @@
+<div class="mainContentContainer">
+    <div class="mainContent" fxLayout="row">
+        <form #f="ngForm" [formGroup]="uploadDocumentForm" (ngSubmit)="onSubmit(f.value)">
+            <div>
+                <div class="mainTitle">Upload</div>
+            </div>
+            <div class="leaveTableContainer">
+                <div fxLayout="column" class="br_ltop">
+                    <!-- title -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Title</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <!-- <mat-label>Company Name</mat-label> -->
+                                <input matInput type="text" name="title" formControlName="title" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- content -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Content</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <!-- <mat-label>My Name</mat-label> -->
+                                <input matInput type="text" name="content" formControlName="content" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <!-- document -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Upload</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <input ngf-select type="file" (change)="onFileChange($event)" name="upload_file">
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+                    <div class="btnSection_1">
+                        <button mat-raised-button class="tableBtn" type="submit" color="primary"
+                            [disabled]="!f.value">upload</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>

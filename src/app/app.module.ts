@@ -34,7 +34,7 @@ export function tokenGetter() {
     declarations: [
       AppComponent,
       IndexComponent,
-      CollaborationComponent
+      CollaborationComponent,
     ],
     imports: [
       BrowserModule,

@@ -50,5 +50,18 @@ export const sidenavRouteInfo: NavigationItem[] = [
 				icon: 'update',
 			}
 		]
+	},
+    // upload document 
+    {
+		type: 'subheading',
+		label: 'Upload documents',
+		children: [
+			{
+				type: 'link',
+				label: 'Upload important documents',
+				route: 'document-mngmt/document-list',
+				icon: 'upload',
+			}
+		]
 	}
 ];

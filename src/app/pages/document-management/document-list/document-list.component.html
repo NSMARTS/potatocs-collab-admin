@@ -1,0 +1,61 @@
+<div class="mainContentContainer">
+	<div class="mainContent">
+		<div fxLayout="row" fxLayoutAlign="start center">
+			<div class="mainTitle">Document List</div>
+			<span class="example-spacer"></span>
+			<span class="disableReason" *ngIf="company == null || manager == null">
+				You need to register a company and manager to activate!
+			</span>
+			<button
+			class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openUploadDocument();"> Upload Document</button>
+
+		</div>
+
+		<div class="historyTableBox">
+			<table mat-table [dataSource]="documentList" class="mat-elevation-z8 historyTable">
+
+				<!--- Note that these columns can be defined in any order.
+					  The actual rendered columns are set as a property on the row definition" -->
+                
+                <!-- name Column -->
+				<ng-container matColumnDef="title">
+					<th mat-header-cell *matHeaderCellDef> Title </th>
+					<td mat-cell *matCellDef="let element"> {{element.ch_name}} </td>
+				</ng-container>
+
+				<!-- from Column -->
+				<ng-container matColumnDef="content">
+					<th mat-header-cell *matHeaderCellDef> Content </th>
+					<td mat-cell *matCellDef="let element"> {{element.ch_date | date: 'YYYY-MM-dd'}}</td>
+				</ng-container>
+
+                <!-- from Column -->
+				<ng-container matColumnDef="document">
+					<th mat-header-cell *matHeaderCellDef> Document </th>
+					<td mat-cell *matCellDef="let element"> {{element.ch_date | date: 'YYYY-MM-dd'}}</td>
+				</ng-container>
+
+                <!-- from Column -->
+				<ng-container matColumnDef="date">
+					<th mat-header-cell *matHeaderCellDef> Date </th>
+					<td mat-cell *matCellDef="let element"> {{element.ch_date | date: 'YYYY-MM-dd'}}</td>
+				</ng-container>
+
+				
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+				<tr class="mat-row" *matNoDataRow>
+					<td class="mat-cell" colspan="9999">
+						No data
+					</td>
+				</tr>
+			</table>
+			<mat-paginator 
+			[pageSizeOptions]="[10, 25, 100]" 
+			showFirstLastButtons >
+			</mat-paginator>
+
+		</div>
+
+	</div>
+</div>
