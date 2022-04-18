@@ -1,0 +1,39 @@
+<div class="mainTitle"> Company Details</div>
+<table class="modal-table">
+    <colgroup>
+        <col style="width:120px">
+        <col style="width:380px">
+    </colgroup>
+    <tbody>
+        <tr>
+            <th>
+                Title
+            </th>
+            <td>
+                {{data.title}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Content
+            </th>
+            <td>
+                {{data.content}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                File Name
+            </th>
+            <td class="fileName" (click)="downloadDocument(data)">
+                <span>{{data.originalFileName}} </span>
+                <span> <mat-icon> download</mat-icon> </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="modal-btn">
+    <button color="primary" mat-raised-button mat-dialog-close> Confirm </button>
+</div>

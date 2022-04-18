@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { DocumentMngmtService } from 'src/@dw/services/document-mngmt/document-mngmt.service';
 
@@ -36,8 +36,9 @@ export class DocumentUploadComponent implements OnInit {
 
     constructor(
         public dialog: MatDialog,
+        public dialogRef: MatDialogRef<DocumentUploadComponent>,
         private formBuilder: FormBuilder,
-        private documentMngmtService: DocumentMngmtService
+        private documentMngmtService: DocumentMngmtService,
     ) {
         this.uploadForm = this.formBuilder.group({
             title: ['', Validators.required],
@@ -64,8 +65,11 @@ export class DocumentUploadComponent implements OnInit {
         formData.append('upload_file', this.uploadForm.get('upload_file').value);
 
         // Add company and store file buffer in blockchain
-        this.documentMngmtService.uploadDocument(formData).subscribe(() => {
-        
+        this.documentMngmtService.uploadDocument(formData).subscribe((data:any) => {
+            console.log(data)
+            if(data.message == 'uploaded'){
+                this.dialogRef.close();
+            } 
         })
     }
 

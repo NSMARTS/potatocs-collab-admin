@@ -11,10 +11,20 @@ export class DocumentMngmtService {
     ) { }
 
 
+    // get upload document list 
+    getUploadDocumentList () {
+        return this.http.get('/api/v1/admin/document/getUploadDocumentList');
+    }
+
 
     // upload document 
     uploadDocument (data) {
-        console.log(data)
         return this.http.post('/api/v1/admin/document/uploadDocument', data);
     }
+
+    // download document
+    downloadDocument(data) {
+        return this.http.get('/api/v1/admin/document/downloadDocument', {params: data, responseType: 'blob'} );
+    }
+    
 }
