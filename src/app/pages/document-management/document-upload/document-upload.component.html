@@ -16,7 +16,7 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="companyFormFieldBox">
                                 <!-- <mat-label>Company Name</mat-label> -->
-                                <input matInput type="text" name="title" formControlName="title" />
+                                <input matInput type="text" name="title" formControlName="title" required ngModel/>
                             </mat-form-field>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="companyFormFieldBox">
                                 <!-- <mat-label>My Name</mat-label> -->
-                                <input matInput type="text" name="content" formControlName="content" />
+                                <input matInput type="text" name="content" formControlName="content" required ngModel/>
                             </mat-form-field>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <input ngf-select type="file" (change)="onFileChange($event)" name="upload_file">
+                            <input #uploadInput ngf-select type="file" (change)="onFileChange($event)" name="upload_file" > 
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                     <div class="btnSection_1">
                         <button mat-raised-button class="tableBtn" type="submit" color="primary"
-                            [disabled]="!f.value">upload</button>
+                            [disabled]="!f.valid">upload</button>
                     </div>
                 </div>
             </div>

@@ -67,32 +67,6 @@ $pending: isPending;    // pending 일때 스타일 다르게 적용을 위한 �
     }
 }
 
-.approve{
-    color: blue;
-}
-.reject{
-    color: red;
-}
-
-
-
-
-textarea {
-    resize: none;
-    overflow-wrap: break-word;
-    flex: 0 0 auto;
-    white-space: break-spaces !important;
-    // overflow-y:hidden;
-    width: 100%;
-    // border: none;
-    outline: none;
-    height: 100px;
-    font-size: 14px;
-    padding: 10px;
-    font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
-}
-
-
 .fileName {
     font-weight: 800;
 }
@@ -109,24 +83,10 @@ textarea {
         padding: 5px !important;
     }
 
-
     td {
         padding: 5px 24px !important;
     }
-    
-    textarea {
-        height: auto;
-    }
-
-
-    .rejectBtn {
-        margin: 0 2px !important;
-    }
-    .cancelBtn {
-        margin: 0 2px !important;
-    }
-
-    
+        
 }
 
 ::ng-deep.mat-dialog-container {

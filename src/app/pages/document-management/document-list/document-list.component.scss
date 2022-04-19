@@ -26,19 +26,6 @@
     box-shadow: none;
 }
 
-.confirmBtn {
-    background: #273da0;
-    color: #fff;
-    padding: 0 30px;
-}
-
-.rejectBtn {
-    background: #ff4081
-    ;
-    color: #fff;
-    padding: 0 30px;
-}
-
 .mat-header-row {
     // background-color: #273da0;
     background-color: #00154F;
@@ -48,59 +35,9 @@
     }
 }
 
-// .cancelBtn{
-// 	background-color: gray;
-// 	color: white;
-// }
-//----------------pending leave detail style--------------------------
 
 ::ng-deep .mat-dialog-container{
     padding: 40px !important;
-}
-.modal-table{
-    font-size: 13px;
-    text-align: left;
-    border-top: 1px solid rgb(221, 221, 221);
-    border-collapse: collapse;
-    
-}
-
-.modal-table tr {
-    height: 40px;
-}
-
-.modal-table th {
-    padding: 16px;
-    font-weight: 400;
-    border-bottom: 1px solid rgb(221, 221, 221);
-    border-left: 1px solid rgb(221, 221, 221);
-}
-
-.modal-table td {
-    border-bottom: 1px solid rgb(221, 221, 221);
-    border-left: 1px solid rgb(221, 221, 221);
-    padding: 16px 24px 16px 16px;
-    white-space: pre-line;
-}
-
-
-.modal-table th:first-child, td:first-child {
-    border-top: none;
-    border-left: none;
-}
-
-.modal-btn{
-    margin-top: 20px;
-    text-align: center;
-
-    button{
-        padding: 0px 40px;
-    }
-}
-.leave-request-detail{
-    cursor: pointer;
-    font-weight: 450;
-    text-decoration: underline;
 }
 
 .example-spacer {
@@ -123,14 +60,7 @@
     .mainTitle {
         margin: 20px;
     }    
-
-    .AddRetirementBtn {
-        position: absolute;
-        top: 6px;
-        right: 0;
-
-    }
-
+    
     .historyTableBox {
         word-break: break-all;
 
