@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { DocumentMngmtService } from 'src/@dw/services/document-mngmt/document-mngmt.service';
 
 
@@ -39,6 +40,7 @@ export class DocumentUploadComponent implements OnInit {
         public dialogRef: MatDialogRef<DocumentUploadComponent>,
         private formBuilder: FormBuilder,
         private documentMngmtService: DocumentMngmtService,
+        private dialogService: DialogService
     ) {
         this.uploadForm = this.formBuilder.group({
             title: ['', Validators.required],
@@ -65,12 +67,21 @@ export class DocumentUploadComponent implements OnInit {
         formData.append('upload_file', this.uploadForm.get('upload_file').value);
 
         // Add company and store file buffer in blockchain
-        this.documentMngmtService.uploadDocument(formData).subscribe((data:any) => {
-            console.log(data)
-            if(data.message == 'uploaded'){
-                this.dialogRef.close();
-            } 
-        })
+        this.dialogService.openDialogConfirm(`Unable to delete after upload. Do you want to upload it?`).subscribe((result: any) => {
+			if (result) {
+                this.documentMngmtService.uploadDocument(formData).subscribe((data:any) => {
+                    if(data.message == 'uploaded'){
+                        this.documentMngmtService.getUploadDocumentList().subscribe(()=> {})
+                        this.dialogRef.close();
+                    }
+                },
+                (err: any) => {
+                    if (err.error.message == 'Uploading document Error'){
+                        this.dialogService.openDialogNegative('An error has occurred.');
+                    }
+                }
+            )}
+		});
     }
 
 
@@ -78,8 +89,6 @@ export class DocumentUploadComponent implements OnInit {
     onFileChange(fileData: any) {
         if (fileData.target.files.length > 0) {
             this.fileData = fileData.target.files[0];
-              console.log(this.fileData);
-
             this.uploadForm.get('upload_file').setValue(this.fileData);
         }
     } 

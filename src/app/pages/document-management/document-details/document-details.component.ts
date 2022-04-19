@@ -16,10 +16,7 @@ export class DocumentDetailsComponent implements OnInit {
         private documentMngmtService: DocumentMngmtService
     ) { }
 
-    ngOnInit(): void {
-
-        console.log(this.data);
-    }
+    ngOnInit(): void { }
 
 
     // https://stackoverflow.com/questions/50039015/how-to-download-a-pdf-file-from-an-url-in-angular-5
@@ -33,8 +30,6 @@ export class DocumentDetailsComponent implements OnInit {
         }
 
         this.documentMngmtService.downloadDocument(data).subscribe(res => {
-            console.log(res)
-
             const blob = res;
             saveAs(blob, this.data.originalFileName);
         });

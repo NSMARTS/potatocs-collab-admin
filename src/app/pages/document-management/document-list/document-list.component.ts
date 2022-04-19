@@ -90,11 +90,9 @@ export class DocumentListComponent implements OnInit {
             }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if(result) {
-                this.getUploadDocumentList();
-            }
-            
+        dialogRef.afterClosed().subscribe((data) => {
+        
+            this.getUploadDocumentList();            
         })
     }
 
@@ -109,15 +107,11 @@ export class DocumentListComponent implements OnInit {
     getUploadDocumentList() {
         this.documentMngmtService.getUploadDocumentList().subscribe(
             (data: any) => {
-        		console.log(data)
                 if(data.message == 'Success find document list'){
         			this.documentList = data.documentList
-        			console.log(this.documentList)
         		} 
         		this.documentList =new MatTableDataSource<PeriodicElement>(data.documentList);
-        		console.log(this.documentList)
         		this.documentList.paginator = this.paginator;
-        		console.log(this.documentList.paginator)
             },
             (err: any) => {
                 console.log(err);
