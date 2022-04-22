@@ -2,8 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { DocumentMngmtService } from 'src/@dw/services/document-mngmt/document-mngmt.service';
+import { DataService } from 'src/@dw/store/data.service';
 
 
 @Component({
@@ -14,6 +17,10 @@ import { DocumentMngmtService } from 'src/@dw/services/document-mngmt/document-m
 export class DocumentUploadComponent implements OnInit {
 
     @ViewChild('uploadInput') uploadInput: ElementRef;
+
+
+    userInfo;
+
 
     uploadForm: FormGroup;
     /*******************************************************
@@ -31,12 +38,13 @@ export class DocumentUploadComponent implements OnInit {
         content: new FormControl(''),
     });
 
-
+    private unsubscribe$ = new Subject<void>();
     public dataSource: any;
     public fileData: File;
 
 
     constructor(
+        public dataService: DataService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<DocumentUploadComponent>,
         private formBuilder: FormBuilder,
@@ -50,7 +58,19 @@ export class DocumentUploadComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+
+        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+            (data: any) => {
+                this.userInfo = data;
+                console.log(this.userInfo.company_id._id)
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+
+    }
 
 
     onSubmit(data) {
@@ -71,6 +91,7 @@ export class DocumentUploadComponent implements OnInit {
             const formData = new FormData();
             formData.append('title', data.title);
             formData.append('content', data.content);
+            formData.append('company_id', this.userInfo.company_id._id)
             formData.append('upload_file', fileData);
 
 
@@ -79,7 +100,7 @@ export class DocumentUploadComponent implements OnInit {
                 if (result) {
                     this.documentMngmtService.uploadDocument(formData).subscribe(async (data: any) => {
                         if (data.message == 'uploaded') {
-                            await this.documentMngmtService.getUploadDocumentList().toPromise();
+                            await this.documentMngmtService.getUploadDocumentList(this.userInfo.company_id._id).toPromise();
                             this.dialogRef.close();
                         }
                     },

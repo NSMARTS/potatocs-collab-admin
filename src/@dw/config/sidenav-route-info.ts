@@ -51,16 +51,29 @@ export const sidenavRouteInfo: NavigationItem[] = [
 			}
 		]
 	},
-    // upload document 
+    // document 
     {
 		type: 'subheading',
-		label: 'Upload documents',
+		label: 'Documents',
 		children: [
 			{
 				type: 'link',
-				label: 'Upload important documents',
+				label: 'Important documents',
 				route: 'document-mngmt/document-list',
-				icon: 'upload',
+				icon: 'folder_special',
+			}
+		]
+	},
+    // contract 
+    {
+		type: 'subheading',
+		label: 'Contract',
+		children: [
+			{
+				type: 'link',
+				label: 'Contract management',
+				route: 'contract-mngmt/contract-list',
+				icon: 'handshake',
 			}
 		]
 	}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -71,17 +71,20 @@ export class DocumentListComponent implements OnInit {
         );
 
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.userInfo = data;
+            async (data: any) => {
+                this.userInfo = data;   
+
+                if(this.userInfo.company_id != undefined) {
+                    this.getUploadDocumentList(this.userInfo.company_id._id);
+                }
+                
             },
             (err: any) => {
                 console.log(err);
             }
         )
-
-        this.getUploadDocumentList();
-
     }
+   
 
     openUploadDocument() {
         const dialogRef = this.dialog.open(DocumentUploadComponent, {
@@ -92,7 +95,7 @@ export class DocumentListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((data) => {
         
-            this.getUploadDocumentList();            
+            this.getUploadDocumentList(this.userInfo.company_id._id);            
         })
     }
 
@@ -104,8 +107,14 @@ export class DocumentListComponent implements OnInit {
 
 
     // 업로드 된 문서 가져오기
-    getUploadDocumentList() {
-        this.documentMngmtService.getUploadDocumentList().subscribe(
+    getUploadDocumentList(company_id) {
+        console.log(this.userInfo.company_id)
+
+        const data = {
+            company_id: company_id
+        }
+        
+        this.documentMngmtService.getUploadDocumentList(data).subscribe(
             (data: any) => {
                 if(data.message == 'Success find document list'){
         			this.documentList = data.documentList

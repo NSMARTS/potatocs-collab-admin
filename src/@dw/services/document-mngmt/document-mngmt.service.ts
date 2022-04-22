@@ -12,8 +12,8 @@ export class DocumentMngmtService {
 
 
     // get upload document list 
-    getUploadDocumentList () {
-        return this.http.get('/api/v1/admin/document/getUploadDocumentList');
+    getUploadDocumentList (data) {
+        return this.http.get('/api/v1/admin/document/getUploadDocumentList', {params: data});
     }
 
 
