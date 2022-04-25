@@ -1,8 +1,6 @@
 import { ElementRef, Injectable, ViewChild, Renderer2, RendererFactory2 } from '@angular/core';
-import { PdfStorageService } from '../storage/pdf-storage.service';
 import { CANVAS_CONFIG } from '../config/config';
-import { DrawingService } from '../drawing/drawing.service';
-import { DrawStorageService } from '../storage/draw-storage.service';
+import { PdfStorageService } from '../storage/pdf-storage.service';
 
 
 
@@ -13,9 +11,8 @@ export class RenderingService {
 
 
   constructor(
-    private pdfStorageService: PdfStorageService,
-    private drawingService: DrawingService,
-    private drawStorageService: DrawStorageService
+    private pdfStorageService: PdfStorageService
+
   ) { }
 
   isPageRendering = false;
@@ -29,11 +26,11 @@ export class RenderingService {
    * @param {number} pageNum 페이지 번호
    * @param {element} canvas <canvas>
    */
-  async renderThumbBackground(imgElement, pdfNum, pageNum) {
+  async renderThumbBackground(imgElement, pageNum) {
     // console.log('> renderThumbnail Background');
-    const pdfPage = this.pdfStorageService.getPdfPage(pdfNum, pageNum);
+    const pdfPage = this.pdfStorageService.getPdfPage(pageNum);
 
-    // console.log(pdfPage)
+
     // 배경 처리를 위한 임시 canvas
     const tmpCanvas = document.createElement('canvas');
     const tmpCtx = tmpCanvas.getContext("2d");
@@ -63,51 +60,16 @@ export class RenderingService {
     }
   }
 
-  /**
-   * 1. Thumbnail의 보드 rendering
-   *  --> GSTD Open시 board 전체를 새로 그리는 기능
-   * 2. monitoring mode에서 그리는 용도로 사용
-   *
-   * - !실시간 drawing은 canvasService에서 처리
-   *
-   * @param {element} thumbCanvas thumbnail canvas element
-   * @param {number} pageNum 페이지 번호
-   * @param {Object} data drawing data (tool, timediff, points)
-   */
-   renderThumbBoard(thumbCanvas, docNum, pageNum) {
-    let drawingEvents = this.drawStorageService.getDrawingEvents(docNum, pageNum);
-
-    // 해당 page의 drawing 정보가 있는 경우
-    if (drawingEvents?.drawingEvent && drawingEvents?.drawingEvent.length > 0) {
-      // console.log('drawingEvents-----------', drawingEvents?.drawingEvent)
-      // console.log(thumbCanvas)
-      // console.log(pageNum, docNum)
-      const viewport = this.pdfStorageService.getViewportSize(docNum, pageNum);
-      const scale = thumbCanvas.width / (viewport.width * CANVAS_CONFIG.CSS_UNIT);
-
-      const thumbCtx = thumbCanvas.getContext('2d');
-
-      thumbCtx.clearRect(0, 0, thumbCanvas.width, thumbCanvas.height);
-      thumbCtx.save();
-      thumbCtx.scale(scale, scale);
-      // console.log(thumbCanvas.width, viewport.width);
-      for (const item of drawingEvents?.drawingEvent) {
-        // Draw Service의 'end'관련 event 이용.
-        this.drawingService.end(thumbCtx, item.points, item.tool, item.txt, scale);
-      }
-      thumbCtx.restore();
-    }
-  }
 
   /**
    * Main Board의 Background rendering
    * - pending 처리 포함
    * @param pageNum page 번호
    */
-  async renderBackground(tmpCanvas, bgCanvas, pdfNum, pageNum) {
-    console.log(`>>>> renderBackground, pdfNum: ${pdfNum}, pageNum: ${pageNum}`);
+  async renderBackground(tmpCanvas, bgCanvas, pageNum) {
+    console.log(`>>>> renderBackground, pageNum: ${pageNum}`);
 
-    const pdfPage = this.pdfStorageService.getPdfPage(pdfNum, pageNum);
+    const pdfPage = this.pdfStorageService.getPdfPage(pageNum);
     if (!pdfPage) {
       return;
     }
@@ -123,36 +85,13 @@ export class RenderingService {
       this.isPageRendering = false;
 
       if (this.pageNumPending) {
-        this.renderBackground(tmpCanvas, bgCanvas, pdfNum, this.pageNumPending);
+        this.renderBackground(tmpCanvas, bgCanvas, this.pageNumPending);
         this.pageNumPending = null;
       }
     }
   }
 
-  /**
-   * Teacher Canvas의 board rendering
-   * @param {element} targetCanvas canvas element
-   * @param {number} zoomScale zoomScale
-   * @param {Object} drawingEvents 판서 event (tool, points, timeDiff)
-   */
-  renderBoard(targetCanvas, zoomScale, drawingEvents) {
-    console.log('>> render Board: ', drawingEvents?.drawingEvent)
-    const targetCtx = targetCanvas.getContext('2d');
-    const scale = zoomScale || 1;
-    targetCtx.clearRect(0, 0, targetCanvas.width / scale, targetCanvas.height / scale);
-    /*----------------------------------------
-      해당 page의 drawing 정보가 있는 경우
-      drawing Service의 'end'관련 event 이용.
-    -----------------------------------------*/
 
-    // console.log('draw --------------------', drawingEvents)
-    if (drawingEvents?.drawingEvent && drawingEvents?.drawingEvent.length > 0) {
-      // console.log('renderBoard -------------------222222222')
-      for (const item of drawingEvents?.drawingEvent) {
-        this.drawingService.end(targetCtx, item.points, item.tool, item.txt, scale);
-      }
-    }
-  }
 
   /**
    * 공통 Rendering function

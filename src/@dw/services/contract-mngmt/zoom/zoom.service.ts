@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CANVAS_CONFIG } from '../config/config';
 import { PdfStorageService } from '../storage/pdf-storage.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,12 +24,14 @@ export class ZoomService {
    *
    */
   setInitZoomScale() {
-    console.log('> Calc init Zoom scale...');
+    console.log('>>> Calc init Zoom scale...');
     const containerSize = {
       width: CANVAS_CONFIG.maxContainerWidth,
       height: CANVAS_CONFIG.maxContainerHeight
     };
-    const pdfPage: any = this.pdfStorageService.getPdfPage(1, 1);
+    const pdfPage: any = this.pdfStorageService.getPdfPage(1);
+
+
     // console.log(pdfPage)
     const docSize = pdfPage.getViewport({ scale: 1 * CANVAS_CONFIG.CSS_UNIT }); // 100%에 해당하는 document의 size (Css 기준)
 
@@ -36,6 +39,7 @@ export class ZoomService {
       w: containerSize.width / docSize.width,
       h: containerSize.height / docSize.height
     };
+
     // console.log(ratio)
 
     let zoomScale = 1;
@@ -71,7 +75,7 @@ export class ZoomService {
   }
 
   // zoomscale 결정(zoomin, zoomout, fit to page .... etc)
-  calcZoomScale(zoomInfo, docNum, pageNum, prevZoomScale = 1) {
+  calcZoomScale(zoomInfo, pageNum, prevZoomScale = 1) {
 
     let zoomScale = 1;
 
@@ -86,12 +90,12 @@ export class ZoomService {
 
       // 너비에 맞춤
       case 'fitToWidth':
-        zoomScale = this.fitToWidth(docNum, pageNum);
+        zoomScale = this.fitToWidth(pageNum);
         break;
 
       // page에 맞춤
       case 'fitToPage':
-        zoomScale = this.fitToPage(docNum, pageNum);
+        zoomScale = this.fitToPage(pageNum);
         break;
     }
 
@@ -124,16 +128,14 @@ export class ZoomService {
     return newScale;
   }
 
-
-    // page 폭에 맞추기
-    fitToWidth(currentDoc, currentPage) {
-        const containerSize = {
-            // width: CANVAS_CONFIG.maxContainerWidth - CANVAS_CONFIG.sidebarContainerWidth //원본
-            width: CANVAS_CONFIG.maxContainerWidth - CANVAS_CONFIG.sidebarContainerWidth - 300, // fitToWidth 관련 (100px) / right side bar 때문에 300 줬음
-            height: CANVAS_CONFIG.maxContainerHeight,
-        };
-        const pdfPage: any = this.pdfStorageService.getPdfPage(currentDoc, currentPage);
-        const docSize = pdfPage.getViewport({ scale: 1 * CANVAS_CONFIG.CSS_UNIT });
+  // page 폭에 맞추기
+  fitToWidth(currentPage) {
+    const containerSize = {
+      width: CANVAS_CONFIG.maxContainerWidth,
+      height: CANVAS_CONFIG.maxContainerHeight
+    };
+    const pdfPage: any = this.pdfStorageService.getPdfPage(currentPage);
+    const docSize = pdfPage.getViewport({scale: 1 * CANVAS_CONFIG.CSS_UNIT});
 
     const zoomScale = containerSize.width / docSize.width;
 
@@ -141,13 +143,13 @@ export class ZoomService {
   }
 
   // page에 맞추기
-  fitToPage(currentDoc, currentPage) {
+  fitToPage(currentPage) {
     const containerSize = {
       width: CANVAS_CONFIG.maxContainerWidth,
       height: CANVAS_CONFIG.maxContainerHeight
     };
 
-    const pdfPage: any = this.pdfStorageService.getPdfPage(currentDoc, currentPage);
+    const pdfPage: any = this.pdfStorageService.getPdfPage(currentPage);
     const docSize = pdfPage.getViewport({scale: 1 * CANVAS_CONFIG.CSS_UNIT}); // 100%에 해당하는 document의 size (Css 기준)
 
     const ratio = {

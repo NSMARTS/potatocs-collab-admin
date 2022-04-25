@@ -1,15 +1,12 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, pairwise, takeUntil } from 'rxjs/operators';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
-import { DrawingService } from 'src/@dw/services/contract-mngmt/drawing/drawing.service';
 import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
 import { RenderingService } from 'src/@dw/services/contract-mngmt/rendering/rendering.service';
-import { SocketService } from 'src/@dw/services/contract-mngmt/socket/socket.service';
-import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
 import { PdfStorageService } from 'src/@dw/services/contract-mngmt/storage/pdf-storage.service';
 import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info.service';
+
 
 
 @Component({
@@ -19,32 +16,25 @@ import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info
 })
 export class BoardSlideViewComponent implements OnInit {
 
-    private socket;
-
     constructor(
-        private route: ActivatedRoute,
         private canvasService: CanvasService,
         private renderingService: RenderingService,
         private viewInfoService: ViewInfoService,
         private eventBusService: EventBusService,
-        private drawingService: DrawingService,
-        private socketService: SocketService,
-        private drawStorageService: DrawStorageService,
         private pdfStorageService: PdfStorageService,
+
     ) {
-        this.socket = this.socketService.socket;
     }
 
 
     // Open된 File을 white-board component로 전달
     @Output() newLocalDocumentFile = new EventEmitter();
 
+
     private unsubscribe$ = new Subject<void>();
 
-    myRole: any;
 
-    meetingId: any;
-    currentDocId: any;
+    currentDocId: any
     currentDocNum: any; // 선택한 pdf
     currentPageNum: number = 0;
 
@@ -57,42 +47,33 @@ export class BoardSlideViewComponent implements OnInit {
     thumbArray = []; // page별 thumbnail size
     scrollRatio: any;
 
-    stopRendering = false;
-
 
     @ViewChildren('thumb') thumRef: QueryList<ElementRef> // 부모 thumb-item 안에 자식 element
-    @ViewChildren('thumbCanvas') thumbCanvasRef: QueryList<ElementRef>
     @ViewChildren('thumbWindow') thumbWindowRef: QueryList<ElementRef>
 
 
     ngOnInit(): void {
-
-        this.meetingId = this.route.snapshot.params['id'];
 
         // PageInfo 저장해서 사용
         this.viewInfoService.state$
             .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged(), pairwise())
             .subscribe(([prevViewInfo, viewInfo]) => {
 
-                // 현재 Current Page Info 저장
-                this.currentDocId = viewInfo.pageInfo.currentDocId;
-                this.currentDocNum = viewInfo.pageInfo.currentDocNum;
-                this.currentPageNum = viewInfo.pageInfo.currentPage;
+                // 문서가 로드되지 않은 경우
+                if (!viewInfo.isDocLoaded) return;
 
-                // Thumbnail Mode로 전환된 경우 Thumbnail Rendering
-                if (prevViewInfo.leftSideView != 'thumbnail' && viewInfo.leftSideView == 'thumbnail') {
-                    this.stopRendering = false;
+                // 현재 Current Page Info 저장
+                this.currentPageNum = viewInfo.currentPage;
+
+                // File이 변경된 경우 thumbnail 다시 그리기
+                if (prevViewInfo.loadedDate !== viewInfo.loadedDate) {
                     this.renderThumbnails();
                 }
 
             });
 
-           
         // container Scroll, Size, 판서event
-        this.eventBusListeners();               
-        
-        /////////////////////////////////////////////////////////////////////////////////////////
-
+        this.eventBusListeners();
     }
 
 
@@ -111,40 +92,6 @@ export class BoardSlideViewComponent implements OnInit {
      * 판서 Event 관련
      */
     eventBusListeners() {
-
-        // 내가 그린 Event thumbnail에 그리기
-        this.eventBusService.on('gen:newDrawEvent', this.unsubscribe$, async (data) => {
-            this.drawThumb(data);
-        });
-
-
-        // 다른 사람이 그린 Event thumbnail에 그리기
-        this.eventBusService.on('receive:drawEvent', this.unsubscribe$, async (data) => {
-            // data = (data || '');
-            // console.log(data)
-            // console.log(data.drawingEvent);
-            this.drawThumbRx(data);
-        });
-
-        /**
-             * 자신이 보고있는 판서 드로잉 삭제
-            */
-        this.eventBusService.on('rmoveDrawEventThumRendering', this.unsubscribe$, (data) => {
-            if (this.viewInfoService.state.leftSideView == 'fileList') return;
-            const thumbCanvas = this.thumbCanvasRef.toArray()[this.currentPageNum - 1].nativeElement;
-            const thumbScale = this.thumbArray[this.currentPageNum - 1].scale;
-            this.drawingService.clearThumb(data, thumbCanvas, thumbScale);
-        })
-        // 다른 사림이 보고있는 판서 드로잉 삭제 
-        this.eventBusService.on('receive:clearDrawEvent', this.unsubscribe$, async (data) => {
-            if (this.viewInfoService.state.leftSideView == 'fileList') return;
-            if (this.currentDocId == data.docId) {
-                const thumbCanvas = this.thumbCanvasRef.toArray()[data.currentPage - 1].nativeElement;
-                const thumbScale = this.thumbArray[data.currentPage - 1].scale;
-                this.drawingService.clearThumb(data, thumbCanvas, thumbScale);
-            }
-        });
-        //
         /*--------------------------------------
             Scroll event에 따라서 thumbnail window 위치/크기 변경
             --> broadcast from comclass component
@@ -157,7 +104,7 @@ export class BoardSlideViewComponent implements OnInit {
 
         /*-------------------------------------------
             zoom, page 전환등을 하는 경우
-	
+    
             1. scroll에 필요한 ratio 계산(thumbnail과 canvas의 크기비율)은 여기서 수행
             2. thumbnail의 window size 계산 수행
         ---------------------------------------------*/
@@ -177,6 +124,29 @@ export class BoardSlideViewComponent implements OnInit {
 
 
     /**
+     * 새로운 File Load (Local)
+     * - @output으로 main component(white-board.component로 전달)
+     * @param event
+     * @returns
+     */
+    handleUploadFileChanged(event) {
+        const files: File[] = event.target.files;
+
+        if (event.target.files.length === 0) {
+            console.log('file 안들어옴');
+            return;
+        }
+
+        // @OUTPUT -> white-board component로 전달
+        this.newLocalDocumentFile.emit(event.target.files[0]);
+
+
+        // contract-save component에서 사용하기 위해 storage 저장
+        // this.pdfStorageService.setPdfData(event.target.files[0]);
+    }
+
+
+    /**
     * Thumbnail Click
     *
     * @param pageNum 페이지 번호
@@ -187,23 +157,9 @@ export class BoardSlideViewComponent implements OnInit {
 
         console.log('>> [clickThumb] change Page to : ', pageNum);
         this.viewInfoService.updateCurrentPageNum(pageNum);
-        // this.eventBusService.emit(new EventData('clickPdf', pageNum))
-
     }
 
 
-    /**
-     * File list로 이동
-     */
-    backToFileList() {
-        this.viewInfoService.setViewInfo({ leftSideView: 'fileList' });
-
-
-        const data = {
-            meetingId: this.meetingId,
-        }
-
-    }
 
 
     /**
@@ -211,11 +167,7 @@ export class BoardSlideViewComponent implements OnInit {
      *
      */
     async renderThumbnails() {
-
-        const numPages = this.viewInfoService.state.documentInfo[this.currentDocNum - 1].numPages;
-
-        console.log(numPages)
-
+        const numPages = this.viewInfoService.state.numPages;
 
         this.thumbArray = [];
 
@@ -224,63 +176,19 @@ export class BoardSlideViewComponent implements OnInit {
               1. get size of thumbnail canvas --> thumbnail element 생성.
               - width, height, scale return.
             --------------------------------------------------------------*/
-            const thumbSize = this.canvasService.getThumbnailSize(this.currentDocNum, pageNum);
+            const thumbSize = this.canvasService.getThumbnailSize(pageNum);
             this.thumbArray.push(thumbSize);
         }
 
-        // 엔트리와 함께... 초기 썸네일 오류... => Main Canvas와 겹치면 이상해지는듯?
-        await new Promise(res => setTimeout(res, 300));
+        await new Promise(res => setTimeout(res, 0));
 
-        // Render Background & Board
-        for (let i = 0; i < numPages; i++) {
-            await this.renderingService.renderThumbBackground(this.thumRef.toArray()[i].nativeElement, this.currentDocNum, i + 1);
-
-            this.renderingService.renderThumbBoard(this.thumbCanvasRef.toArray()[i].nativeElement, this.currentDocNum, i + 1);
-
-            // 그리는 중 docList로 변경된 경우
-            if (this.stopRendering) {
-                i = numPages;
-            }
-
+        // Thumbnail Background (PDF)
+        for (let i = 0; i < this.thumRef.toArray().length; i++) {
+            await this.renderingService.renderThumbBackground(this.thumRef.toArray()[i].nativeElement, i + 1);
         };
+
+
     }
 
-
-    /**
-     * 판서 Thumbnail에 그리기 (현재 leftSideView: thumbnail)
-     *
-     * @param {Object} data 내가 판서한 draw event.
-     */
-    drawThumb(data) {
-        // 현재 leftSideView의 mode가 'fileList'인 경우 무시
-        if (this.viewInfoService.state.leftSideView == 'fileList') return;
-
-        // const thumbCanvas = document.getElementById('thumbCanvas' + this.currentPageNum)
-
-        const thumbCanvas = this.thumbCanvasRef.toArray()[this.currentPageNum - 1].nativeElement;
-        const thumbScale = this.thumbArray[this.currentPageNum - 1].scale;
-        this.drawingService.drawThumb(data, thumbCanvas, thumbScale);
-    };
-
-    /**
-     * 수신 받은 판서 그리기
-     *
-     * @param data
-     */
-    drawThumbRx(data) {
-        // console.log(data);
-
-        // 현재 viewmode가 filelist인 경우 Thumbnail 무시
-        if (this.viewInfoService.state.leftSideView == 'fileList') return;
-
-        // num 대신 ID로 (number로 해도 상관은 없을 듯)
-        if (this.currentDocId == data.docId) {
-            // const thumbCanvas = document.getElementById('thumbCanvas' + data.pageNum);
-
-            const thumbCanvas = this.thumbCanvasRef.toArray()[data.pageNum - 1].nativeElement;
-            const thumbScale = this.thumbArray[this.currentPageNum - 1].scale;
-            this.drawingService.drawThumb(data.drawingEvent, thumbCanvas, thumbScale);
-        }
-    };
 
 }

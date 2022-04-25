@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BoardFileViewComponent } from './board-file-view.component';
+import { ContractSaveComponent } from './contract-save.component';
 
-describe('BoardFileViewComponent', () => {
-  let component: BoardFileViewComponent;
-  let fixture: ComponentFixture<BoardFileViewComponent>;
+describe('ContractSaveComponent', () => {
+  let component: ContractSaveComponent;
+  let fixture: ComponentFixture<ContractSaveComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoardFileViewComponent ]
+      declarations: [ ContractSaveComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BoardFileViewComponent);
+    fixture = TestBed.createComponent(ContractSaveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { PdfStorageService } from '../storage/pdf-storage.service';
 import { HttpClient } from '@angular/common/http';
-import { ApiService } from '../apiService/api.service';
+
+import { PdfStorageService } from '../storage/pdf-storage.service';
 
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
-pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/pdf/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../../assets/lib/pdf/pdf.worker.js';
 
 
 @Injectable({
@@ -14,9 +14,36 @@ export class FileService {
 
   constructor(
     private pdfStorageService: PdfStorageService,
-    private apiService: ApiService,
     private http: HttpClient,
   ) { }
+
+
+
+
+  /**
+   * PDF File Open
+   * @param aFile
+   * @returns
+   */
+	async openDoc(aFile) {
+
+    console.log('>> open PDF File');
+
+		const file = await this.readFile(aFile);
+
+		const pdfVar:any = {};
+
+		pdfVar.fileBuffer = file;
+		const results = await this.pdfConvert(file);
+
+		pdfVar.pdfPages = results.pdfPages; //pdf 문서의 page별 정보
+		pdfVar.pdfDestroy = results.pdfDoc;
+		// console.log(pdfVar);
+		this.pdfStorageService.setPdfVar(pdfVar);
+        console.log(pdfVar)
+
+    return results.pdfPages.length;
+  }
 
 
   /**

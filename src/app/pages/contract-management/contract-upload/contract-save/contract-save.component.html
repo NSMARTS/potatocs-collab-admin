@@ -1,0 +1,102 @@
+<div class="mainContentContainer">
+    <div class="mainContent" fxLayout="row">
+        <form [formGroup]="saveContractForm">
+            <div>
+                <div class="mainTitle">Save Contract</div>
+            </div>
+            <div class="leaveTableContainer">
+                <div fxLayout="column" class="br_ltop">
+                    <!-- title -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Title</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <!-- <mat-label>Company Name</mat-label> -->
+                                <input matInput type="text" name="title" formControlName="title" required [ngModel]="contractData?.title" readonly />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- contract_day -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Contract Day</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <!-- <mat-label>My Name</mat-label> -->
+                                <input matInput type="text" name="contract_day" formControlName="contract_day" required [ngModel]="contractData?.contract_day" readonly/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <!-- sender -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Sender</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <!-- <mat-label>My Name</mat-label> -->
+                                <input matInput type="text" name="sender" formControlName="sender" required [ngModel]="contractData?.sender" readonly/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- receiver -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Receiver</span>
+                            </div>
+                        </div>
+                        <div class="selectBox">
+                            <mat-form-field class="formEmailFieldBox" appearance="outline">
+                                <mat-label>E-MAIL</mat-label>
+                                <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
+                                <input matInput type="email" spellcheck="false"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [formControl]="myControl"
+                                    [matAutocomplete]="auto" />
+                                <mat-error>an e-mail is required</mat-error>
+                                <mat-error>Please input a correct e-mail!</mat-error>
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.email">
+                                        {{option.email}} ({{option.name}})
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    
+                        <!-- <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <input matInput type="text" name="receiver" formControlName="receiver" required ngModel/>
+                            </mat-form-field>
+                        </div> -->
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+                    <button 
+                        mat-raised-button 
+                        class="approveBtn" 
+                        [disabled]="saveContractForm.invalid"
+                    > 
+                        save 
+                    </button>
+                    <button  mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>
+                </div>
+            </div>
+        </form>
+    </div>
