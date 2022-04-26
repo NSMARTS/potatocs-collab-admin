@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { distinctUntilChanged, pairwise, takeUntil } from 'rxjs/operators';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
 import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
+import { EventData } from 'src/@dw/services/contract-mngmt/eventBus/event.class';
 import { RenderingService } from 'src/@dw/services/contract-mngmt/rendering/rendering.service';
 import { PdfStorageService } from 'src/@dw/services/contract-mngmt/storage/pdf-storage.service';
 import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info.service';
@@ -27,7 +28,7 @@ export class BoardSlideViewComponent implements OnInit {
     }
 
 
-    // Open된 File을 white-board component로 전달
+    // Open된 File을 contract-save component로 전달
     @Output() newLocalDocumentFile = new EventEmitter();
 
 
@@ -139,6 +140,8 @@ export class BoardSlideViewComponent implements OnInit {
 
         // @OUTPUT -> white-board component로 전달
         this.newLocalDocumentFile.emit(event.target.files[0]);
+
+        this.eventBusService.emit(new EventData('DocFile', event.target.files[0]));
 
 
         // contract-save component에서 사용하기 위해 storage 저장

@@ -52,6 +52,7 @@ export class ContractUploadComponent implements OnInit {
         this.pdfStorageService.memoryRelease();
 
         const numPages = await this.fileService.openDoc(newDocumentFile);
+
         // console.log(this.pdfStorageService.pdfVar);
         const obj = {
             isDocLoaded: true,

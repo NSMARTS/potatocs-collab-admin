@@ -10,6 +10,7 @@ import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { PdfStorageService } from 'src/@dw/services/contract-mngmt/storage/pdf-storage.service';
 import { DataService } from 'src/@dw/store/data.service';
+import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
 
 
 
@@ -30,43 +31,32 @@ export class BoardNavComponent implements OnInit {
     
     constructor(
         private router: Router,
-        private formBuilder: FormBuilder,
         public dialog: MatDialog,
         private dialogService: DialogService,
         private viewInfoService: ViewInfoService,
         public dataService: DataService,
+        private eventBusService: EventBusService,
 
-    ) { 
-        this.contractForm = this.formBuilder.group({
-            title: ['', Validators.required]
-        });
-    }
+    ) { }
 
 
 
 
     ngOnInit(): void {
-     
-        ////////////////////////////////////////////////
-        // Document가 Update 된 경우 (zoom, page change 등)
-        this.viewInfoService.state$
-            .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged())
-            .subscribe((viewInfo) => {
-
-            
-            });
-
-        /////////////////////////////////////////////////////////////
-
 
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
             async (data: any) => {
                 this.userInfo = data;   
+                console.log(this.userInfo)
             },
             (err: any) => {
                 console.log(err);
             }
         )
+
+        this.eventBusService.on('DocFile', this.unsubscribe$, (data) => {
+            this.pdfData = data           
+        })
 
     }
 
@@ -86,33 +76,25 @@ export class BoardNavComponent implements OnInit {
     // modal Contract
     openSaveContract() {
         
-        const formValue = this.contractForm.value.title;
         const convertDate = moment().format("YYYY-MM-DD")
-
-        if(formValue == '') {
-            this.dialogService.openDialogNegative('The title does not exist. Try again.');
-        } else if(this.pdfData == '') {
-            this.dialogService.openDialogNegative('The file does not exist. Try again.');
+        console.log(this.pdfData)
+       
+        if(this.pdfData == undefined) {
+            this.dialogService.openDialogNegative('The contract document does not exist. Try again.');
         } else {            
             const dialogRef = this.dialog.open(ContractSaveComponent, {
                 data: {
-                    title: formValue,
-                    contract_day: convertDate,
+                    companyId: this.userInfo.company_id._id,
+                    date: convertDate,
                     sender: this.userInfo.name,
-                    pdfDAta : this.pdfData
+                    pdfData : this.pdfData
                 }
             });
     
             dialogRef.afterClosed().subscribe((data) => {
             
-                // this.getUploadDocumentList(this.userInfo.company_id._id);            
+          
             })
         }
-        
-
-        
     }
-
-    
-
 }

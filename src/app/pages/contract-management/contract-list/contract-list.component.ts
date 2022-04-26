@@ -41,7 +41,7 @@ export class ContractListComponent implements OnInit {
     filteredOptions: Observable<Employees[]>;
 
     // view table
-    displayedColumns: string[] = ['period', 'title', 'contract', 'sender', 'receiver', 'status',];
+    displayedColumns: string[] = ['date', 'title', 'description', 'sender', 'receiver', 'status',];
     dataSource
 
     employeeForm: FormGroup

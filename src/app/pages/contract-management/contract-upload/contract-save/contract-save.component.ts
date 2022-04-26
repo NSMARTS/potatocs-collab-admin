@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Employees } from '../../contract-list/contract-list.component';
+import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
+import { Employees, PeriodicElement } from '../../contract-list/contract-list.component';
 
 @Component({
     selector: 'app-contract-save',
@@ -25,11 +27,13 @@ export class ContractSaveComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
 
+        private contractMngmtService: ContractMngmtService,
 
     ) {
         this.saveContractForm = this.formBuilder.group({
             title: ['', [Validators.required]],
-            contract_day: ['', [Validators.required]],
+            description: ['', [Validators.required]],
+            date: ['', [Validators.required]],
             sender: ['', [Validators.required]],
             receiver: ['', [Validators.required]],
         });
@@ -38,9 +42,46 @@ export class ContractSaveComponent implements OnInit {
     ngOnInit(): void {
         console.log(this.data)
         this.contractData = this.data
+
+        this.myEmployeeList();
     }
 
 
+
+
+
+    // 직원 목록 가져오기
+    myEmployeeList() {
+        this.contractMngmtService.getEmployeeList().subscribe(
+            (data: any) => {
+                // console.log(data)
+
+                this.options = data.myEmployeeList;
+                this.setAutoComplete();
+            });
+    }
+
+    // 계약서 저장
+    saveContract() {
+
+        const formData = new FormData();
+        formData.append('companyId', this.contractData.companyId);
+        formData.append('title', this.saveContractForm.value.title);
+        formData.append('description', this.saveContractForm.value.description);
+        formData.append('date', this.saveContractForm.value.date)
+        formData.append('sender', this.saveContractForm.value.sender);
+        formData.append('receiver', this.saveContractForm.value.receiver);
+        formData.append('file', this.contractData.pdfData);
+
+        this.contractMngmtService.saveContract(formData).subscribe(()=> {
+
+        })
+    }
+
+
+
+
+    // 자동완성 ///////////////////////////////////////////////////////////////////////////
     setAutoComplete() {
         // auto complete
         this.filteredOptions = this.myControl.valueChanges
@@ -50,52 +91,26 @@ export class ContractSaveComponent implements OnInit {
                 map((email: any) => email ? this._filter(email) : this.options.slice())
             );
 
-        console.log(this.filteredOptions);
+        // console.log(this.filteredOptions);
     }
 
     //auto
     displayFn(employee: Employees): string {
-      return employee && employee.email ? employee.email : '';
+        return employee && employee.email ? employee.email : '';
     }
     getOptionText(employee: Employees) {
-      return employee.email ? employee.email : '';
+        return employee.email ? employee.email : '';
     }
     private _filter(email: string): Employees[] {
         const filterValue = email.toLowerCase();
         return this.options.filter(option => option.email.toLowerCase().includes(filterValue));
-    }
+    }   
+    // 자동완성 ///////////////////////////////////////////////////////////////////////////
 
-    // myEmployeeLeaveListSearch() {
-    //     let myEmployeeInfo;
-    //     const formValue = this.employeeForm.value;
 
-    //     console.log(this.myControl.value);
 
-    //     myEmployeeInfo = {
-    //         type: formValue.type,
-    //         leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
-    //         leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
 
-    //         // leave_start_date: formValue.leave_start_date,
-    //         // leave_end_date: formValue.leave_end_date,
-    //         emailFind: this.myControl.value,
-    //     }
+    
 
-    //     // 조건에 따른 사원들 휴가 가져오기
-    //     this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
-    //         (data: any) => {
-    //             console.log(data)
-    //             data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
-    //                 item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
-    //                 item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
-    //                 return item;
-    //             });
-    //             this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
-    //             this.dataSource.paginator = this.paginator;
-    //             this.options = data.myEmployeeList;
-    //             this.setAutoComplete();
-    //             console.log(this.dataSource.filteredData)
-    //         }
-    //     )
-    // }
+
 }

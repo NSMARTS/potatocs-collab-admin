@@ -94,8 +94,8 @@
 		              The actual rendered columns are set as a property on the row definition" -->
 
 				<!-- Name Column -->
-				<ng-container matColumnDef="period">
-					<th mat-header-cell *matHeaderCellDef> Period </th>
+				<ng-container matColumnDef="date">
+					<th mat-header-cell *matHeaderCellDef> Date </th>
 					<td mat-cell *matCellDef="let element"> {{element.startDate | date: 'YYYY-MM-dd'}}</td>
 				</ng-container>
 
@@ -105,8 +105,8 @@
 					<td mat-cell *matCellDef="let element"> {{element.name}} </td>
 				</ng-container>
 
-				<ng-container matColumnDef="contract">
-					<th mat-header-cell *matHeaderCellDef> Contract</th>
+				<ng-container matColumnDef="description">
+					<th mat-header-cell *matHeaderCellDef> Description</th>
 					<td mat-cell *matCellDef="let element" class="leave-request-detail" (click)="openDialogPendingLeaveDetail(element)"> {{element.email}} </td>
 				</ng-container>
 
