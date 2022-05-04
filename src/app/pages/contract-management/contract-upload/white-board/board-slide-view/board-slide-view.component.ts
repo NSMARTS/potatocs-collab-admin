@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, pairwise, takeUntil } from 'rxjs/operators';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
@@ -18,6 +19,7 @@ import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info
 export class BoardSlideViewComponent implements OnInit {
 
     constructor(
+        private route: ActivatedRoute,
         private canvasService: CanvasService,
         private renderingService: RenderingService,
         private viewInfoService: ViewInfoService,
@@ -31,9 +33,9 @@ export class BoardSlideViewComponent implements OnInit {
     // Open된 File을 contract-save component로 전달
     @Output() newLocalDocumentFile = new EventEmitter();
 
-
     private unsubscribe$ = new Subject<void>();
 
+    contractId;
 
     currentDocId: any
     currentDocNum: any; // 선택한 pdf
@@ -55,6 +57,8 @@ export class BoardSlideViewComponent implements OnInit {
 
     ngOnInit(): void {
 
+        this.contractId = this.route.snapshot.params['id'];
+
         // PageInfo 저장해서 사용
         this.viewInfoService.state$
             .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged(), pairwise())
@@ -68,6 +72,9 @@ export class BoardSlideViewComponent implements OnInit {
 
                 // File이 변경된 경우 thumbnail 다시 그리기
                 if (prevViewInfo.loadedDate !== viewInfo.loadedDate) {
+                    console.log('render')
+
+                    console.log(prevViewInfo, viewInfo)
                     this.renderThumbnails();
                 }
 
@@ -78,7 +85,7 @@ export class BoardSlideViewComponent implements OnInit {
     }
 
 
-    ngOnDestory(): void {
+    ngOnDestroy(): void {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
@@ -142,10 +149,6 @@ export class BoardSlideViewComponent implements OnInit {
         this.newLocalDocumentFile.emit(event.target.files[0]);
 
         this.eventBusService.emit(new EventData('DocFile', event.target.files[0]));
-
-
-        // contract-save component에서 사용하기 위해 storage 저장
-        // this.pdfStorageService.setPdfData(event.target.files[0]);
     }
 
 

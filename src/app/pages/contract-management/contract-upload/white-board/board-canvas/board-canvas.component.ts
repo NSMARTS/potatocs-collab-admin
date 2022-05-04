@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, pairwise, pluck, takeUntil } from 'rxjs/operators';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
@@ -67,12 +67,12 @@ export class BoardCanvasComponent implements OnInit {
         this.viewInfoService.state$
             .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged())
             .subscribe((viewInfo) => {
+        
+            if (viewInfo.isDocLoaded) {
+                this.onChangePage();
+            }
 
-                if (viewInfo.isDocLoaded) {
-                    this.onChangePage();
-                }
-
-            });
+        });
         /////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////
@@ -84,7 +84,7 @@ export class BoardCanvasComponent implements OnInit {
         //////////////////////////////////////////////////
 
     }
-    // end of ngOnInit
+    // end of ngOnInit 
 
 
 
@@ -98,6 +98,7 @@ export class BoardCanvasComponent implements OnInit {
 
         // pdf memory release
         this.pdfStorageService.memoryRelease();
+        this.viewInfoService.updateDocReady(false);
 
     }
 
@@ -181,6 +182,8 @@ export class BoardCanvasComponent implements OnInit {
        */
     onChangePage() {
 
+        console.log(this.viewInfoService.state)
+
         //document Number -> 1부터 시작.
         const pageNum = this.viewInfoService.state.currentPage;
         const zoomScale = this.viewInfoService.state.zoomScale;
@@ -204,8 +207,6 @@ export class BoardCanvasComponent implements OnInit {
         this.canvasContainer.scrollTop = 0;
         this.canvasContainer.scrollLeft = 0;
     };
-
-
 
 
 }

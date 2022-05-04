@@ -94,7 +94,6 @@ export class DocumentListComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((data) => {
-        
             this.getUploadDocumentList(this.userInfo.company_id._id);            
         })
     }

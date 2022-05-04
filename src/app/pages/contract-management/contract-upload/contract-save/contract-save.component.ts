@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { Employees, PeriodicElement } from '../../contract-list/contract-list.component';
 
@@ -25,9 +27,13 @@ export class ContractSaveComponent implements OnInit {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private formBuilder: FormBuilder,
+        public dialogRef: MatDialogRef<ContractSaveComponent>,
+        private dialogService: DialogService,
+        private router: Router,
 
+        private formBuilder: FormBuilder,
         private contractMngmtService: ContractMngmtService,
+        
 
     ) {
         this.saveContractForm = this.formBuilder.group({
@@ -65,7 +71,7 @@ export class ContractSaveComponent implements OnInit {
     saveContract() {
 
         const formData = new FormData();
-        formData.append('companyId', this.contractData.companyId);
+        formData.append('company_id', this.contractData.company_id);
         formData.append('title', this.saveContractForm.value.title);
         formData.append('description', this.saveContractForm.value.description);
         formData.append('date', this.saveContractForm.value.date)
@@ -73,9 +79,26 @@ export class ContractSaveComponent implements OnInit {
         formData.append('receiver', this.saveContractForm.value.receiver);
         formData.append('file', this.contractData.pdfData);
 
-        this.contractMngmtService.saveContract(formData).subscribe(()=> {
+        this.dialogService.openDialogConfirm('Do you want save this contract?').subscribe((result: any) => {
+			if (result) {
 
-        })
+                this.contractMngmtService.saveContract(formData).subscribe( 
+					(data: any) => {
+						console.log(data);
+						if(data.message == 'Success saved contract') {
+							// this.getCompanyHolidayList();
+                            this.dialogRef.close();
+                            this.router.navigate(['/leave/contract-mngmt/contract-list']);
+						}
+					},
+					(err: any) => {
+						if (err.error.message == 'Deleting company holiday Error'){
+							this.dialogService.openDialogNegative('An error has occurred.');
+						}
+					}
+				);
+			}
+		});
     }
 
 

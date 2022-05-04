@@ -16,6 +16,10 @@ const routes: Routes = [
 				path: 'contract-upload',
 				component: ContractUploadComponent,
 			},
+            {
+				path: 'contract-sign/:id',
+				component: ContractUploadComponent,
+			},
             
 			
 		]

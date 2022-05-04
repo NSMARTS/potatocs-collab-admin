@@ -70,6 +70,7 @@ export class RenderingService {
     console.log(`>>>> renderBackground, pageNum: ${pageNum}`);
 
     const pdfPage = this.pdfStorageService.getPdfPage(pageNum);
+    console.log(pdfPage)
     if (!pdfPage) {
       return;
     }
@@ -111,6 +112,7 @@ export class RenderingService {
     const ctx = targetCanvas.getContext('2d');
 
     const bgImgSize = { width: targetCanvas.width, height: targetCanvas.height };
+
 
     try {
       const scale = targetCanvas.width / viewport.width;

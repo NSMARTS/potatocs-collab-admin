@@ -5,12 +5,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { CommonService } from 'src/@dw/services/common/common.service';
-import { EmployeeMngmtService } from 'src/@dw/services/employee-mngmt/employee-mngmt.service';
-import { ExcelService } from 'src/@dw/services/excel/excel.service';
-import { LeaveRequestDetailsComponent } from 'src/app/components/leave-request-details/leave-request-details.component';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
+import { DataService } from 'src/@dw/store/data.service';
+
 
 
 export interface PeriodicElement {
@@ -34,6 +33,15 @@ export interface Employees {
     styleUrls: ['./contract-list.component.scss']
 })
 export class ContractListComponent implements OnInit {
+
+
+    userInfo;
+
+
+
+    contractList = new MatTableDataSource;
+
+    private unsubscribe$ = new Subject<void>();
 
     // auto complete
     myControl = new FormControl();
@@ -60,13 +68,25 @@ export class ContractListComponent implements OnInit {
     constructor(
         private router: Router,
         private fb: FormBuilder,
-        private employeeMngmtService: EmployeeMngmtService,
         public dialog: MatDialog,
-        private commonService: CommonService,
-        // private excelSrv: ExcelService,
+        private contractMngmtService: ContractMngmtService,
+        public dataService: DataService,
     ) { }
 
     ngOnInit(): void {
+
+        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+            async (data: any) => {
+                this.userInfo = data;
+
+                if (this.userInfo.company_id != undefined) {
+                    this.getContractList();
+                }
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
 
         const startOfMonth = moment().startOf('month').format();
         const endOfMonth = moment().endOf('month').format();
@@ -85,8 +105,6 @@ export class ContractListComponent implements OnInit {
                 Validators.required,
             ]]
         });
-        // this.myEmployeeLeaveListSearch();
-
     }
 
 
@@ -95,9 +113,37 @@ export class ContractListComponent implements OnInit {
     }
 
 
+    // 계약서 가져오기
+    getContractList() {
+
+        const data = {
+            company_id: this.userInfo.company_id._id
+        }
+
+        this.contractMngmtService.getContractList(data).subscribe((data: any) => {
+            if (data.message == 'Success find document list') {
+                this.contractList = data.documentList
+            }
+
+            console.log(data.contractList)
+            this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
+            this.contractList.paginator = this.paginator;
+        },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 
+    openContractDetail(data) {
+        this.router.navigate([`/leave/contract-mngmt/contract-sign/${data._id}`]);
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // setAutoComplete() {
     //     // auto complete
     //     this.filteredOptions = this.myControl.valueChanges

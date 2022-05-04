@@ -3,6 +3,7 @@ import { Store } from './store';
 
 
 class InitViewInfo {
+  contractInfo = []; // {_id: '',  currentPage: 1,  numPages: 1}
   isDocLoaded: false;
   loadedDate =  new Date().getTime();
   numPages = 1;
@@ -30,11 +31,29 @@ export class ViewInfoService extends Store<any> {
 
 
   /**
+   *  init setView Info   * 
+   * 
+   */
+  /**
+   * Update Zoom Scale
+   * @param
+   * @param Zoom
+   */
+   updateDocReady(isReady): void {
+    this.setState({
+      ...this.state, isDocLoaded: isReady
+    })
+  }
+
+
+  /**
    * 페이지 변경에 따른 Data Update
    *
    * @param pageNum 페이지 번호
    */
    updateCurrentPageNum(pageNum: any): void {
+
+    this.state.contractInfo.currentPage = pageNum;
 
     this.setState({
       ...this.state, currentPage: pageNum
