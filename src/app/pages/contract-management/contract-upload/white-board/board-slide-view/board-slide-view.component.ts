@@ -72,9 +72,7 @@ export class BoardSlideViewComponent implements OnInit {
 
                 // File이 변경된 경우 thumbnail 다시 그리기
                 if (prevViewInfo.loadedDate !== viewInfo.loadedDate) {
-                    console.log('render')
-
-                    console.log(prevViewInfo, viewInfo)
+                    console.log(prevViewInfo.loadedDate, viewInfo.loadedDate)
                     this.renderThumbnails();
                 }
 

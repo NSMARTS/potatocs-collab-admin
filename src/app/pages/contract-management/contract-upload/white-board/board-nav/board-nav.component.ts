@@ -80,7 +80,7 @@ export class BoardNavComponent implements OnInit {
     }
 
 
-    // modal Contract
+    // modal Contract save
     openSaveContract() {
         
         const convertDate = moment().format("YYYY-MM-DD")
@@ -102,5 +102,10 @@ export class BoardNavComponent implements OnInit {
             
             })
         }
+    }
+
+    // modal Contract Sign
+    openSignContract() {
+        
     }
 }

@@ -58,7 +58,6 @@ export class ContractUploadComponent implements OnInit {
 
         const numPages = await this.fileService.openDoc(newDocumentFile);
         
-        console.log(numPages)
 
         // console.log(this.pdfStorageService.pdfVar);
         const obj = {
@@ -82,20 +81,15 @@ export class ContractUploadComponent implements OnInit {
   *
   */
     async updateDocuments() {
-        
-        
+            
         console.log('>> do Update Contract');
 
         const data = {
             _id: this.contractId
         }
 
-        console.log('111111111111111111111111111111')
         // contract_id에 해당하는 contract 정보 수신
         const result: any = await this.contractMngmtService.getContractInfo(data).toPromise();
-
-        console.log(result)
-        console.log('22222222222222222222222222222222')
 
         console.log('[API] <----- RX Contract Info : ', result);
 
@@ -185,9 +179,6 @@ export class ContractUploadComponent implements OnInit {
         // 현재 저장된 PDF Array 변수
         let pdfVarArray = this.pdfStorageService.pdfVar;
 
-        console.log(pdfVarArray)
-        console.log(contractData)
-
         // // 문서 개수의 차이
         // const diff = contractData.length - pdfVarArray.length;
         // console.log('diff : ', diff)
@@ -214,7 +205,7 @@ export class ContractUploadComponent implements OnInit {
         pdfVarArray.updatedAt = contractData.updatedAt;
         pdfVarArray.fileName = contractData.originalFileName;
 
-        console.log(contractData)
+        // console.log(contractData)
 
 
         // PDF 변환 및 추가 저장
@@ -243,9 +234,9 @@ export class ContractUploadComponent implements OnInit {
    */
 
     updateViewInfoStore() {
-        let contractInfo = [...this.viewInfoService.state.contractInfo];
-        console.log(contractInfo)
-        console.log(this.pdfStorageService.pdfVar)
+        // let contractInfo = [...this.viewInfoService.state.contractInfo];
+        // console.log(contractInfo)
+        // console.log(this.pdfStorageService.pdfVar)
         // console.log(this.viewInfoService.state.pageInfo.currentDocId)
         // const diff = this.pdfStorageService.pdfVar.length - contractInfo.length
         // if (diff > 0) {

@@ -107,6 +107,11 @@ export class ContractListComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+    }
+
 
     uploadRouting() {
         this.router.navigate(['/leave/contract-mngmt/contract-upload']);
@@ -125,7 +130,6 @@ export class ContractListComponent implements OnInit {
                 this.contractList = data.documentList
             }
 
-            console.log(data.contractList)
             this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
             this.contractList.paginator = this.paginator;
         },
@@ -136,8 +140,8 @@ export class ContractListComponent implements OnInit {
     }
 
 
-    // 
-    openContractDetail(data) {
+    // Go to the page where you sign a contract
+    openContractSignPage(data) {
         this.router.navigate([`/leave/contract-mngmt/contract-sign/${data._id}`]);
     }
 

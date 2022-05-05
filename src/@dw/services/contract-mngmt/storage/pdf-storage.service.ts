@@ -40,7 +40,6 @@ export class PdfStorageService {
        * @param {number} pageNum 페이지 번호
       */
       getViewportSize(pageNum) {
-          console.log(pageNum)
         // console.log(`> get ViewPort size: pageNum : ${pageNum}`);
         return this._pdfVar.pdfPages[pageNum - 1].getViewport({ scale: 1 });
       }

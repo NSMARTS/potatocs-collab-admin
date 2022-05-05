@@ -182,8 +182,6 @@ export class BoardCanvasComponent implements OnInit {
        */
     onChangePage() {
 
-        console.log(this.viewInfoService.state)
-
         //document Number -> 1부터 시작.
         const pageNum = this.viewInfoService.state.currentPage;
         const zoomScale = this.viewInfoService.state.zoomScale;

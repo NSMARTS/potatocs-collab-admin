@@ -81,7 +81,6 @@ export class CanvasService {
 
         const pdfPage = this.pdfStorageService.getPdfPage(pageNum);
         
-        console.log(pdfPage)
 		const canvasFullSize = pdfPage.getViewport({scale:zoomScale * CANVAS_CONFIG.CSS_UNIT});
 		canvasFullSize.width = Math.round(canvasFullSize.width);
 		canvasFullSize.height = Math.round(canvasFullSize.height);
