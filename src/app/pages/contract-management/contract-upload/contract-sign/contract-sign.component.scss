@@ -75,6 +75,40 @@ $pending: isPending;    // pending 일때 스타일 다르게 적용을 위한 �
     cursor: pointer;
 }
 
+.canvas-container {
+    position: relative;
+    border: 1px solid black;
+
+    .canvasTeacher {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    
+    .cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
+
+div.canvasBackground {
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+div.canvasTeacher {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {

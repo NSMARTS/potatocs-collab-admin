@@ -55,6 +55,19 @@ export class ContractSignComponent implements OnInit, OnDestroy {
     ) { }
 
 
+    // Resize Event Listener
+    @HostListener('window:resize') resize() {
+        const newWidth = window.innerWidth
+        const newHeight = window.innerHeight
+        // sidenav 열릴때 resize event 발생... 방지용도.
+        if (CANVAS_CONFIG.maxContainerWidth === newWidth && CANVAS_CONFIG.maxContainerHeight === newHeight) {
+            return;
+        }
+        CANVAS_CONFIG.maxContainerWidth = newWidth;
+        CANVAS_CONFIG.maxContainerHeight = newHeight;
+    }
+
+
 
     ngOnInit(): void {
         console.log(this.data)
@@ -105,6 +118,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         // render listener 해제
         this.rendererEvent1();
     }
+    
 
     eventBusListeners() {
         // board-nav로 부터 현재 페이지 드로잉 이벤트 삭제 
@@ -117,6 +131,9 @@ export class ContractSignComponent implements OnInit, OnDestroy {
             this.pageRender(pageNum, zoomScale)
         })
     }
+
+
+    
 
     /**
      * 판서 Rendering

@@ -131,9 +131,13 @@ export class CanvasService {
 
 
     /**
-         * Canvas Container size 설정
-         *  - resize인 경우
-         */
+   *
+   * Canvas Container size 설정
+   *
+   * @param coverCanvas
+   * @param canvasContainer
+   * @returns
+   */
     setContainerSize(canvasContainer) {
         /*------------------------------------
             container Size
