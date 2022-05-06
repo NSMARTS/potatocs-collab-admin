@@ -14,7 +14,7 @@
 			</div>
 		</div>
 
-		<form [formGroup]="employeeForm" novalidate>
+		<form [formGroup]="contractForm" novalidate>
 			<div class="selectContainer">
 				<div class="selectContent" fxLayout="row wrap" fxLayoutAlign="start none">
 					<div class="selectBoxContent" fxFlex="35">
@@ -81,7 +81,7 @@
 
 		<div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
 			<div>
-				<button mat-raised-button class="searchBtn">Search</button>
+				<button mat-raised-button class="searchBtn" (click)="getContractList()" >Search</button>
 			</div>
 		</div>
 

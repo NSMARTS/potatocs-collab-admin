@@ -11,6 +11,8 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { PdfStorageService } from 'src/@dw/services/contract-mngmt/storage/pdf-storage.service';
 import { DataService } from 'src/@dw/store/data.service';
 import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
+import { ContractSignComponent } from '../../contract-sign/contract-sign.component';
+import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 
 
 
@@ -35,11 +37,9 @@ export class BoardNavComponent implements OnInit {
         private route: ActivatedRoute,
         public dialog: MatDialog,
         private dialogService: DialogService,
-        private viewInfoService: ViewInfoService,
         public dataService: DataService,
         private eventBusService: EventBusService,
-        private pdfStorageService: PdfStorageService,
-
+        private contractMngmtService: ContractMngmtService,
     ) { }
 
 
@@ -105,7 +105,18 @@ export class BoardNavComponent implements OnInit {
     }
 
     // modal Contract Sign
-    openSignContract() {
-        
+    async openSignContract() {
+
+        const data = {
+            _id: this.contractId
+        }
+
+        // contract_id에 해당하는 contract 정보 수신
+        const result: any = await this.contractMngmtService.getContractInfo(data).toPromise();
+
+        const dialogRef = this.dialog.open(ContractSignComponent, {
+            data: result.contractResult
+        });
+
     }
 }

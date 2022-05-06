@@ -52,7 +52,7 @@ export class ContractListComponent implements OnInit {
     displayedColumns: string[] = ['date', 'title', 'description', 'sender', 'receiver', 'status',];
     dataSource
 
-    employeeForm: FormGroup
+    contractForm: FormGroup
 
 
     searchStr = '';
@@ -91,7 +91,7 @@ export class ContractListComponent implements OnInit {
         const startOfMonth = moment().startOf('month').format();
         const endOfMonth = moment().endOf('month').format();
 
-        this.employeeForm = this.fb.group({
+        this.contractForm = this.fb.group({
             type: ['all', [
                 Validators.required,
             ]],
@@ -174,7 +174,7 @@ export class ContractListComponent implements OnInit {
 
     // myEmployeeLeaveListSearch() {
     //     let myEmployeeInfo;
-    //     const formValue = this.employeeForm.value;
+    //     const formValue = this.contractForm.value;
 
     //     console.log(this.myControl.value);
 
