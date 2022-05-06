@@ -106,7 +106,6 @@ export class CanvasService {
         canvasContainer.style.height = containerSize.height + 'px';
 
 
-
         // container와 canvas의 비율 => thumbnail window에 활용
         const ratio = {
             w: containerSize.width / canvasFullSize.width,
@@ -274,7 +273,7 @@ export class CanvasService {
                 oldPoint = newPoint;
                 points.push(oldPoint[0]); // x
                 points.push(oldPoint[1]); // y
-                console.log(points)
+                // console.log(points)
                 drawingService.move(sourceCtx, points, tool, scale, sourceCanvas); // scale: eraser marker 정확히 지우기 위함.
                 event.preventDefault();
                 // console.log(points)

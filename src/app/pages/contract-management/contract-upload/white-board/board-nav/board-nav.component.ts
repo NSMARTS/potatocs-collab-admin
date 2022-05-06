@@ -13,6 +13,7 @@ import { DataService } from 'src/@dw/store/data.service';
 import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
 import { ContractSignComponent } from '../../contract-sign/contract-sign.component';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
+import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
 
 
 
@@ -27,6 +28,7 @@ export class BoardNavComponent implements OnInit {
     pdfData;
     userInfo;
     contractId;
+    contractInfo;
 
 
     private unsubscribe$ = new Subject<void>();
@@ -40,6 +42,7 @@ export class BoardNavComponent implements OnInit {
         public dataService: DataService,
         private eventBusService: EventBusService,
         private contractMngmtService: ContractMngmtService,
+        private drawStorageService: DrawStorageService,
     ) { }
 
 
@@ -48,6 +51,20 @@ export class BoardNavComponent implements OnInit {
     ngOnInit(): void {
 
         this.contractId = this.route.snapshot.params['id'];
+
+        const data = {
+            _id: this.contractId
+        }
+
+        // contract_id에 해당하는 contract 정보 수신
+        this.contractMngmtService.getContractInfo(data).subscribe((result) => {
+            this.contractInfo = result
+            console.log(this.contractInfo.contractResult.status)
+        })
+        
+        
+
+        
 
         // console.log(this.contractId)
 
@@ -117,6 +134,11 @@ export class BoardNavComponent implements OnInit {
         const dialogRef = this.dialog.open(ContractSignComponent, {
             data: result.contractResult
         });
+
+        dialogRef.afterClosed().subscribe(result => {
+            // modal이 닫히면 그렸던 draw 정보 초기화 시켜주기
+			this.drawStorageService.resetDrawingEvents()
+		})
 
     }
 }

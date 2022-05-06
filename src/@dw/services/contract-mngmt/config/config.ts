@@ -1,5 +1,10 @@
 
 export const CANVAS_CONFIG = {
+    fullSize: {
+        width: 0,
+        height:0
+    },
+    
 	thumbnailMaxSize: 150,
 	maxContainerHeight: 0,
 	maxContainerWidth: 0,

@@ -64,5 +64,6 @@
 
 
 <div class="modal-btn">
-    <button color="primary" mat-raised-button mat-dialog-close> Confirm </button>
+    <button color="primary" class="confirm" mat-raised-button mat-dialog-close (click)="signContract()"> Confirm </button>
+    <button mat-raised-button class="cancelBtn" [mat-dialog-close]="false">Cancel</button>
 </div>

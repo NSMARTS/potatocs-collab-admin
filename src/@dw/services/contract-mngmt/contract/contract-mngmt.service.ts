@@ -37,4 +37,9 @@ export class ContractMngmtService {
     getPdfFile(data) {
         return this.http.get('/api/v1/admin/contract/getPdfFile/',{ params:data, responseType: 'blob' });
     }
+
+    // confirm sign
+    signContract(data) {
+        return this.http.post('/api/v1/admin/contract/signContract', data);
+    }
 }

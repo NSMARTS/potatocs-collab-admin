@@ -179,23 +179,6 @@ export class ContractUploadComponent implements OnInit {
         // 현재 저장된 PDF Array 변수
         let pdfVarArray = this.pdfStorageService.pdfVar;
 
-        // // 문서 개수의 차이
-        // const diff = contractData.length - pdfVarArray.length;
-        // console.log('diff : ', diff)
-        // // document length가 더 긴경우 : 배열 추가
-        // if (diff > 0) {
-        //     for (let i = 0; i < diff; i++) {
-        //         pdfVarArray.push({});
-        //     }
-        // }
-
-        // // document length가 더 짧은 경우 (현재는 없음 -> 추후 문서 삭제 등)
-        // // splice (a, b) a 번째 자리 수에 b 갯수 만큼 삭제
-        // // splice (a, b, 'c') a 번째 자리 수에 b 갯수 만큼 삭제 후 c 추가
-        // else if (diff < 0) {
-        //     pdfVarArray.splice(0, (diff * -1));
-        // }
-
         //1. Document 별 판서 Event 저장
         // this.drawStorageService.setDrawEventSet(i + 1, documentData[i].drawingEventSet);
         // console.log(this.drawStorageService.drawVarArray)
@@ -234,62 +217,6 @@ export class ContractUploadComponent implements OnInit {
    */
 
     updateViewInfoStore() {
-        // let contractInfo = [...this.viewInfoService.state.contractInfo];
-        // console.log(contractInfo)
-        // console.log(this.pdfStorageService.pdfVar)
-        // console.log(this.viewInfoService.state.pageInfo.currentDocId)
-        // const diff = this.pdfStorageService.pdfVar.length - contractInfo.length
-        // if (diff > 0) {
-        //     for (let item of this.pdfStorageService.pdfVar) {
-        //         // 기존에 없던 문서인 경우 추가
-        //         const isExist = contractInfo.some((doc) => doc._id === item._id)
-        //         if (!isExist) {
-        //             contractInfo.push({
-        //                 _id: item._id,
-        //                 currentPage: 1,
-        //                 numPages: item.pdfPages.length,
-        //                 fileName: item.fileName
-        //             });
-        //         }
-        //     };
-
-        // } else if (diff < 0) {
-            // contractInfo = contractInfo.filter((item) => this.pdfStorageService.pdfVar.some((element) => element._id == item._id))
-        // }
-        // const obj: any = {
-        //     contractInfo: contractInfo
-        // }
-
-
-        // // 최초 load인 경우 document ID는 처음 것으로 설정
-        // if (!this.viewInfoService.state.pageInfo.currentDocId) {
-        //     obj.pageInfo = {
-        //         currentDocId: contractInfo[0]._id,
-        //         currentDocNum: 1,
-        //         currentPage: 1,
-        //         zoomScale: this.zoomService.setInitZoomScale()
-        //     }
-        // }
-
-
-        // // viewInfoService 현재 바라보는 문서가 있을경우 함수 실행
-        // if (this.viewInfoService.state.pageInfo.currentDocId) {
-        //     // 문서 삭제 시 현재 바라보는 문서와 같은 곳일 경우 팝업 창과 함께 첫 화이트보드로 돌아온다.
-        //     // 현재 바라보는 문서 ID와 DB에서 받아온 문서 ID가 일치하는게 없으면 첫 페이지로 돌아오고 문서가 삭제됐다고 알림
-        //     const res = this.pdfStorageService.pdfVar.filter((x) => x._id == this.viewInfoService.state.pageInfo.currentDocId);
-        //     console.log(res)
-        //     if (res.length == 0) {
-        //         obj.pageInfo = {
-        //             currentDocId: contractInfo[0]._id,
-        //             currentDocNum: 1,
-        //             currentPage: 1,
-        //             zoomScale: this.zoomService.setInitZoomScale()
-        //         }
-        //         obj.leftSideView = 'fileList';
-        //         alert('The pdf file has been deleted');
-        //     }
-        // }
-
         const obj = {
             isDocLoaded: true,
             loadedDate: new Date().getTime(),

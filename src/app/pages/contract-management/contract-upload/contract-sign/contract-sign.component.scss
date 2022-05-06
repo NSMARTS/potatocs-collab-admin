@@ -46,7 +46,7 @@ $pending: isPending;    // pending 일때 스타일 다르게 적용을 위한 �
 
     button{
         padding: 0px 40px;
-        background-color: #00154F;
+        // background-color: #00154F;
         @if $pending {          // if 문 
             margin: 0 15px;
         }
@@ -107,6 +107,16 @@ div.canvasTeacher {
     top: 0;
     left: 0;
     width: 100%;
+}
+
+.confirmBtn {
+    background-color: #00154F;;
+    color: #fff;
+}
+
+.cancelBtn {
+    background: #f15e5e;
+    color: #fff;
 }
 
 

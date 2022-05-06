@@ -1,9 +1,12 @@
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
 import { CANVAS_CONFIG } from 'src/@dw/services/contract-mngmt/config/config';
+import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
 import { RenderingService } from 'src/@dw/services/contract-mngmt/rendering/rendering.service';
 import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
@@ -18,6 +21,7 @@ import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info
 export class ContractSignComponent implements OnInit, OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
+    
 
     editDisabled = true;
     dragOn = true;
@@ -40,18 +44,24 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
     rendererEvent1: any;
 
+    drawEvent:any;
+
 
     constructor(
         public dialogRef: MatDialogRef<ContractSignComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
+        private dialogService: DialogService,
+        private router: Router,
 
         private editInfoService: EditInfoService,
         private viewInfoService: ViewInfoService,
         private canvasService: CanvasService,
         private renderingService: RenderingService,
         private eventBusService: EventBusService,
-        private renderer: Renderer2,
         private drawStorageService: DrawStorageService,
+        private contractMngmtService: ContractMngmtService,
+        
+        
     ) { }
 
 
@@ -71,6 +81,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         console.log(this.data)
+        
 
         // canvas Element 할당
         this.canvasCover = this.coverCanvasRef.nativeElement;
@@ -103,10 +114,22 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
                 // canvas Event Handler 설정
                 this.canvasService.addEventHandler(this.canvasCover, this.teacherCanvas, this.currentToolInfo, zoomScale);
-            });
+        });
 
 
         this.eventBusListeners();
+
+        this.setCanvasSize();
+
+        // 서명 local Store 저장
+        this.eventBusService.on('gen:newDrawEvent', this.unsubscribe$, async (data) => {
+            const pageInfo = this.viewInfoService.state;
+
+            this.drawStorageService.setDrawEvent(data, pageInfo.currentPage);
+            
+            console.log(this.drawStorageService.drawVar)
+            this.drawEvent = this.drawStorageService.drawVar
+        });
     }
 
 
@@ -115,10 +138,9 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
 
-        // render listener 해제
-        this.rendererEvent1();
+        
     }
-    
+
 
     eventBusListeners() {
         // board-nav로 부터 현재 페이지 드로잉 이벤트 삭제 
@@ -133,7 +155,28 @@ export class ContractSignComponent implements OnInit, OnDestroy {
     }
 
 
-    
+    /**
+     * Canvas size 설정
+     *
+     * @param currentPage
+     * @param zoomScale
+     * @returns
+     */
+    setCanvasSize() {
+
+        // Canvas Container Size 조절
+        this.canvasContainer.style.width = 400 + 'px';
+        this.canvasContainer.style.height = 160 + 'px';
+
+        this.canvasCover.width = 400
+        this.canvasCover.height = 160
+
+        // Cover Canvas 조절
+        this.teacherCanvas.width = this.canvasCover.width
+        this.teacherCanvas.height = this.canvasCover.height
+    }
+
+
 
     /**
      * 판서 Rendering
@@ -150,4 +193,31 @@ export class ContractSignComponent implements OnInit, OnDestroy {
     }
 
 
+
+    signContract() {
+        this.dialogService.openDialogConfirm('Do you want save this contract?').subscribe((result: any) => {
+			if (result) {
+
+                this.data.senderSign = this.drawEvent;
+
+                console.log(this.data)
+
+                this.contractMngmtService.signContract(this.data).subscribe( 
+					(data: any) => {
+						console.log(data);
+						if(data.message == 'Success signed contract') {
+							// this.getCompanyHolidayList();
+                            this.dialogRef.close();
+                            this.router.navigate(['/leave/contract-mngmt/contract-list']);
+						}
+					},
+					(err: any) => {
+						if (err.error.message == 'Confirm signed contract Error'){
+							this.dialogService.openDialogNegative('An error has occurred.');
+						}
+					}
+				);
+			}
+		});
+    }
 }
