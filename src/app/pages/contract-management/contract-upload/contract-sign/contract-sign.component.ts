@@ -200,7 +200,6 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
                 this.data.senderSign = this.drawEvent;
 
-                console.log(this.data)
 
                 this.contractMngmtService.signContract(this.data).subscribe( 
 					(data: any) => {
