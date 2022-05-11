@@ -14,6 +14,7 @@ import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-
 import { ContractSignComponent } from '../../contract-sign/contract-sign.component';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
+import { ContractDetailsComponent } from '../../contract-details/contract-details.component';
 
 
 
@@ -133,5 +134,24 @@ export class BoardNavComponent implements OnInit {
 			this.drawStorageService.resetDrawingEvents()
 		})
 
+    }
+
+
+    async openContractDetail() {
+        const data = {
+            _id: this.contractId
+        }
+
+        // contract_id에 해당하는 contract 정보 수신
+        const result: any = await this.contractMngmtService.getContractInfo(data).toPromise();
+
+        const dialogRef = this.dialog.open(ContractDetailsComponent, {
+            data: result.contractResult
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            // modal이 닫히면 그렸던 draw 정보 초기화 시켜주기
+			this.drawStorageService.resetDrawingEvents()
+		})
     }
 }

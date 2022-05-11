@@ -177,7 +177,7 @@ export class RenderingService {
         const targetCtx = targetCanvas.getContext('2d');
         const scale = zoomScale || 1;
         targetCtx.clearRect(0, 0, targetCanvas.width / scale, targetCanvas.height / scale);
-        console.log(targetCanvas.width, scale)
+        
         /*----------------------------------------
           해당 page의 drawing 정보가 있는 경우
           drawing Service의 'end'관련 event 이용.

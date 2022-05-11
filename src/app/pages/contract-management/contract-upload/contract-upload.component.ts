@@ -35,7 +35,10 @@ export class ContractUploadComponent implements OnInit {
     ngOnInit(): void {
         this.contractId = this.route.snapshot.params['id'];
 
-        this.updateDocuments();        
+        if(this.contractId != undefined) {
+            this.updateDocuments();
+        }
+        
     }
     ///////////////////////////////////////////////////////////
 

@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
 
@@ -92,7 +92,7 @@ export class ContractListComponent implements OnInit {
         const endOfMonth = moment().endOf('month').format();
 
         this.contractForm = this.fb.group({
-            type: ['all', [
+            status: ['all', [
                 Validators.required,
             ]],
             leave_start_date: [startOfMonth, [
@@ -126,12 +126,28 @@ export class ContractListComponent implements OnInit {
         }
 
         this.contractMngmtService.getContractList(data).subscribe((data: any) => {
+
+            ///////////////////// 검색 필터 ////////////////////
+            // 검색 필터 위해서 receiver 중복 값 제외 후 return
+            const userFilter = data.contractList.filter((item, i) => {
+                return (
+                    data.contractList.findIndex((item2, j) => {
+                      return item.receiver._id === item2.receiver._id;
+                    }) === i
+                );
+            })
+
+            // console.log(userFilter)
+            ////////////////////////////////////////////////////
+            console.log(data.contractList)
             if (data.message == 'Success find document list') {
                 this.contractList = data.documentList
             }
 
             this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
             this.contractList.paginator = this.paginator;
+            this.options = userFilter
+            this.setAutoComplete();
         },
             (err: any) => {
                 console.log(err);
@@ -148,63 +164,69 @@ export class ContractListComponent implements OnInit {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // setAutoComplete() {
-    //     // auto complete
-    //     this.filteredOptions = this.myControl.valueChanges
-    //         .pipe(
-    //             startWith(''),
-    //             map(value => typeof value === 'string' ? value : value.email),
-    //             map((email: any) => email ? this._filter(email) : this.options.slice())
-    //         );
+    setAutoComplete() {
+        // auto complete
+        console.log(this.myControl.valueChanges)
+        this.filteredOptions = this.myControl.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => typeof value === 'string' ? value : value.receiver.email),
+                map((email: any) => email ? this._filter(email) : this.options.slice())
+            );
 
-    //     console.log(this.filteredOptions);
+        // console.log(this.filteredOptions);
+    }
+
+    //auto
+    // displayFn(employee: Employees): string {
+    //   return employee && employee.email ? employee.email : '';
     // }
-
-    // //auto
-    // // displayFn(employee: Employees): string {
-    // //   return employee && employee.email ? employee.email : '';
-    // // }
-    // // getOptionText(employee: Employees) {
-    // //   return employee.email ? employee.email : '';
-    // // }
-    // private _filter(email: string): Employees[] {
-    //     const filterValue = email.toLowerCase();
-    //     return this.options.filter(option => option.email.toLowerCase().includes(filterValue));
+    // getOptionText(employee: Employees) {
+    //   return employee.email ? employee.email : '';
     // }
+    private _filter(email: string): Employees[] {
+        console.log(email)
+        console.log(this.options)
+        const filterValue = email.toLowerCase();
+        return this.options.filter(option=> {
+            console.log(option)
+            option.email.toLowerCase().includes(filterValue)
+        });
+    }
 
-    // myEmployeeLeaveListSearch() {
-    //     let myEmployeeInfo;
-    //     const formValue = this.contractForm.value;
+    getMyContractListSearch() {
+        let myEmployeeInfo;
+        const formValue = this.contractForm.value;
 
-    //     console.log(this.myControl.value);
+        // console.log(formValue);
 
-    //     myEmployeeInfo = {
-    //         type: formValue.type,
-    //         leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
-    //         leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
+        // myEmployeeInfo = {
+        //     type: formValue.type,
+        //     leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
+        //     leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
 
-    //         // leave_start_date: formValue.leave_start_date,
-    //         // leave_end_date: formValue.leave_end_date,
-    //         emailFind: this.myControl.value,
-    //     }
+        //     // leave_start_date: formValue.leave_start_date,
+        //     // leave_end_date: formValue.leave_end_date,
+        //     emailFind: this.myControl.value,
+        // }
 
-    //     // 조건에 따른 사원들 휴가 가져오기
-    //     this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
-    //         (data: any) => {
-    //             console.log(data)
-    //             data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
-    //                 item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
-    //                 item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
-    //                 return item;
-    //             });
-    //             this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
-    //             this.dataSource.paginator = this.paginator;
-    //             this.options = data.myEmployeeList;
-    //             this.setAutoComplete();
-    //             console.log(this.dataSource.filteredData)
-    //         }
-    //     )
-    // }
+        // // 조건에 따른 사원들 휴가 가져오기
+        // this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
+        //     (data: any) => {
+        //         console.log(data)
+        //         data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
+        //             item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
+        //             item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
+        //             return item;
+        //         });
+        //         this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
+        //         this.dataSource.paginator = this.paginator;
+        //         this.options = data.myEmployeeList;
+                this.setAutoComplete();
+        //         console.log(this.dataSource.filteredData)
+        //     }
+        // )
+    }
 
     // openDialogPendingLeaveDetail(data) {
 

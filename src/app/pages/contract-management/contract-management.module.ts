@@ -15,6 +15,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { NgMaterialUIModule } from 'src/app/ng-material-ui/ng-material-ui.module';
 import { ContractSaveComponent } from './contract-upload/contract-save/contract-save.component';
 import { ContractSignComponent } from './contract-upload/contract-sign/contract-sign.component';
+import { ContractDetailsComponent } from './contract-upload/contract-details/contract-details.component';
 
 
 
@@ -31,6 +32,7 @@ import { ContractSignComponent } from './contract-upload/contract-sign/contract-
         ContractSaveComponent,
         DragScrollDirective,
         ContractSignComponent,
+        ContractDetailsComponent,
     ],
     imports: [
         CommonModule,

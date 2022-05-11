@@ -21,4 +21,7 @@
     <div *ngIf="this.contractId && this.contractInfo?.contractResult.status == 'Pending'">
         <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
     </div>
+    <div *ngIf="this.contractId && this.contractInfo?.contractResult.status == 'Proceeding'">
+        <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Contract Detail</button>
+    </div>
 </div>

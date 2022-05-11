@@ -20,10 +20,10 @@
 					<div class="selectBoxContent" fxFlex="35">
 						<div class="selectBox">
 							<span class="selectLabel">
-								<label for="type" class="optionLabel fontBold">Status</label>
+								<label for="status" class="optionLabel fontBold">Status</label>
 							</span>
 							<mat-form-field appearance="outline" class="formFieldBox formSpacer">
-								<mat-select formControlName="type" required>
+								<mat-select formControlName="status" required>
 									<mat-option value="all">All</mat-option>
 									<mat-option value="pending">Pending</mat-option>
 									<mat-option value="proceeding">Proceeding</mat-option>
@@ -68,8 +68,8 @@
 								<mat-error>an e-mail is required</mat-error>
 								<mat-error>Please input a correct e-mail!</mat-error>
 								<mat-autocomplete #auto="matAutocomplete">
-									<mat-option *ngFor="let option of filteredOptions | async" [value]="option.email">
-										{{option.email}} ({{option.name}})
+									<mat-option *ngFor="let option of filteredOptions | async" [value]="option.receiver.email">
+										{{option.receiver.email}}
 									</mat-option>
 								</mat-autocomplete>
 							</mat-form-field>
@@ -81,7 +81,7 @@
 
 		<div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
 			<div>
-				<button mat-raised-button class="searchBtn" (click)="getContractList()" >Search</button>
+				<button mat-raised-button class="searchBtn" (click)="getMyContractListSearch()" >Search</button>
 			</div>
 		</div>
 

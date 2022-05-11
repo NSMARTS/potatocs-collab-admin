@@ -12,6 +12,7 @@ import { RenderingService } from 'src/@dw/services/contract-mngmt/rendering/rend
 import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
 import { EditInfoService } from 'src/@dw/services/contract-mngmt/store/edit-info.service';
 import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-contract-sign',
@@ -81,8 +82,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         console.log(this.data)
-        
-
+    
         // canvas Element 할당
         this.canvasCover = this.coverCanvasRef.nativeElement;
         this.teacherCanvas = this.teacherCanvasRef.nativeElement;
@@ -110,7 +110,8 @@ export class ContractSignComponent implements OnInit, OnDestroy {
                 };
                 console.log(this.currentToolInfo)
 
-                const zoomScale = this.viewInfoService.state.zoomScale;
+                // const zoomScale = this.viewInfoService.state.zoomScale;
+                const zoomScale = 1; // sign 부분 canvas에서는 zoomScale 확대와 축소가 필요없기 때문에 1로 고정
 
                 // canvas Event Handler 설정
                 this.canvasService.addEventHandler(this.canvasCover, this.teacherCanvas, this.currentToolInfo, zoomScale);
@@ -125,7 +126,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         this.eventBusService.on('gen:newDrawEvent', this.unsubscribe$, async (data) => {
             const pageInfo = this.viewInfoService.state;
 
-            this.drawStorageService.setDrawEvent(data, pageInfo.currentPage);
+            this.drawStorageService.setDrawEvent(pageInfo.currentPage, data);
             
             console.log(this.drawStorageService.drawVar)
             this.drawEvent = this.drawStorageService.drawVar
@@ -194,12 +195,17 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
 
 
+    // 계약서 서명
     signContract() {
         this.dialogService.openDialogConfirm('Do you want save this contract?').subscribe((result: any) => {
 			if (result) {
+                const convertDate = moment().format("YYYY-MM-DD HH:mm ddd")
 
+                // senderSign key에 value 추가
                 this.data.senderSign = this.drawEvent;
+                this.data.senderSign[0].signedTime = convertDate
 
+                console.log(this.data)
 
                 this.contractMngmtService.signContract(this.data).subscribe( 
 					(data: any) => {
@@ -208,6 +214,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 							// this.getCompanyHolidayList();
                             this.dialogRef.close();
                             this.router.navigate(['/leave/contract-mngmt/contract-list']);
+                        
 						}
 					},
 					(err: any) => {
