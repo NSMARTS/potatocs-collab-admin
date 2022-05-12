@@ -77,7 +77,8 @@ $pending: isPending;    // pending 일때 스타일 다르게 적용을 위한 �
 
 .canvas-container {
     position: relative;
-    border: 1px solid black;
+    border-left: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
 
     .canvasTeacher {
         position: relative;

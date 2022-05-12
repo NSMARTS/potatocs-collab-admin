@@ -34,13 +34,17 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
     // static: https://stackoverflow.com/questions/56359504/how-should-i-use-the-new-static-option-for-viewchild-in-angular-8
     @ViewChild('canvasContainer', { static: true }) public canvasContainerRef: ElementRef;
-    @ViewChild('canvasCover', { static: true }) public coverCanvasRef: ElementRef;
-    @ViewChild('teacherCanvas', { static: true }) public teacherCanvasRef: ElementRef;
+    @ViewChild('senderCanvasCover', { static: true }) public senderCoverCanvasRef: ElementRef;
+    @ViewChild('senderCanvas', { static: true }) public senderCanvasRef: ElementRef;
+    @ViewChild('receiverCanvasCover', { static: true }) public receiverCoverCanvasRef: ElementRef;
+    @ViewChild('receiverCanvas', { static: true }) public receiverCanvasRef: ElementRef;
 
 
     canvasContainer: HTMLDivElement;
-    canvasCover: HTMLCanvasElement;
-    teacherCanvas: HTMLCanvasElement;
+    senderCanvasCover: HTMLCanvasElement;
+    senderCanvas: HTMLCanvasElement;
+    receiverCanvasCover: HTMLCanvasElement;
+    receiverCanvas: HTMLCanvasElement
 
     rendererEvent1: any;
 
@@ -76,12 +80,33 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
          
         this.setCanvasSize();
 
-        // DB로부터 sign 좌표가 있으면 drawing 부분
-        if(this.data.senderSign){
+        /***************************************
+         * DB로부터 sign 좌표가 있으면 drawing 부분
+         ***************************************/
+        if(this.data.senderSign.length != 0){
             for (let i = 0; i < this.data.senderSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.senderSign[0].drawingEvent[i])
             }
-            this.pageRender(1, 1)
+            this.pageRender1(1, 1)
+
+            /***************************************
+             * 내 sign을 그리려면 상대방의 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
+             ***************************************/
+            this.drawStorageService.resetDrawingEvents();
+        } 
+
+        
+
+         if(this.data.receiverSign.length != 0){
+            for (let i = 0; i < this.data.receiverSign[0].drawingEvent.length; i++) {
+                this.drawStorageService.setDrawEvent(1, this.data.receiverSign[0].drawingEvent[i])
+            }
+            this.pageRender2(1, 1)
+
+            /***************************************
+             * 내 sign을 그리려면 상대방의 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
+            ***************************************/
+            this.drawStorageService.resetDrawingEvents();
         } 
     }
 
@@ -103,36 +128,62 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
     setCanvasSize() {
   
         // canvas Element 할당
-        this.canvasCover = this.coverCanvasRef.nativeElement;
-        this.teacherCanvas = this.teacherCanvasRef.nativeElement;
         this.canvasContainer = this.canvasContainerRef.nativeElement;
+        this.senderCanvas = this.senderCanvasRef.nativeElement;
+        this.senderCanvasCover = this.senderCoverCanvasRef.nativeElement;
+        
+        this.receiverCanvas = this.receiverCanvasRef.nativeElement;
+        this.receiverCanvasCover = this.receiverCoverCanvasRef.nativeElement;
 
         // Canvas Container Size 조절
         this.canvasContainer.style.width = 400 + 'px';
         this.canvasContainer.style.height = 160 + 'px';
 
-        this.canvasCover.width = 400
-        this.canvasCover.height = 160
+        this.senderCanvasCover.width = 400
+        this.senderCanvasCover.height = 160
 
         // Cover Canvas 조절
-        this.teacherCanvas.width = this.canvasCover.width
-        this.teacherCanvas.height = this.canvasCover.height
+        this.senderCanvas.width = this.senderCanvasCover.width
+        this.senderCanvas.height = this.senderCanvasCover.height
+
+
+        this.receiverCanvasCover.width = 400
+        this.receiverCanvasCover.height = 160
+
+        this.receiverCanvas.width = this.receiverCanvasCover.width
+        this.receiverCanvas.height = this.receiverCanvasCover.height
     }
 
 
 
+    //////////////////////////////////////////////////////////////////////////////////////
     /**
-     * 판서 Rendering
+     * 판서 Rendering (sender 부분)
      *
      * @param currentPage
      * @param zoomScale
      */
-    async pageRender(currentPage, zoomScale) {
+    async pageRender1(currentPage, zoomScale) {
         console.log('>>> page Board Render!');
 
         // board rendering
         const drawingEvents = this.drawStorageService.getDrawingEvents(currentPage);
-        this.renderingService.renderBoard(this.teacherCanvas, zoomScale, drawingEvents);
+        this.renderingService.renderBoard(this.senderCanvas, zoomScale, drawingEvents);
+    }
+
+    /**
+     * 판서 Rendering (receiver 부분)
+     *
+     * @param currentPage
+     * @param zoomScale
+     */
+    async pageRender2(currentPage, zoomScale) {
+        console.log('>>> page Board Render!');
+
+        // board rendering
+        const drawingEvents = this.drawStorageService.getDrawingEvents(currentPage);
+        this.renderingService.renderBoard(this.receiverCanvas, zoomScale, drawingEvents);
+        //////////////////////////////////////////////////////////////////////////////////////
     }
 
 }

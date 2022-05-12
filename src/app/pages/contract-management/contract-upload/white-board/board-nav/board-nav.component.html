@@ -18,10 +18,10 @@
     <div *ngIf="!this.contractId">
         <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
     </div>
-    <div *ngIf="this.contractId && this.contractInfo?.contractResult.status == 'Pending'">
+    <div *ngIf="this.contractId && (this.contractInfo?.contractResult.senderSign[0] == undefined)">
         <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
     </div>
-    <div *ngIf="this.contractId && this.contractInfo?.contractResult.status == 'Proceeding'">
-        <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Contract Detail</button>
+    <div *ngIf="this.contractId && (this.contractInfo?.contractResult.senderSign[0] != undefined)">
+        <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Detail</button>
     </div>
 </div>

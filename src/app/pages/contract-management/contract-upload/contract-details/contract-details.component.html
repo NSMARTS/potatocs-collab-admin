@@ -47,25 +47,45 @@
         </tr>
         <tr>
             <th>
-                Signed Time
+                Receiver Signed Time
             </th>
             <td>
-                {{data.senderSign[0].signedTime}}
+                {{data.receiverSign[0]?.signedTime}}
             </td>
         </tr>
         <tr>
             <th>
-                Sign
+                Receiver Sign
             </th>
             <div #canvasContainer class="canvas-container">
                 <div class="canvasTeacher">
-                    <canvas #teacherCanvas></canvas>
+                    <canvas #receiverCanvas></canvas>
                 </div>
                 <div class="cover" id="canvas" [hidden] = "editDisabled">
-                    <canvas #canvasCover></canvas>
+                    <canvas #receiverCanvasCover></canvas>
                 </div>
             </div>
-        
+        </tr>
+        <tr>
+            <th>
+                Sender Signed Time
+            </th>
+            <td>
+                {{data.senderSign[0]?.signedTime}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Sender Sign
+            </th>
+            <div #canvasContainer class="canvas-container">
+                <div class="canvasTeacher">
+                    <canvas #senderCanvas></canvas>
+                </div>
+                <div class="cover" id="canvas" [hidden] = "editDisabled">
+                    <canvas #senderCanvasCover></canvas>
+                </div>
+            </div>
         </tr>
     </tbody>
 </table>

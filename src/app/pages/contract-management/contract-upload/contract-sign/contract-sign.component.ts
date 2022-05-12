@@ -35,13 +35,17 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
     // static: https://stackoverflow.com/questions/56359504/how-should-i-use-the-new-static-option-for-viewchild-in-angular-8
     @ViewChild('canvasContainer', { static: true }) public canvasContainerRef: ElementRef;
-    @ViewChild('canvasCover', { static: true }) public coverCanvasRef: ElementRef;
-    @ViewChild('teacherCanvas', { static: true }) public teacherCanvasRef: ElementRef;
+    @ViewChild('senderCanvasCover', { static: true }) public senderCoverCanvasRef: ElementRef;
+    @ViewChild('senderCanvas', { static: true }) public senderCanvasRef: ElementRef;
+    @ViewChild('receiverCanvasCover', { static: true }) public receiverCoverCanvasRef: ElementRef;
+    @ViewChild('receiverCanvas', { static: true }) public receiverCanvasRef: ElementRef;
 
 
     canvasContainer: HTMLDivElement;
-    canvasCover: HTMLCanvasElement;
-    teacherCanvas: HTMLCanvasElement;
+    senderCanvasCover: HTMLCanvasElement;
+    senderCanvas: HTMLCanvasElement;
+    receiverCanvasCover: HTMLCanvasElement;
+    receiverCanvas: HTMLCanvasElement
 
     rendererEvent1: any;
 
@@ -84,9 +88,12 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         console.log(this.data)
     
         // canvas Element 할당
-        this.canvasCover = this.coverCanvasRef.nativeElement;
-        this.teacherCanvas = this.teacherCanvasRef.nativeElement;
         this.canvasContainer = this.canvasContainerRef.nativeElement;
+        this.senderCanvas = this.senderCanvasRef.nativeElement;
+        this.senderCanvasCover = this.senderCoverCanvasRef.nativeElement;
+        
+        this.receiverCanvas = this.receiverCanvasRef.nativeElement;
+        this.receiverCanvasCover = this.receiverCoverCanvasRef.nativeElement;
 
 
 
@@ -114,13 +121,30 @@ export class ContractSignComponent implements OnInit, OnDestroy {
                 const zoomScale = 1; // sign 부분 canvas에서는 zoomScale 확대와 축소가 필요없기 때문에 1로 고정
 
                 // canvas Event Handler 설정
-                this.canvasService.addEventHandler(this.canvasCover, this.teacherCanvas, this.currentToolInfo, zoomScale);
+                this.canvasService.addEventHandler(this.senderCanvasCover, this.senderCanvas, this.currentToolInfo, zoomScale);
         });
 
 
         this.eventBusListeners();
 
         this.setCanvasSize();
+
+        /***************************************
+         * DB로부터 sign 좌표가 있으면 drawing 부분
+         ***************************************/
+         if(this.data.receiverSign.length != 0){
+            for (let i = 0; i < this.data.receiverSign[0].drawingEvent.length; i++) {
+                this.drawStorageService.setDrawEvent(1, this.data.receiverSign[0].drawingEvent[i])
+            }
+            this.pageRender(1, 1)
+        } 
+     
+        /***************************************
+         * 상대방의 sign 좌표를 받아 서명을 그리기 위해
+         * setDrawEvent()를 사용하여 상대방의 좌표를 추가했기 때문에
+         * 내가 sign 하려면 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
+         ***************************************/
+        this.drawStorageService.resetDrawingEvents()
 
         // 서명 local Store 저장
         this.eventBusService.on('gen:newDrawEvent', this.unsubscribe$, async (data) => {
@@ -169,12 +193,19 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         this.canvasContainer.style.width = 400 + 'px';
         this.canvasContainer.style.height = 160 + 'px';
 
-        this.canvasCover.width = 400
-        this.canvasCover.height = 160
+        this.senderCanvasCover.width = 400
+        this.senderCanvasCover.height = 160
 
         // Cover Canvas 조절
-        this.teacherCanvas.width = this.canvasCover.width
-        this.teacherCanvas.height = this.canvasCover.height
+        this.senderCanvas.width = this.senderCanvasCover.width
+        this.senderCanvas.height = this.senderCanvasCover.height
+
+
+        this.receiverCanvasCover.width = 400
+        this.receiverCanvasCover.height = 160
+
+        this.receiverCanvas.width = this.receiverCanvasCover.width
+        this.receiverCanvas.height = this.receiverCanvasCover.height
     }
 
 
@@ -190,7 +221,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
         // board rendering
         const drawingEvents = this.drawStorageService.getDrawingEvents(currentPage);
-        this.renderingService.renderBoard(this.teacherCanvas, zoomScale, drawingEvents);
+        this.renderingService.renderBoard(this.receiverCanvas, zoomScale, drawingEvents);
     }
 
 
