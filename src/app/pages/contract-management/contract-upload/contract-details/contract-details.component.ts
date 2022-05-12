@@ -1,17 +1,10 @@
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { DialogService } from 'src/@dw/dialog/dialog.service';
-import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
 import { CANVAS_CONFIG } from 'src/@dw/services/contract-mngmt/config/config';
-import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
-import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
 import { RenderingService } from 'src/@dw/services/contract-mngmt/rendering/rendering.service';
 import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
-import { EditInfoService } from 'src/@dw/services/contract-mngmt/store/edit-info.service';
-import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info.service';
+
 
 @Component({
     selector: 'app-contract-details',
@@ -54,11 +47,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
         public dialogRef: MatDialogRef<ContractDetailsComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
 
-        private editInfoService: EditInfoService,
-        private viewInfoService: ViewInfoService,
-        private canvasService: CanvasService,
         private renderingService: RenderingService,
-        private eventBusService: EventBusService,
         private drawStorageService: DrawStorageService,
     ) { }
 

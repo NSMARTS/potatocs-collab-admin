@@ -79,7 +79,10 @@ export class ContractListComponent implements OnInit {
             async (data: any) => {
                 this.userInfo = data;
 
+                console.log(this.userInfo)
+
                 if (this.userInfo.company_id != undefined) {
+                    await new Promise(res => setTimeout(res, 300));
                     this.getContractList();
                 }
             },
@@ -105,6 +108,9 @@ export class ContractListComponent implements OnInit {
                 Validators.required,
             ]]
         });
+
+
+
     }
 
     ngOnDestroy() {
@@ -120,6 +126,8 @@ export class ContractListComponent implements OnInit {
 
     // 계약서 가져오기
     getContractList() {
+
+        console.log(this.userInfo)
 
         const data = {
             company_id: this.userInfo.company_id._id
