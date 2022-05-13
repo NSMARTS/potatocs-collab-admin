@@ -67,12 +67,14 @@ export class BoardCanvasComponent implements OnInit {
         this.viewInfoService.state$
             .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged())
             .subscribe((viewInfo) => {
-        
-            if (viewInfo.isDocLoaded) {
-                this.onChangePage();
-            }
 
-        });
+                console.log(viewInfo)
+
+                if (viewInfo.isDocLoaded) {
+                    this.onChangePage();
+                }
+
+            });
         /////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////
@@ -134,11 +136,38 @@ export class BoardCanvasComponent implements OnInit {
      * @param zoomScale
      */
     pageRender(currentPage, zoomScale) {
-        console.log('>>> page Render!');
 
+        // zoomIn 시 UI 측면 화면 깜빡임 방지 함수.
+        this.preRenderBackground(currentPage)
+
+        console.log('>>> page Render!');
         // PDF Rendering
         this.renderingService.renderBackground(this.tmpCanvas, this.bgCanvas, currentPage);
+    }
 
+    
+    /**
+     * Background pre rendering
+     * - Main bg를 그리기 전에 thumbnail image 기준으로 배경을 미리 그림.
+     * - UI 측면의 효과
+     * @param pageNum page 번호
+     */
+    async preRenderBackground(pageNum) {
+        console.log(pageNum)
+        const targetCanvas = this.bgCanvas
+
+        const ctx = targetCanvas.getContext("2d");
+        const imgElement: any = document.getElementById('thumb' + pageNum);
+
+        /**************************************************
+        * 처음 화이트보드에 들어오면 document.getElementById('thumb_' + pageNum) (이미지)가 정의되지 않아 오류가 난다.
+        * 그래서 img가 null일 시 return 하여 오류 방지
+        ****************************************************/
+        if(imgElement == null){
+            return
+        }
+      
+        ctx.drawImage(imgElement, 0, 0, targetCanvas.width, targetCanvas.height);
     }
 
 
@@ -197,7 +226,7 @@ export class BoardCanvasComponent implements OnInit {
 
         this.eventBusService.emit(new EventData('change:containerSize', {
             ratio,
-            coverWidth: this.canvasService.canvasFullSize.width,            
+            coverWidth: this.canvasService.canvasFullSize.width,
         }));
 
 
