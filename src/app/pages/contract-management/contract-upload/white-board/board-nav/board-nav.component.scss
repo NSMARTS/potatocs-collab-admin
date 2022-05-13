@@ -1,0 +1,36 @@
+.nav_container {
+    display: flex;
+    height: 70px;
+    background-color: rgb(255, 255, 255);
+    justify-content: space-between;
+    padding: 0 20px;
+    align-items: center;
+    border-bottom: solid 1px rgb(216, 216, 216);
+}
+
+.title_container {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.saveBtn {
+    background: #00154F;
+    color: #fff;
+    width: 100px;
+}
+
+.backBtn {
+    background: #F4AF1B;
+    color: #fff;
+    max-width: 100px;
+    height: 36px;
+    align-items: center;
+}
+
+.detailBtn {
+    background: #00154F;
+    color: #fff;
+    width: 150px;
+}

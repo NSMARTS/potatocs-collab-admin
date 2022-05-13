@@ -51,6 +51,14 @@ const routes: Routes = [
                 path: 'company-mngmt', canActivate: [ SignInGuard ],
                 loadChildren: () => import('./pages/company-management/company-management.module').then(m => m.CompanyManageMentModule)
             },
+            {
+                path: 'document-mngmt', canActivate: [ SignInGuard ],
+                loadChildren: () => import('./pages/document-management/document-management.module').then(m => m.DocumentManagementModule)
+            },
+            {
+                path: 'contract-mngmt', canActivate: [ SignInGuard ],
+                loadChildren: () => import('./pages/contract-management/contract-management.module').then(m => m.ContractManagementModule)
+            },
         ]
     },
     // 잘못된 URL을 사용했을때 메인으로 보냄

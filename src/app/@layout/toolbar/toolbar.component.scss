@@ -1,7 +1,11 @@
+mat-toolbar {
+    z-index: 100;
+}
 .tb-color {
     background: #00154F;
     color: #fff;
 	border-left: solid 1px #fff;
+    z-index: 100;
 }
 
 .profileName {

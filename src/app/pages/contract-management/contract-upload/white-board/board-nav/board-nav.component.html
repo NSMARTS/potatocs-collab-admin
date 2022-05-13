@@ -1,0 +1,35 @@
+<div class="nav_container">
+
+    <div>
+        <button mat-raised-button class="backBtn" (click)="contractLists()">Back</button>
+    </div>
+
+
+    <!-- <form [formGroup]="contractForm">
+        <div class="title_container" style="position: fixed; left: 455px; top: 67px;">
+            <mat-form-field appearance="outline" class="title" style="width: 500px;">
+                <mat-label>title</mat-label>
+                <input matInput type="text" formControlName="title" />
+            </mat-form-field>
+        </div>
+    </form> -->
+
+
+
+    
+
+    <div *ngIf="flag == true">
+        <div *ngIf="!contractId">
+            <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
+        </div>
+
+        <div *ngIf="(contractId && (contractInfo?.contractResult.senderSign[0] == undefined)) && (contractInfo?.contractResult.status != 'Reject')">
+            <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
+        </div>
+        
+        <div *ngIf="(contractId && (contractInfo?.contractResult.senderSign[0] != undefined)) || (contractInfo?.contractResult.status == 'Reject')">
+            <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Detail</button>
+        </div>
+    </div>
+
+</div>

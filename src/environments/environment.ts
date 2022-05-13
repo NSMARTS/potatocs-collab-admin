@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://test-potatocs.com',
+  API_URL: 'http://localhost:3400',
+  socketUrl: 'http://localhost:3400',
   tokenName: 'test-potatocs'
 };
 

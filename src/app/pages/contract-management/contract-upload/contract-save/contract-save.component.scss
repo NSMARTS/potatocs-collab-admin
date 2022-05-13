@@ -1,0 +1,109 @@
+.mainContentContainer {
+    margin: 0 auto;
+    height: 100%;
+}
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.leaveTableContainer {
+    min-width: 600px;
+    max-width: 1200px;
+    padding: 20px 20px;
+    border: 1px solid rgba(238, 238, 238, 0.548);
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: 15px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+
+    .br_ltop {
+        border-radius: 4px;
+    }
+}
+
+.lineDivider {
+    border-bottom: 1px solid #000;
+}
+
+.leftTable {
+    border-radius: 4px;
+    margin: 1px;
+    padding: 20px;
+    color: #fff;
+    font-weight: 700;
+    background-color: #273da0;
+}
+
+.rightTable {
+    border-left: 1px solid #000;
+    padding: 20px;
+}
+
+.btnSection_1 {
+    margin-top: 13px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+.companyFormFieldBox {
+    width: 300px;
+}
+
+.saveBtn {
+    background: #00154F;
+    color: #fff;
+}
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .companyFormFieldBox {
+        width: 100%;
+    }
+    .mat-dialog-container {
+        padding: 0 !important;
+    }
+
+    .mainTitle {
+        font-size: 20px;
+        margin: 20px 15px;
+    }
+
+    .leaveTableContainer {
+        min-width: 0;
+        padding: 20px 0px;
+    }
+    
+    .lineDivider {
+        display: flex;
+        width: 100%;
+    }
+
+    .leftTable {
+        text-align: center;
+        flex: 1 1 !important;
+        padding: 5px 0;
+        font-size: 0.7em;
+        max-width: 20% !important;
+        line-height: 67px;
+    }
+
+    .rightTable {
+        // flex: 1 1 !important;
+        max-width: 79%;
+        padding: 10px;
+    }
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 20px !important;
+    }
+}

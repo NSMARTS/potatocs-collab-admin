@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 
 // Module
@@ -26,6 +26,11 @@ import { SidenavModule } from './@layout/sidenav/sidenav.module';
 // Env
 import { environment } from 'src/environments/environment';
 import { AdminGuard } from 'src/@dw/guard/admin.guard';
+// import { DragScrollDirective } from 'src/@dw/directives/drag-scroll.directive';
+import { MatIconModule } from '@angular/material/icon';
+import { DragScrollDirective } from 'src/@dw/directives/drag-scroll.directive';
+import { IconModule } from '@visurel/iconify-angular';
+import { ContractUploadComponent } from './pages/contract-management/contract-upload/contract-upload.component';
 
 export function tokenGetter() {
 	return localStorage.getItem(environment.tokenName);
@@ -34,7 +39,7 @@ export function tokenGetter() {
     declarations: [
       AppComponent,
       IndexComponent,
-      CollaborationComponent
+      CollaborationComponent,
     ],
     imports: [
       BrowserModule,
@@ -57,6 +62,8 @@ export function tokenGetter() {
       ToolbarModule,
       SidenavModule,
       ApproutingModule,
+      ReactiveFormsModule,
+      MatIconModule,
     ],
     providers: [SignInGuard, AdminGuard],
     bootstrap: [AppComponent]

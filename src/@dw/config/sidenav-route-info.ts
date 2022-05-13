@@ -50,5 +50,31 @@ export const sidenavRouteInfo: NavigationItem[] = [
 				icon: 'update',
 			}
 		]
+	},
+    // document 
+    {
+		type: 'subheading',
+		label: 'Documents',
+		children: [
+			{
+				type: 'link',
+				label: 'Important documents',
+				route: 'document-mngmt/document-list',
+				icon: 'folder_special',
+			}
+		]
+	},
+    // contract 
+    {
+		type: 'subheading',
+		label: 'Contract',
+		children: [
+			{
+				type: 'link',
+				label: 'Contract management',
+				route: 'contract-mngmt/contract-list',
+				icon: 'handshake',
+			}
+		]
 	}
 ];
