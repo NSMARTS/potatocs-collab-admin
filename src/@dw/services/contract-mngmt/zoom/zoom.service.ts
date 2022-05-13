@@ -118,8 +118,9 @@ export class ZoomService {
       else step = 0.3;
     }
 
-    let newScale = Math.round((prevScale + step * sgn) * 10) / 10;
 
+
+    let newScale = Math.round((prevScale + step * sgn) * 10) / 10;
     newScale = Math.min(newScale, this.maxZoomScale);
     newScale = Math.max(newScale, this.minZoomScale);
 
@@ -131,7 +132,7 @@ export class ZoomService {
   // page 폭에 맞추기
   fitToWidth(currentPage) {
     const containerSize = {
-      width: CANVAS_CONFIG.maxContainerWidth,
+      width: CANVAS_CONFIG.maxContainerWidth - 285, // 좌측 navigation width만큼 빼야 fitToWidth 시 폭에 맞다.
       height: CANVAS_CONFIG.maxContainerHeight
     };
     const pdfPage: any = this.pdfStorageService.getPdfPage(currentPage);

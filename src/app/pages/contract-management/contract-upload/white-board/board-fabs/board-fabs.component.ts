@@ -32,6 +32,8 @@ export class BoardFabsComponent implements OnInit {
         const currentPage = this.viewInfoService.state.currentPage;
         const prevZoomScale = this.viewInfoService.state.zoomScale;
 
+        console.log(currentPage, prevZoomScale)
+
         const newZoomScale = this.zoomService.calcZoomScale(action, currentPage, prevZoomScale);
 
         this.viewInfoService.updateZoomScale(newZoomScale);

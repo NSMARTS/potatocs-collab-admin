@@ -181,7 +181,6 @@ export class BoardCanvasComponent implements OnInit {
        * - scale 변경하는 경우
        */
     onChangePage() {
-
         //document Number -> 1부터 시작.
         const pageNum = this.viewInfoService.state.currentPage;
         const zoomScale = this.viewInfoService.state.zoomScale;
@@ -198,8 +197,9 @@ export class BoardCanvasComponent implements OnInit {
 
         this.eventBusService.emit(new EventData('change:containerSize', {
             ratio,
-            coverWidth: this.canvasService.canvasFullSize.width,
+            coverWidth: this.canvasService.canvasFullSize.width,            
         }));
+
 
         // scroll bar가 있는 경우 page 전환 시 초기 위치로 변경
         this.canvasContainer.scrollTop = 0;
