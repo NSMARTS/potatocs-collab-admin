@@ -104,7 +104,7 @@ export class ContractListComponent implements OnInit {
             leave_end_date: [endOfMonth, [
                 Validators.required,
             ]],
-            emailFind: ['', [
+            receiver: ['', [
                 Validators.required,
             ]]
         });
@@ -203,37 +203,38 @@ export class ContractListComponent implements OnInit {
     }
 
     getMyContractListSearch() {
-        let myEmployeeInfo;
-        const formValue = this.contractForm.value;
+    //     let myEmployeeInfo;
+    //     const formValue = this.contractForm.value;
 
-        // console.log(formValue);
+    //     console.log(formValue);
+    //     console.log(this.myControl.value)
 
-        // myEmployeeInfo = {
-        //     type: formValue.type,
-        //     leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
-        //     leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
+    //     myEmployeeInfo = {
+    //         status: formValue.status,
+    //         leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
+    //         leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
 
-        //     // leave_start_date: formValue.leave_start_date,
-        //     // leave_end_date: formValue.leave_end_date,
-        //     emailFind: this.myControl.value,
-        // }
+    //         // leave_start_date: formValue.leave_start_date,
+    //         // leave_end_date: formValue.leave_end_date,
+    //         emailFind: this.myControl.value,
+    //     }
 
-        // // 조건에 따른 사원들 휴가 가져오기
-        // this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
-        //     (data: any) => {
-        //         console.log(data)
-        //         data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
-        //             item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
-        //             item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
-        //             return item;
-        //         });
-        //         this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
-        //         this.dataSource.paginator = this.paginator;
-        //         this.options = data.myEmployeeList;
-                this.setAutoComplete();
-        //         console.log(this.dataSource.filteredData)
-        //     }
-        // )
+    //     // 조건에 따른 사원들 휴가 가져오기
+    //     this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
+    //         (data: any) => {
+    //             console.log(data)
+    //             data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
+    //                 item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
+    //                 item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
+    //                 return item;
+    //             });
+    //             this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
+    //             this.dataSource.paginator = this.paginator;
+    //             this.options = data.myEmployeeList;
+    //             this.setAutoComplete();
+    //             console.log(this.dataSource.filteredData)
+    //         }
+    //     )
     }
 
     // openDialogPendingLeaveDetail(data) {
@@ -263,8 +264,5 @@ export class ContractListComponent implements OnInit {
     //     })
     // }
 
-    // exportData() {
-    //     this.excelSrv.exportToData(this.dataSource.filteredData);
-    // }
 }
 

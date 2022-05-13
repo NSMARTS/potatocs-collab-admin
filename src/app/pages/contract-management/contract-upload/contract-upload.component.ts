@@ -197,6 +197,8 @@ export class ContractUploadComponent implements OnInit {
         // PDF 변환 및 추가 저장
         const result = await this.fileService.pdfConvert(pdfVarArray.fileBuffer);
 
+        console.log(result)
+
         pdfVarArray.pdfDestroy = result.pdfDoc;
         pdfVarArray.pdfPages = result.pdfPages;
 

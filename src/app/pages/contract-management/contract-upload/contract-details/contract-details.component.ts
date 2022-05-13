@@ -43,6 +43,9 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
     drawEvent:any;
 
+    flag: boolean;
+
+
     constructor(
         public dialogRef: MatDialogRef<ContractDetailsComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -65,7 +68,11 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        console.log(this.data)
+        this.flag = false;
+
+        if(this.data.status == 'Reject'){
+            this.flag = true;
+        } 
          
         this.setCanvasSize();
 
