@@ -66,6 +66,7 @@ export class BoardNavComponent implements OnInit {
         this.contractMngmtService.getContractInfo(data).subscribe((result) => {
             this.contractInfo = result;
 
+            console.log(this.contractInfo.contractResult.senderSign[0])
             this.flag = true;
         })
         
@@ -74,7 +75,7 @@ export class BoardNavComponent implements OnInit {
             async (data: any) => {
                 this.userInfo = data;   
                 console.log(this.userInfo)
-                this.flag = true;
+                
             },
             (err: any) => {
                 console.log(err);
