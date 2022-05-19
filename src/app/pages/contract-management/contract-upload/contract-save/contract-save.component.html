@@ -59,22 +59,24 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field class="companyFormFieldBox" appearance="outline">
-                                <mat-label>E-MAIL</mat-label>
-                                <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
-                                <input matInput type="email" spellcheck="false"
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [formControl]="myControl"
-                                    [matAutocomplete]="auto" formControlName="receiver"/>
-                                <mat-error>an e-mail is required</mat-error>
-                                <mat-error>Please input a correct e-mail!</mat-error>
-                                <mat-autocomplete #auto="matAutocomplete">
-                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.email">
-                                        {{option.email}} ({{option.name}})
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
+                            <form [formGroup]="contractorForm" novalidate class="submit-form">
+                                <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="40px">
+                                    <!-- <label for="type" class="optionLabel">Email</label> -->
+                                    <mat-form-field color="accent" appearance="outline" style="min-width:300px;" class="selectInput">
+                                        <mat-label>E-MAIL</mat-label>
+                                        <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
+                                        <input type="email" formControlName="receiver" spellcheck="false" matInput name="id"
+                                            pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                                        
+                                        <!-- <mat-error *ngIf="f.submitted && id.hasError('required')">an e-mail is required</mat-error>
+                                        <mat-error *ngIf="f.submitted && id.hasError('pattern')">Please input a correct e-mail!</mat-error> -->
+                                    </mat-form-field>
+                                    <button mat-raised-button class="submit-button clickBtn"  [disabled]="contractorForm.invalid" (click)="searchContractor()">Search</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+
 
                     <!-- date -->
                     <div class="lineDivider" fxLayout="row">
@@ -96,7 +98,7 @@
                     <button 
                         mat-raised-button 
                         class="saveBtn" 
-                        [disabled]="saveContractForm.invalid"
+                        [disabled]="saveContractForm.invalid && contractorForm.invalid"
                         (click)="saveContract()"
                     > 
                         save 

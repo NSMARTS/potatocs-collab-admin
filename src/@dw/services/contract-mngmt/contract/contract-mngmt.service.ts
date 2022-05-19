@@ -17,14 +17,19 @@ export class ContractMngmtService {
         return this.http.get('/api/v1/admin/contract/getEmployeeList');
     }
 
+    // search contractor
+    searchContractor(email) {
+        return this.http.get('/api/v1/admin/contract/searchContractor', { params: email})
+    }
+
     // save contract
     saveContract(data) {
         return this.http.post('/api/v1/admin/contract/saveContract', data);
     }
 
     // get contract list 
-    getContractList(data) {
-        return this.http.get('/api/v1/admin/contract/getContractList', {params: data});
+    getContractList() {
+        return this.http.get('/api/v1/admin/contract/getContractList');
     }
 
 

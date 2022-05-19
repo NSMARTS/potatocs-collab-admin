@@ -16,13 +16,11 @@
 
 
 
-    
+    <div *ngIf="!contractId">
+        <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
+    </div>
 
-    <div *ngIf="flag">
-        <div *ngIf="!contractId">
-            <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
-        </div>
-
+    <div *ngIf="flag">  
         <div *ngIf="(contractId && (contractInfo?.contractResult.senderSign[0] == undefined)) && (contractInfo?.contractResult.status != 'Reject')">
             <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
         </div>

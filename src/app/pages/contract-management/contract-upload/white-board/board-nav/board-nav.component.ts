@@ -57,18 +57,20 @@ export class BoardNavComponent implements OnInit {
 
         this.contractId = this.route.snapshot.params['id'];
 
-        console.log(this.contractId)
         const data = {
             _id: this.contractId
         }
 
-        // contract_id에 해당하는 contract 정보 수신
-        this.contractMngmtService.getContractInfo(data).subscribe((result) => {
-            this.contractInfo = result;
+        if(this.contractId) {
+            // contract_id에 해당하는 contract 정보 수신
+            this.contractMngmtService.getContractInfo(data).subscribe((result) => {
+                this.contractInfo = result;
 
-            console.log(this.contractInfo.contractResult.senderSign[0])
-            this.flag = true;
-        })
+                console.log(this.contractInfo.contractResult.senderSign[0])
+                this.flag = true;
+            })
+        }
+        
         
         
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -115,7 +117,8 @@ export class BoardNavComponent implements OnInit {
                     company_id: this.userInfo.company_id._id,
                     date: convertDate,
                     sender: this.userInfo.name,
-                    pdfData : this.pdfData
+                    pdfData : this.pdfData,
+                    channel : this.userInfo.company_id.channel[0].channel_name
                 }
             });
     
