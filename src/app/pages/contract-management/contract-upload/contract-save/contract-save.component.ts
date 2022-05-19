@@ -51,7 +51,6 @@ export class ContractSaveComponent implements OnInit {
             description: ['', [Validators.required]],
             date: ['', [Validators.required]],
             sender: ['', [Validators.required]],
-            receiver: ['', [Validators.required]],
         });
 
         this.contractorForm = this.formBuilder.group({
@@ -112,16 +111,15 @@ export class ContractSaveComponent implements OnInit {
 			(data: any) => {
 
 				if (data.searchContractor == null) {
-                    this.contractorForm.value.receiver = ''
 					this.dialogService.openDialogNegative('Please, check the email.');
-
+                    this.contractorForm.value.receiver= ''
 					// alert(`It's a member that doesn't exist.\nPlease check email`);
 				}
 				else {
                     this.snackbar.open('Successfully, the email has been found.', 'Done',{
                         duration: 2000,
-                        horizontalPosition: "right",
-                        panelClass: ['left-snackbar',],
+                        // horizontalPosition: "right",
+                        panelClass: ['search-snackbar',],
                         
                     });
                     

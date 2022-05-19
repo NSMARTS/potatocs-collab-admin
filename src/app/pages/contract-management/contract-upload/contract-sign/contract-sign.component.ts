@@ -13,6 +13,7 @@ import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw
 import { EditInfoService } from 'src/@dw/services/contract-mngmt/store/edit-info.service';
 import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info.service';
 import * as moment from 'moment';
+import { DataService } from 'src/@dw/store/data.service';
 
 @Component({
     selector: 'app-contract-sign',
@@ -23,6 +24,8 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
     
+    userInfo;
+    flag: boolean;
 
     editDisabled = true;
     dragOn = true;
@@ -57,6 +60,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogService: DialogService,
         private router: Router,
+        public dataService: DataService,
 
         private editInfoService: EditInfoService,
         private viewInfoService: ViewInfoService,
@@ -85,7 +89,23 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
 
     ngOnInit(): void {
+
+        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+            async (data: any) => {
+                this.userInfo = data;   
+                console.log(this.userInfo)
+                
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+
         console.log(this.data)
+
+        if(this.userInfo.email == this.data.sender.email) {
+            this.flag = true;
+        }
     
         // canvas Element 할당
         this.canvasContainer = this.canvasContainerRef.nativeElement;
@@ -130,7 +150,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         this.setCanvasSize();
 
         /***************************************
-         * DB로부터 sign 좌표가 있으면 drawing 부분
+         * DB로부터 receiverSign 좌표가 있으면 drawing 부분
          ***************************************/
          if(this.data.receiverSign.length != 0){
             for (let i = 0; i < this.data.receiverSign[0].drawingEvent.length; i++) {
@@ -235,6 +255,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
                 // senderSign key에 value 추가
                 this.data.senderSign = this.drawEvent;
                 this.data.senderSign[0].signedTime = convertDate
+                
 
                 console.log(this.data)
 

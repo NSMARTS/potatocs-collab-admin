@@ -60,11 +60,19 @@
     color: #fff;
 }
 
-.clickBtn {
-    position: fixed;
-    right: 70px;
-    bottom: 220px;
+.submit-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
+
+.clickBtn {
+    justify-content: center;
+    display: flex;
+    margin-left: 20px;
+}
+
+
 
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */

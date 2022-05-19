@@ -71,8 +71,8 @@
                                         <!-- <mat-error *ngIf="f.submitted && id.hasError('required')">an e-mail is required</mat-error>
                                         <mat-error *ngIf="f.submitted && id.hasError('pattern')">Please input a correct e-mail!</mat-error> -->
                                     </mat-form-field>
-                                    <button mat-raised-button class="submit-button clickBtn"  [disabled]="contractorForm.invalid" (click)="searchContractor()">Search</button>
                                 </div>
+                                <button mat-raised-button class="submit-button clickBtn"  [disabled]="contractorForm.invalid" (click)="searchContractor()">Search</button>
                             </form>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                     <button 
                         mat-raised-button 
                         class="saveBtn" 
-                        [disabled]="saveContractForm.invalid && contractorForm.invalid"
+                        [disabled]="saveContractForm.invalid || receiverSearchChecked == false"
                         (click)="saveContract()"
                     > 
                         save 
