@@ -82,6 +82,7 @@ export class ContractListComponent implements OnInit {
                 console.log(this.userInfo)
 
                 if (this.userInfo.company_id != undefined) {
+                    await new Promise(res => setTimeout(res, 0));
                     this.getContractList();
                 }
             },

@@ -45,27 +45,7 @@
                 {{data.receiver.email}}
             </td>
         </tr>
-        <tr [hidden]="flag">
-            <th>
-                Receiver Signed Time
-            </th>
-            <td>
-                {{data.receiverSign[0]?.signedTime}}
-            </td>
-        </tr>
-        <tr [hidden]="flag">
-            <th>
-                Receiver Sign
-            </th>
-            <div #canvasContainer class="canvas-container">
-                <div class="canvasTeacher">
-                    <canvas #receiverCanvas></canvas>
-                </div>
-                <div class="cover" id="canvas" [hidden] = "editDisabled">
-                    <canvas #receiverCanvasCover></canvas>
-                </div>
-            </div>
-        </tr>
+
         <tr [hidden]="flag">
             <th>
                 Sender Signed Time
@@ -87,6 +67,29 @@
                 </div>
             </div>
         </tr>
+
+        <tr [hidden]="flag">
+            <th>
+                Receiver Signed Time
+            </th>
+            <td>
+                {{data.receiverSign[0]?.signedTime}}
+            </td>
+        </tr>
+        <tr [hidden]="flag">
+            <th>
+                Receiver Sign
+            </th>
+            <div #canvasContainer class="canvas-container">
+                <div class="canvasTeacher">
+                    <canvas #receiverCanvas></canvas>
+                </div>
+                <div class="cover" id="canvas" [hidden] = "editDisabled">
+                    <canvas #receiverCanvasCover></canvas>
+                </div>
+            </div>
+        </tr>
+        
 
         <tr *ngIf="data.status === 'Reject'">
             <th>

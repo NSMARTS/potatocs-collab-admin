@@ -140,31 +140,51 @@ export class ContractSignComponent implements OnInit, OnDestroy {
                 // const zoomScale = this.viewInfoService.state.zoomScale;
                 const zoomScale = 1; // sign 부분 canvas에서는 zoomScale 확대와 축소가 필요없기 때문에 1로 고정
 
-                // canvas Event Handler 설정
-                this.canvasService.addEventHandler(this.senderCanvasCover, this.senderCanvas, this.currentToolInfo, zoomScale);
+
+                if(this.userInfo.email == this.data.sender.email) {
+                    // canvas Event Handler 설정
+                    this.canvasService.addEventHandler(this.senderCanvasCover, this.senderCanvas, this.currentToolInfo, zoomScale);
+                } else {
+                    // canvas Event Handler 설정
+                    this.canvasService.addEventHandler(this.receiverCanvasCover, this.receiverCanvas, this.currentToolInfo, zoomScale);
+                }
+
+                
         });
 
 
-        this.eventBusListeners();
+        // this.eventBusListeners();
 
         this.setCanvasSize();
 
         /***************************************
-         * DB로부터 receiverSign 좌표가 있으면 drawing 부분
+         * DB로부터 sign 좌표가 있으면 drawing 부분
          ***************************************/
+         if(this.data.senderSign.length != 0){
+            for (let i = 0; i < this.data.senderSign[0].drawingEvent.length; i++) {
+                this.drawStorageService.setDrawEvent(1, this.data.senderSign[0].drawingEvent[i])
+            }
+            this.pageRender1(1, 1)
+
+            /***************************************
+             * 내 sign을 그리려면 상대방의 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
+             ***************************************/
+            this.drawStorageService.resetDrawingEvents();
+        } 
+
+        
+
          if(this.data.receiverSign.length != 0){
             for (let i = 0; i < this.data.receiverSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.receiverSign[0].drawingEvent[i])
             }
-            this.pageRender(1, 1)
+            this.pageRender2(1, 1)
+
+            /***************************************
+             * 내 sign을 그리려면 상대방의 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
+            ***************************************/
+            this.drawStorageService.resetDrawingEvents();
         } 
-     
-        /***************************************
-         * 상대방의 sign 좌표를 받아 서명을 그리기 위해
-         * setDrawEvent()를 사용하여 상대방의 좌표를 추가했기 때문에
-         * 내가 sign 하려면 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
-         ***************************************/
-        this.drawStorageService.resetDrawingEvents()
 
         // 서명 local Store 저장
         this.eventBusService.on('gen:newDrawEvent', this.unsubscribe$, async (data) => {
@@ -195,7 +215,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
             //document Number -> 1부터 시작.
             const pageNum = viewInfo.currentPage;
             const zoomScale = viewInfo.zoomScale;
-            this.pageRender(pageNum, zoomScale)
+            this.pageRender2(pageNum, zoomScale)
         })
     }
 
@@ -230,18 +250,34 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 
 
 
+    //////////////////////////////////////////////////////////////////////////////////////
     /**
-     * 판서 Rendering
+     * 판서 Rendering (sender 부분)
      *
      * @param currentPage
      * @param zoomScale
      */
-    async pageRender(currentPage, zoomScale) {
+     async pageRender1(currentPage, zoomScale) {
+        console.log('>>> page Board Render!');
+
+        // board rendering
+        const drawingEvents = this.drawStorageService.getDrawingEvents(currentPage);
+        this.renderingService.renderBoard(this.senderCanvas, zoomScale, drawingEvents);
+    }
+
+    /**
+     * 판서 Rendering (receiver 부분)
+     *
+     * @param currentPage
+     * @param zoomScale
+     */
+    async pageRender2(currentPage, zoomScale) {
         console.log('>>> page Board Render!');
 
         // board rendering
         const drawingEvents = this.drawStorageService.getDrawingEvents(currentPage);
         this.renderingService.renderBoard(this.receiverCanvas, zoomScale, drawingEvents);
+        //////////////////////////////////////////////////////////////////////////////////////
     }
 
 
@@ -252,10 +288,17 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 			if (result) {
                 const convertDate = moment().format("YYYY-MM-DD HH:mm ddd")
 
-                // senderSign key에 value 추가
-                this.data.senderSign = this.drawEvent;
-                this.data.senderSign[0].signedTime = convertDate
                 
+                if(this.userInfo.email == this.data.sender.email) {
+                    // senderSign key에 value 추가
+                    this.data.senderSign = this.drawEvent;
+                    this.data.senderSign[0].signedTime = convertDate
+                } else {
+                    // receiverSign key에 value 추가
+                    this.data.receiverSign = this.drawEvent;
+                    this.data.receiverSign[0].signedTime = convertDate
+
+                }
 
                 console.log(this.data)
 

@@ -20,12 +20,24 @@
         <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
     </div>
 
-    <div *ngIf="flag">  
+    <!-- sender일 경우 -->
+    <div *ngIf="flag && contractInfo?.contractResult.sender.email == userInfo?.email">  
         <div *ngIf="(contractId && (contractInfo?.contractResult.senderSign[0] == undefined)) && (contractInfo?.contractResult.status != 'Reject')">
             <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
         </div>
         
         <div *ngIf="(contractId && (contractInfo?.contractResult.senderSign[0] != undefined)) || (contractInfo?.contractResult.status == 'Reject')">
+            <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Detail</button>
+        </div>
+    </div>
+
+    <!-- receiver 경우 -->
+    <div *ngIf="flag && contractInfo?.contractResult.receiver.email == userInfo?.email">  
+        <div *ngIf="(contractId && (contractInfo?.contractResult.receiverSign[0] == undefined)) && (contractInfo?.contractResult.status != 'Reject')">
+            <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
+        </div>
+        
+        <div *ngIf="(contractId && (contractInfo?.contractResult.receiverSign[0] != undefined)) || (contractInfo?.contractResult.status == 'Reject')">
             <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Detail</button>
         </div>
     </div>

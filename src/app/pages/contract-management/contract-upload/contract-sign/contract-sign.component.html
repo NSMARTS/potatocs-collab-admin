@@ -45,7 +45,31 @@
                 {{data.receiver.email}}
             </td>
         </tr>
+        <tr *ngIf="data.senderSign[0]?.signedTime">
+            <th>
+                Sender Signed Time
+            </th>
+            <td>
+                {{data.senderSign[0]?.signedTime}}
+            </td>
+        </tr>
         <tr>
+            <th>
+                Sender Sign
+            </th>
+            <td class="sign">
+                <div #canvasContainer class="canvas-container" [ngClass]="{'signature' : userInfo.email == data.sender.email}">
+                    <div class="canvasTeacher">
+                        <canvas #senderCanvas></canvas>
+                    </div>
+                    <div class="cover" id="canvas" [hidden] = "editDisabled">
+                        <canvas #senderCanvasCover></canvas>
+                    </div>
+                </div>
+            </td>
+            
+        </tr>
+        <tr *ngIf="data.receiverSign[0]?.signedTime">
             <th>
                 Receiver Signed Time
             </th>
@@ -57,28 +81,19 @@
             <th>
                 Receiver Sign
             </th>
-            <div #canvasContainer class="canvas-container">
-                <div class="canvasTeacher">
-                    <canvas #receiverCanvas></canvas>
+            <td class="sign">
+                <div #canvasContainer class="canvas-container" [ngClass]="{'signature' : userInfo.email == data.receiver.email}">
+                    <div class="canvasTeacher">
+                        <canvas #receiverCanvas></canvas>
+                    </div>
+                    <div class="cover" id="canvas" [hidden] = "editDisabled">
+                        <canvas #receiverCanvasCover></canvas>
+                    </div>
                 </div>
-                <div class="cover" id="canvas" [hidden] = "editDisabled">
-                    <canvas #receiverCanvasCover></canvas>
-                </div>
-            </div>
+            </td>
+            
         </tr>
-        <tr>
-            <th>
-                Sender Sign
-            </th>
-            <div #canvasContainer class="canvas-container sender">
-                <div class="canvasTeacher">
-                    <canvas #senderCanvas></canvas>
-                </div>
-                <div class="cover" id="canvas" [hidden] = "editDisabled">
-                    <canvas #senderCanvasCover></canvas>
-                </div>
-            </div>
-        </tr>
+        
     </tbody>
 </table>
 
