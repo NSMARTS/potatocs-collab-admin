@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+import { CommonService } from 'src/@dw/services/common/common.service';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
 
@@ -61,6 +63,7 @@ export class ContractListComponent implements OnInit {
         'pending': 'Pending',
         'proceeding': 'Proceeding',
         'complete': 'Complete',
+        'reject': 'Reject',
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -71,6 +74,8 @@ export class ContractListComponent implements OnInit {
         public dialog: MatDialog,
         private contractMngmtService: ContractMngmtService,
         public dataService: DataService,
+        private commonService: CommonService,
+        private snackbar: MatSnackBar,
     ) { }
 
     ngOnInit(): void {
@@ -98,13 +103,10 @@ export class ContractListComponent implements OnInit {
             status: ['all', [
                 Validators.required,
             ]],
-            leave_start_date: [startOfMonth, [
+            start_date: [startOfMonth, [
                 Validators.required,
             ]],
-            leave_end_date: [endOfMonth, [
-                Validators.required,
-            ]],
-            receiver: ['', [
+            end_date: [endOfMonth, [
                 Validators.required,
             ]]
         });
@@ -130,6 +132,8 @@ export class ContractListComponent implements OnInit {
     getContractList() {
 
         this.contractMngmtService.getContractList().subscribe((data: any) => {
+
+            console.log(data)
 
             ///////////////////// 검색 필터 ////////////////////
             // 검색 필터 위해서 receiver 중복 값 제외 후 return
@@ -174,8 +178,9 @@ export class ContractListComponent implements OnInit {
         this.filteredOptions = this.myControl.valueChanges
             .pipe(
                 startWith(''),
-                map(value => typeof value === 'string' ? value : value.receiver.email),
-                map((email: any) => email ? this._filter(email) : this.options.slice())
+                map(value => typeof value === 'string' ? value : value.email),
+                // map((email: any) => email ? this._filter(email) : this.options.slice()) // 원래 코드
+                map((email: any) => email ? this.options.slice() : this.options.slice())
             );
 
         // console.log(this.filteredOptions);
@@ -190,48 +195,47 @@ export class ContractListComponent implements OnInit {
     // }
     private _filter(email: string): Employees[] {
         console.log(email)
-        console.log(this.options)
         const filterValue = email.toLowerCase();
-        return this.options.filter(option=> {
-            console.log(option)
-            option.email.toLowerCase().includes(filterValue)
+        return this.options.filter(option => option.email.toLowerCase().includes(filterValue));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    getMyContractListSearch() {
+        const formValue = this.contractForm.value;
+    
+        const data = {
+            status: formValue.status,
+            start_date: this.commonService.dateFormatting(formValue.start_date),
+            end_date: this.commonService.dateFormatting(formValue.end_date),
+            email: this.myControl.value,
+        }
+
+
+        console.log(data)
+
+        // 조건에 따른 사원들 휴가 가져오기
+        this.contractMngmtService.getContractListSearch(data).subscribe(
+            (data: any) => {
+                console.log(data.contractList)
+
+                if (data.message == 'Success find document list') {
+                    this.contractList = data.documentList
+                }
+
+                this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
+                this.contractList.paginator = this.paginator;
+            }
+        )
+
+        this.snackbar.open('Successfully get leave search data','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
         });
     }
 
-    getMyContractListSearch() {
-    //     let myEmployeeInfo;
-    //     const formValue = this.contractForm.value;
 
-    //     console.log(formValue);
-    //     console.log(this.myControl.value)
-
-    //     myEmployeeInfo = {
-    //         status: formValue.status,
-    //         leave_start_date: this.commonService.dateFormatting(formValue.leave_start_date),
-    //         leave_end_date: this.commonService.dateFormatting(formValue.leave_end_date),
-
-    //         // leave_start_date: formValue.leave_start_date,
-    //         // leave_end_date: formValue.leave_end_date,
-    //         emailFind: this.myControl.value,
-    //     }
-
-    //     // 조건에 따른 사원들 휴가 가져오기
-    //     this.employeeMngmtService.getEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
-    //         (data: any) => {
-    //             console.log(data)
-    //             data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map((item) => {
-    //                 item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
-    //                 item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
-    //                 return item;
-    //             });
-    //             this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
-    //             this.dataSource.paginator = this.paginator;
-    //             this.options = data.myEmployeeList;
-    //             this.setAutoComplete();
-    //             console.log(this.dataSource.filteredData)
-    //         }
-    //     )
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     // openDialogPendingLeaveDetail(data) {
 

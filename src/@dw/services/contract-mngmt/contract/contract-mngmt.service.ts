@@ -48,4 +48,13 @@ export class ContractMngmtService {
         console.log(data)
         return this.http.post('/api/v1/admin/contract/signContract', data);
     }
+
+    // reject contract
+    rejectContract(data) {
+        return this.http.post('/api/v1/admin/contract/rejectContract', data);
+    }
+
+    getContractListSearch(data) {
+        return this.http.get('/api/v1/admin/contract/getContractListSearch',{ params: data });
+    }
 }

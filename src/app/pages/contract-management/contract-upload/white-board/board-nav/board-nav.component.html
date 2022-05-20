@@ -34,6 +34,7 @@
     <!-- receiver 경우 -->
     <div *ngIf="flag && contractInfo?.contractResult.receiver.email == userInfo?.email">  
         <div *ngIf="(contractId && (contractInfo?.contractResult.receiverSign[0] == undefined)) && (contractInfo?.contractResult.status != 'Reject')">
+            <button mat-raised-button class="rejectBtn" (click)="openRejectContract()">Reject</button>
             <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
         </div>
         

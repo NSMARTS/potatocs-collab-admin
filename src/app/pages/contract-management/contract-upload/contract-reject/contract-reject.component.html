@@ -1,0 +1,67 @@
+<div class="mainTitle"> Contract Reject</div>
+<table class="modal-table">
+    <colgroup>
+        <col style="width:120px">
+        <col style="width:380px">
+    </colgroup>
+    <tbody>
+        <tr>
+            <th>
+                Date
+            </th>
+            <td>
+                {{data.date | date: 'YYYY-MM-dd'}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Title
+            </th>
+            <td>
+                {{data.title}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Description
+            </th>
+            <td>
+                {{data.description}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Sender
+            </th>
+            <td>
+                {{data.sender.email}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Receiver
+            </th>
+            <td>
+                {{data.receiver.email}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Reject reason
+            </th>
+            <td>
+                <div [formGroup]="reject">
+                    <!-- <input type="text" formControlName="rejectReason" value=""> -->
+                    <textarea formControlName="rejectReason" value=""></textarea>
+                </div>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+<div class="modal-btn">
+    <button mat-raised-button class="rejectBtn" (click)="rejectLeave()"> Reject </button>
+    <button color="primary" class="confirm" mat-raised-button mat-dialog-close> Cancel </button>
+</div>
