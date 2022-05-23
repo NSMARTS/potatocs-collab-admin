@@ -36,10 +36,7 @@ export interface Employees {
 })
 export class ContractListComponent implements OnInit {
 
-
     userInfo;
-
-
 
     contractList = new MatTableDataSource;
 
@@ -133,8 +130,6 @@ export class ContractListComponent implements OnInit {
 
         this.contractMngmtService.getContractList().subscribe((data: any) => {
 
-            console.log(data)
-
             ///////////////////// 검색 필터 ////////////////////
             // 검색 필터 위해서 receiver 중복 값 제외 후 return
             const userFilter = data.contractList.filter((item, i) => {
@@ -144,10 +139,8 @@ export class ContractListComponent implements OnInit {
                     }) === i
                 );
             })
-
-            // console.log(userFilter)
             ////////////////////////////////////////////////////
-            console.log(data.contractList)
+
             if (data.message == 'Success find document list') {
                 this.contractList = data.documentList
             }
@@ -182,26 +175,19 @@ export class ContractListComponent implements OnInit {
                 // map((email: any) => email ? this._filter(email) : this.options.slice()) // 원래 코드
                 map((email: any) => email ? this.options.slice() : this.options.slice())
             );
-
-        // console.log(this.filteredOptions);
     }
 
-    //auto
-    // displayFn(employee: Employees): string {
-    //   return employee && employee.email ? employee.email : '';
-    // }
-    // getOptionText(employee: Employees) {
-    //   return employee.email ? employee.email : '';
-    // }
     private _filter(email: string): Employees[] {
         console.log(email)
         const filterValue = email.toLowerCase();
         return this.options.filter(option => option.email.toLowerCase().includes(filterValue));
     }
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // 계약서 검색
     getMyContractListSearch() {
+        
         const formValue = this.contractForm.value;
     
         const data = {
@@ -234,35 +220,10 @@ export class ContractListComponent implements OnInit {
         });
     }
 
+    
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // openDialogPendingLeaveDetail(data) {
-
-    //     const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
-    //         // width: '600px',
-    //         // height: '614px',
-
-    //         data: {
-    //             requestor: data._id,
-    //             requestorName: data.name,
-    //             leaveType: data.leaveType,
-    //             leaveDuration: data.duration,
-    //             leave_end_date: data.endDate,
-    //             leave_start_date: data.startDate,
-    //             leave_reason: data.leave_reason,
-    //             status: data.status,
-    //             createdAt: data.createdAt,
-    //             approver: data.approver,
-    //             rejectReason: data.rejectReason
-    //         }
-
-    //     });
-
-    //     dialogRef.afterClosed().subscribe(result => {
-    //         console.log('dialog close');
-    //     })
-    // }
 
 }
 

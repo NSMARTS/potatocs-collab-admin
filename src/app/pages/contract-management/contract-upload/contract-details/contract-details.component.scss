@@ -120,6 +120,10 @@ div.canvasTeacher {
     color: #fff;
 }
 
+.reject {
+    word-break: break-all;
+}
+
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {

@@ -54,7 +54,8 @@ export class ContractMngmtService {
         return this.http.post('/api/v1/admin/contract/rejectContract', data);
     }
 
+    // search my contract list
     getContractListSearch(data) {
-        return this.http.get('/api/v1/admin/contract/getContractListSearch',{ params: data });
+        return this.http.get('/api/v1/admin/contract/getContractListSearch', { params: data });
     }
 }

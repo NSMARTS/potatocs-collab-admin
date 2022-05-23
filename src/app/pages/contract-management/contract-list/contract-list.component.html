@@ -65,7 +65,7 @@
 								<!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
 								<input matInput type="email" spellcheck="false"
 									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [formControl]="myControl"
-									[matAutocomplete]="auto" />
+									[matAutocomplete]="auto"/>
 								<mat-error>an e-mail is required</mat-error>
 								<mat-error>Please input a correct e-mail!</mat-error>
 								<mat-autocomplete #auto="matAutocomplete">
@@ -82,7 +82,7 @@
 
 		<div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
 			<div>
-				<button mat-raised-button class="searchBtn" (click)="getMyContractListSearch()" >Search</button>
+				<button [disabled]="!myControl.value" mat-raised-button class="searchBtn" (click)="getMyContractListSearch()" >Search</button>
 			</div>
 		</div>
 
