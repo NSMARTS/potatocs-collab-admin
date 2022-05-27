@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChi
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { CANVAS_CONFIG } from 'src/@dw/services/contract-mngmt/config/config';
+import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { RenderingService } from 'src/@dw/services/contract-mngmt/rendering/rendering.service';
 import { DrawStorageService } from 'src/@dw/services/contract-mngmt/storage/draw-storage.service';
 
@@ -49,7 +50,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
     constructor(
         public dialogRef: MatDialogRef<ContractDetailsComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-
+        private contractMngmtService: ContractMngmtService,
         private renderingService: RenderingService,
         private drawStorageService: DrawStorageService,
     ) { }
@@ -93,7 +94,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
         
 
-         if(this.data.receiverSign.length != 0){
+        if(this.data.receiverSign.length != 0){
             for (let i = 0; i < this.data.receiverSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.receiverSign[0].drawingEvent[i])
             }
@@ -104,7 +105,13 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
             ***************************************/
             this.drawStorageService.resetDrawingEvents();
         } 
+
+        if(this.data){
+            // 계약서 서명 공증 정보 불러오기
+            this.getSignInfo({_id:this.data._id})
+        }
     }
+
 
 
     // end of ngOnInit
@@ -113,6 +120,10 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
         this.unsubscribe$.complete();
     }
 
+    // 계약서 서명 공증 정보 불러오기
+    async getSignInfo(data){
+        const result: any = await this.contractMngmtService.getSignInfo(data).toPromise();
+    }
 
     /**
      * Canvas size 설정
