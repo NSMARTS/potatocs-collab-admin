@@ -4,54 +4,68 @@ import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from './dialog.component';
 import { PositiveDialogComponent } from './dialog.component';
 import { NegativeDialogComponent } from './dialog.component';
+import { SpinnerDialogComponent } from './dialog.component';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DialogService {
 
-  constructor(
-    public dialog: MatDialog,
-  ) { }
+    constructor(
+        public dialog: MatDialog,
+    ) { }
 
-  // confirm
-  openDialogConfirm(data): Observable<boolean> {
+    // confirm
+    openDialogConfirm(data): Observable<boolean> {
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        content: data
-      }
-    });
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                content: data
+            }
+        });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    // 	console.log(result);
-    return dialogRef.afterClosed();
-  }
+        // dialogRef.afterClosed().subscribe(result => {
+        // 	console.log(result);
+        return dialogRef.afterClosed();
+    }
 
 
-  // positive
-  openDialogPositive(data) {
-    const dialogRef = this.dialog.open(PositiveDialogComponent, {
-      data: {
-        content: data
-      }
-    });
+    // positive
+    openDialogPositive(data) {
+        const dialogRef = this.dialog.open(PositiveDialogComponent, {
+            data: {
+                content: data
+            }
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog close');
-    })
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close');
+        })
+    }
 
-  // negative
-  openDialogNegative(data) {
-    const dialogRef = this.dialog.open(NegativeDialogComponent, {
-      data: {
-        content: data
-      }
-    });
+    // negative
+    openDialogNegative(data) {
+        const dialogRef = this.dialog.open(NegativeDialogComponent, {
+            data: {
+                content: data
+            }
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog close');
-    })
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close');
+        })
+    }
+
+    // spinner
+    openDialogSpinner(data) {
+        const dialogRef = this.dialog.open(SpinnerDialogComponent, {
+            data: {
+                content: data
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close');
+        })
+    }
 }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { EditInfoService } from 'src/@dw/services/contract-mngmt/store/edit-info
 import { ViewInfoService } from 'src/@dw/services/contract-mngmt/store/view-info.service';
 import * as moment from 'moment';
 import { DataService } from 'src/@dw/store/data.service';
+import { SpinnerDialogComponent } from 'src/@dw/dialog/dialog.component';
 
 @Component({
     selector: 'app-contract-sign',
@@ -61,6 +62,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
         private dialogService: DialogService,
         private router: Router,
         public dataService: DataService,
+        public dialog: MatDialog,
 
         private editInfoService: EditInfoService,
         private viewInfoService: ViewInfoService,
@@ -286,6 +288,20 @@ export class ContractSignComponent implements OnInit, OnDestroy {
     signContract() {
         this.dialogService.openDialogConfirm('Do you want save this contract?').subscribe((result: any) => {
 			if (result) {
+
+                ///////////////////////////////////////////////////////////////////
+                /*---------------------------------------
+                서명 후 spinner 
+                -----------------------------------------*/
+                const dialogRef = this.dialog.open(SpinnerDialogComponent, {
+                    // width: '300px',
+
+                    data: {
+                        content: 'Signing'
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////
+
                 const convertDate = moment().format("YYYY-MM-DD HH:mm ddd")
 
                 
@@ -307,6 +323,7 @@ export class ContractSignComponent implements OnInit, OnDestroy {
 						console.log(data);
 						if(data.message == 'Success signed contract') {
 							// this.getCompanyHolidayList();
+                            dialogRef.close();
                             this.dialogRef.close();
                             this.router.navigate(['/leave/contract-mngmt/contract-list']);
                         

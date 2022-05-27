@@ -80,13 +80,6 @@ export class ContractListComponent implements OnInit {
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
             async (data: any) => {
                 this.userInfo = data;
-
-                console.log(this.userInfo)
-
-                if (this.userInfo.company_id != undefined) {
-                    await new Promise(res => setTimeout(res, 0));
-                    this.getContractList();
-                }
             },
             (err: any) => {
                 console.log(err);
@@ -108,10 +101,8 @@ export class ContractListComponent implements OnInit {
             ]]
         });
 
-        if (this.userInfo.company_id != undefined) {
-            this.getContractList();
-        }
-
+       
+        this.getContractList();
     }
 
     ngOnDestroy() {
@@ -141,10 +132,7 @@ export class ContractListComponent implements OnInit {
             })
             ////////////////////////////////////////////////////
 
-            if (data.message == 'Success find document list') {
-                this.contractList = data.documentList
-            }
-
+            console.log(data.contractList);
             this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
             this.contractList.paginator = this.paginator;
             this.options = userFilter

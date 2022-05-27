@@ -27,14 +27,14 @@ export class ConfirmDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit(): void {
     this.data.flag = true;
   }
 
-  closeModal(){
+  closeModal() {
     this.data.flag = false;
     this.dialogRef.close();
   }
@@ -50,13 +50,13 @@ export class PositiveDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<PositiveDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit(): void {
   }
 
-  closeModal(){
+  closeModal() {
     this.dialogRef.close();
   }
 
@@ -72,13 +72,35 @@ export class NegativeDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<NegativeDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit(): void {
   }
 
-  closeModal(){
+  closeModal() {
+    this.dialogRef.close();
+  }
+
+}
+
+//spinner
+@Component({
+  selector: 'app-spinner-dialog',
+  templateUrl: './spinner-dialog-component.html',
+  styleUrls: ['./dialog.component.scss']
+})
+export class SpinnerDialogComponent implements OnInit {
+
+  constructor(
+    public dialogRef: MatDialogRef<SpinnerDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
+
+  ngOnInit(): void {
+  }
+
+  closeModal() {
     this.dialogRef.close();
   }
 
