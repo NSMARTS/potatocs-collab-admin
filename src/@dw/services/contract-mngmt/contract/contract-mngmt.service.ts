@@ -58,4 +58,9 @@ export class ContractMngmtService {
     getContractListSearch(data) {
         return this.http.get('/api/v1/admin/contract/getContractListSearch', { params: data });
     }
+
+    // 계약서 공증 정보 불러오기
+    getSignInfo(data){
+        return this.http.get('/api/v1/admin/contract/getSignInfo', { params: data });
+    }
 }

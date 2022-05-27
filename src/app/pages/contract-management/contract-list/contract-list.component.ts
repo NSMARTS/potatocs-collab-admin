@@ -80,6 +80,10 @@ export class ContractListComponent implements OnInit {
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
             async (data: any) => {
                 this.userInfo = data;
+
+                if(this.userInfo != undefined) {
+                    this.getContractList();
+                }
             },
             (err: any) => {
                 console.log(err);
