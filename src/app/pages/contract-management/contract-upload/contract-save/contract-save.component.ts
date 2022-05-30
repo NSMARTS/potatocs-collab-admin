@@ -76,6 +76,16 @@ export class ContractSaveComponent implements OnInit {
         formData.append('receiver', this.contractorForm.value.receiver);
         formData.append('file', this.contractData.pdfData);
 
+        //////////////////////////////////////////////////////////////////////////////////////
+        /* Receiver를 올바르게 검색 후, 아무렇게 Receiver email를 기입해도 save 되는 문제 처리  */
+        if(this.memberInfo.email != this.contractorForm.value.receiver){
+            console.log(this.memberInfo)
+            this.receiverSearchChecked = false;
+            this.contractorForm.reset();
+            return this.dialogService.openDialogNegative('Please, check the email.');
+        }
+        //////////////////////////////////////////////////////////////////////////////////////
+
         this.dialogService.openDialogConfirm('Do you want save this contract?').subscribe((result: any) => {
 			if (result) {
 
@@ -94,6 +104,7 @@ export class ContractSaveComponent implements OnInit {
 						}
 					}
 				);
+
 			}
 		});
     }
@@ -111,8 +122,8 @@ export class ContractSaveComponent implements OnInit {
 			(data: any) => {
 
 				if (data.searchContractor == null) {
+                    this.contractorForm.reset();
 					this.dialogService.openDialogNegative('Please, check the email.');
-                    this.contractorForm.value.receiver= ''
 					// alert(`It's a member that doesn't exist.\nPlease check email`);
 				}
 				else {
