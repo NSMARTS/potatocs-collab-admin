@@ -107,8 +107,12 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
         } 
 
         if(this.data){
+            console.log(this.data)
             // 계약서 서명 공증 정보 불러오기
-            this.getSignInfo({_id:this.data._id})
+            this.getSignInfo({
+                _id: this.data._id,
+                company_id: this.data.company_id
+            })
         }
     }
 
