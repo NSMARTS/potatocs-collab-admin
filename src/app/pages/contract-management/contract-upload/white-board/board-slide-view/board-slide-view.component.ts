@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChi
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, pairwise, takeUntil } from 'rxjs/operators';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
 import { EventBusService } from 'src/@dw/services/contract-mngmt/eventBus/event-bus.service';
 import { EventData } from 'src/@dw/services/contract-mngmt/eventBus/event.class';
@@ -25,6 +26,8 @@ export class BoardSlideViewComponent implements OnInit {
         private viewInfoService: ViewInfoService,
         private eventBusService: EventBusService,
         private pdfStorageService: PdfStorageService,
+
+        private dialogService: DialogService,
 
     ) {
     }
@@ -143,10 +146,19 @@ export class BoardSlideViewComponent implements OnInit {
             return;
         }
 
-        // @OUTPUT -> white-board component로 전달
-        this.newLocalDocumentFile.emit(event.target.files[0]);
+        // 파일 유효성 검사
+        const ext = (files[0].name).substring((files[0].name).lastIndexOf('.') + 1);
+        if (ext.toLowerCase() != 'pdf') {
+            this.dialogService.openDialogNegative(`Please, upload the '.pdf' file.`);
+        } else {
 
-        this.eventBusService.emit(new EventData('DocFile', event.target.files[0]));
+            // @OUTPUT -> white-board component로 전달
+            this.newLocalDocumentFile.emit(event.target.files[0]);
+
+            this.eventBusService.emit(new EventData('DocFile', event.target.files[0]));
+        }
+
+        
     }
 
 
