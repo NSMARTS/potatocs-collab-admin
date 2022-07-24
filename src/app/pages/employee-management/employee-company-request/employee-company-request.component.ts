@@ -199,7 +199,11 @@ export class DialogContractSelectComponent {
 							console.log('an error while updating');
 						} else if (err.error.message == '2') {
 							console.log('an error while deleting');
+						} else if (err.error.message == 'BlockChain Network Error') {
+							console.log('BlockChain Network Error');
+							this.dialogService.openDialogNegative(err.error.message);
 						}
+
 					}
 				);
 			}
