@@ -92,7 +92,7 @@ export class EmployeeListComponent implements OnInit {
 
     ngOnInit(): void {
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            async (data: any) => {            
+            async (data: any) => {
                 if (!data.company_id) return;
                 this.myCompanyInfo = data.company_id;
                 if (this.myCompanyInfo.rollover != false) {
@@ -246,27 +246,27 @@ export class EmployeeListComponent implements OnInit {
                 }
                 return <Contact>obj;
             })
-            
+
             // 임포트한 엑셀 데이터에 행이 비어있는 경우 삭제, 비어있으 행이 없는 새로운 배열 생성
             this.importContacts = this.importContacts.filter(data =>
-				    !((data.name == '' || data.name == null) && 
-                    (data.email == '' || data.email == null) && 
-				    (data.emp_start_date == '' || data.emp_start_date == null) &&
+                !((data.name == '' || data.name == null) &&
+                    (data.email == '' || data.email == null) &&
+                    (data.emp_start_date == '' || data.emp_start_date == null) &&
                     (data.department == '' || data.department == null) &&
                     (data.position == '' || data.position == null) &&
                     (data.emp_end_date == '' || data.emp_end_date == null) &&
-                    (data.managerId == '' || data.managerId == null)) 
-			)
+                    (data.managerId == '' || data.managerId == null))
+            )
 
             // 임포트한 엑셀 데이터에 반드시 있어야하는 값이 빈값이 있는 경우 찾기
             let filteredImportedData = this.importContacts.filter(data =>
             ((data.email == '' || data.email == null) ||
                 (data.emp_start_date == '' || data.emp_start_date == null))
             )
-            
+
             if (filteredImportedData.length > 0) {
                 return this.dialogService.openDialogNegative('There is an empty value on required inputs with (*). Check the excel file.');
-            } 
+            }
 
             // 임포트한 엑셀 데이터 중 emp_start_date의 셀의 표시형식이 '일반'이 아닌 '날짜' 일 경우
             // 자동적으로 5자리 숫자로 변경되어진다. 만약 그럴경우 원래 날짜로 바꿔주는 작업
