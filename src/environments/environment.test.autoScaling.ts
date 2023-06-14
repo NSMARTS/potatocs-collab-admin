@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  API_URL: 'http://13.209.248.141',
+  API_URL: 'https://test-potatocs-lb.com/',
   tokenName: 'test-potatocs'
 };
