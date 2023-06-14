@@ -1,30 +1,30 @@
 <div class="mainContentContainer">
-	<div class="mainContent">
-		<div fxLayout="column" fxLayoutAlign="center">
-			
-				<div class="mainTitle" *ngIf="myRank == 'manager-list' && !managerName">Employee List</div>
-				<div *ngIf="myRank == 'manager-list' && managerName">
-					<div fxLayout="row" fxLayoutAlign="center center">
-						<div class="mainTitle">Manager {{ managerName }}'s List</div>
-						<div class="example-spacer"></div>
-						<button mat-flat-button class="backBtn" (click)="getMyEmployeeLists()">
-							back
-						</button>
-					</div>
-					
-				</div>
-				
-				<div class="mainTitle" *ngIf="myRank == 'company-list'">Employee List</div>
-			
-			
-		</div>
+    <div class="mainContent">
+        <div fxLayout="column" fxLayoutAlign="center">
+
+            <div class="mainTitle" *ngIf="myRank == 'manager-list' && !managerName">Employee List</div>
+            <div *ngIf="myRank == 'manager-list' && managerName">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <div class="mainTitle">Manager {{ managerName }}'s List</div>
+                    <div class="example-spacer"></div>
+                    <button mat-flat-button class="backBtn" (click)="getMyEmployeeLists()">
+                        back
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="mainTitle" *ngIf="myRank == 'company-list'">Employee List</div>
 
 
-		<div class="historyTableBox">
-			<div class="content">
-				<div class="example-container">
+        </div>
 
-					<!-- <div>
+
+        <div class="historyTableBox">
+            <div class="content">
+                <div class="example-container">
+
+                    <!-- <div>
 				<mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
 					<mat-label>Filter {{filter.name}}</mat-label>
 				  	<select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.modelValue"
@@ -36,130 +36,132 @@
 				&nbsp;
 				<button mat-flat-button color="warn" (click)="resetFilters()">Reset</button>
 			</div> -->
-					<div class="tableUpper" fxLayout="row" fxLayoutAlign="space-between center">
-						<div>
-							<mat-form-field class="filterDiv">
-								<input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
-							</mat-form-field>
-						</div>
-						
-						<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="excelBox">
+                    <div class="tableUpper" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div>
+                            <mat-form-field class="filterDiv">
+                                <input matInput type="text" (keyup)="doFilter($event.target.value)"
+                                    placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="excelBox">
                             <mat-icon class="mat-18">system_update</mat-icon>
                             <div class="excelContent">
                                 <button mat-raised-button class="excelBtn" (click)="exportFormat()">
                                     Download a format guide
                                 </button>
-                              
+
                                 <button mat-raised-button class="excelBtn" (click)="exportData()">
                                     Download Employee List
                                 </button>
-                                
-                                
-                                <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">         
-                                    <input #fileUpload hidden type="file" (click)="fileUpload.value = null" (change)="onFileChange($event)" multiple="false">
+
+
+                                <button mat-raised-button class="excelBtn" (click)="fileUpload.click()">
+                                    <input #fileUpload hidden type="file" (click)="fileUpload.value = null"
+                                        (change)="onFileChange($event)" multiple="false">
                                     Upload Employee Info
                                 </button>
                             </div>
-                            
-				
-						</div>
-					</div>
-
-					<table mat-table [dataSource]="getMyEmployeeList" class="mat-elevation-z8 historyTable">
-
-						<ng-container matColumnDef="name">
-							<th mat-header-cell *matHeaderCellDef> Name </th>
-							<td mat-cell *matCellDef="let element"> {{element.name}} </td>
-						</ng-container>
-
-						<ng-container matColumnDef="position">
-							<th mat-header-cell *matHeaderCellDef> Position </th>
-							<td mat-cell *matCellDef="let element"> {{element.position}} </td>
-						</ng-container>
-						<ng-container matColumnDef="location">
-							<th mat-header-cell *matHeaderCellDef> Location </th>
-							<td mat-cell *matCellDef="let element"> {{element.location}} </td>
-						</ng-container>
-
-						<ng-container matColumnDef="annual_leave">
-							<th mat-header-cell *matHeaderCellDef> Taken/Entitlement </th>
-							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_annual_leave[0]?.sum ||
-								0}} / {{element.totalLeave?.annual_leave || 0}} day </td>
-						</ng-container>
-
-						<ng-container matColumnDef="rollover">
-							<th mat-header-cell *matHeaderCellDef> Taken/Rollover </th>
-							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_rollover[0]?.sum ||
-								0}} / {{element.totalLeave?.rollover || 0}} day </td>
-						</ng-container>
-
-						<ng-container matColumnDef="sick_leave">
-							<th mat-header-cell *matHeaderCellDef> Taken/Sick Leave </th>
-							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_sick_leave[0]?.sum ||
-								0}} / {{element.totalLeave?.sick_leave || 0}} day </td>
-						</ng-container>
-
-						<ng-container matColumnDef="replacementday_leave">
-							<th mat-header-cell *matHeaderCellDef> Taken/RD </th>
-							<td mat-cell *matCellDef="let element"> {{element.usedLeave.used_replacement_leave[0]?.sum
-								|| 0}} / {{element.totalLeave?.replacement_leave || 0}} day </td>
-						</ng-container>
-
-						<ng-container matColumnDef="start_date">
-							<th mat-header-cell *matHeaderCellDef> Contract Start </th>
-							<td mat-cell *matCellDef="let element"> {{element.emp_start_date | date: 'YYYY-MM-dd'}}
-							</td>
-						</ng-container>
-
-						<ng-container matColumnDef="end_date">
-							<th mat-header-cell *matHeaderCellDef> Contract End </th>
-							<td mat-cell *matCellDef="let element"> {{element.emp_end_date | date: 'YYYY-MM-dd'}} </td>
-						</ng-container>
-
-						<ng-container matColumnDef="tenure_today">
-							<th mat-header-cell *matHeaderCellDef> Tenure today </th>
-							<td mat-cell *matCellDef="let element"> {{element.tenure_today}} </td>
-						</ng-container>
 
 
-						<ng-container matColumnDef="tenure_end">
-							<th mat-header-cell *matHeaderCellDef> Tenure end </th>
-							<td mat-cell *matCellDef="let element"> {{element.tenure_end}} </td>
-						</ng-container>
+                        </div>
+                    </div>
 
-						<ng-container matColumnDef="editButton">
-							<th mat-header-cell *matHeaderCellDef></th>
-							<td mat-cell *matCellDef="let element">
-								<button mat-flat-button class="editBtn" *ngIf="myRank == 'manager-list'"
-									(click)="editInfo(element._id)">
-									Edit
-								</button>
-							</td>
-						</ng-container>
-						<ng-container matColumnDef="myEmployeeButton">
-							<th mat-header-cell *matHeaderCellDef></th>
-							<td mat-cell *matCellDef="let element">
-								<button mat-flat-button class="employeeBtn"
-									*ngIf="myRank == 'manager-list' && element.isManager"
-									(click)="getMyManagerEmployeeList(element._id, element.name)">
-									employee
-								</button>
-							</td>
-						</ng-container>
+                    <table mat-table [dataSource]="getMyEmployeeList" class="mat-elevation-z8 historyTable">
+
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> Position </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="location">
+                            <th mat-header-cell *matHeaderCellDef> Location </th>
+                            <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="annual_leave">
+                            <th mat-header-cell *matHeaderCellDef> Taken/Entitlement </th>
+                            <td mat-cell *matCellDef="let element"> {{element.usedLeave.used_annual_leave[0]?.sum ||
+                                0}} / {{element.totalLeave?.annual_leave || 0}} day </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="rollover">
+                            <th mat-header-cell *matHeaderCellDef> Taken/Rollover </th>
+                            <td mat-cell *matCellDef="let element"> {{element.usedLeave.used_rollover[0]?.sum ||
+                                0}} / {{element.totalLeave?.rollover || 0}} day </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sick_leave">
+                            <th mat-header-cell *matHeaderCellDef> Taken/Sick Leave </th>
+                            <td mat-cell *matCellDef="let element"> {{element.usedLeave.used_sick_leave[0]?.sum ||
+                                0}} / {{element.totalLeave?.sick_leave || 0}} day </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="replacementday_leave">
+                            <th mat-header-cell *matHeaderCellDef> Taken/RD </th>
+                            <td mat-cell *matCellDef="let element"> {{element.usedLeave.used_replacement_leave[0]?.sum
+                                || 0}} / {{element.totalLeave?.replacement_leave || 0}} day </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="start_date">
+                            <th mat-header-cell *matHeaderCellDef> Contract Start </th>
+                            <td mat-cell *matCellDef="let element"> {{element.emp_start_date | date: 'YYYY-MM-dd'}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="end_date">
+                            <th mat-header-cell *matHeaderCellDef> Contract End </th>
+                            <td mat-cell *matCellDef="let element"> {{element.emp_end_date | date: 'YYYY-MM-dd'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="tenure_today">
+                            <th mat-header-cell *matHeaderCellDef> Tenure today </th>
+                            <td mat-cell *matCellDef="let element"> {{element.tenure_today}} </td>
+                        </ng-container>
 
 
-						<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-						<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-						<tr class="mat-row" *matNoDataRow>
-							<td class="mat-cell" colspan="4">
-								No data
-							</td>
-						</tr>
-					</table>
-					<mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
-					</mat-paginator>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <ng-container matColumnDef="tenure_end">
+                            <th mat-header-cell *matHeaderCellDef> Tenure end </th>
+                            <td mat-cell *matCellDef="let element"> {{element.tenure_end}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="editButton">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-flat-button class="editBtn" *ngIf="myRank == 'manager-list'"
+                                    (click)="editInfo(element._id)">
+                                    Edit
+                                </button>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="myEmployeeButton">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-flat-button class="employeeBtn"
+                                    *ngIf="myRank == 'manager-list' && element.isManager"
+                                    (click)="getMyManagerEmployeeList(element._id, element.name)">
+                                    employee
+                                </button>
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">
+                                No data
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

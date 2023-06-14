@@ -5,7 +5,7 @@
 }
 
 .example-spacer {
-	flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
 .mainTitle {
@@ -21,12 +21,12 @@
 }
 
 .historyTable {
-	width: 100%;
-	text-align: center;
+    width: 100%;
+    text-align: center;
 
-	th {
-		text-align: center;
-	}    
+    th {
+        text-align: center;
+    }
 
     box-shadow: none;
 }
@@ -39,7 +39,7 @@
     }
 }
 
-.filter{
+.filter {
     background-color: #fff;
 }
 
@@ -60,7 +60,8 @@
     color: #fff;
     width: 100px;
 }
-.tableUpper{
+
+.tableUpper {
     position: relative;
     padding: 0 20px;
 }
@@ -69,13 +70,14 @@
     padding-left: 10px;
     width: 250px;
 }
+
 .excelBtn {
     background: #00154F;
     color: #fff;
     // width: 130px;
     align-content: center;
     margin: 0 5px;
-    
+
 }
 
 .excelBox {
@@ -141,5 +143,5 @@
             margin: 10px !important;
         }
     }
-    
+
 }
